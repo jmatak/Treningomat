@@ -14,7 +14,7 @@ public class Trainer extends User {
     private String surname;
     private Sport sport;
     private Long PID;
-    private Long phoneNumber;
+    private String phoneNumber;
     private String idPhoto;
     private City city;
     private String address;
@@ -58,11 +58,11 @@ public class Trainer extends User {
     }
 
     @Column
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
