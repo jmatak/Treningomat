@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Trainer extends User {
@@ -109,6 +110,10 @@ public class Trainer extends User {
 
     public void setFile(MultipartFile file) {
         this.file = file;
-        this.setIdPhoto(file.getOriginalFilename());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, PID);
     }
 }

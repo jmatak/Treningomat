@@ -35,26 +35,16 @@
                 </div>
                 <div class="form-trainingGroup">
                     <div class="col-sm-9">
-                        <select th:field="*{cities[__${citiesStat.index}__].name}">
-                            <option
-                                    th:each="item : ${cities}"
-                                    th:value="${item.id}"
-                                    th:text="${item.name}"
-                            >
-                            </option>
-                        </select>
+                            <select class="form-control" th:field="*{city}">
+                                <option th:each="c : ${allCities}" th:value="${c}" th:text="${c}">Grad</option>
+                            </select>
                      </div>
                 </div>
                 <div class="form-trainingGroup">
                     <div class="col-sm-9">
-                    <select id="sport">
-                        <option th:text="Sport"></option>
-                        <option
-                                th:each="sport: ${sports}"
-                                th:value="${sport.id}"
-                                th:text="${sport.name}">
-                        </option>
-                    </select>
+                        <select class="form-control" th:field="*{sport}">
+                            <option th:each="s : ${allSports}" th:value="${s}" th:text="${s}">Sport</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-trainingGroup">

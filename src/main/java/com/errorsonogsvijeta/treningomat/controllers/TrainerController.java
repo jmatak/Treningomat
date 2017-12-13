@@ -6,6 +6,7 @@ import com.errorsonogsvijeta.treningomat.services.SportService;
 import com.errorsonogsvijeta.treningomat.services.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,16 +34,15 @@ public class TrainerController {
     @RequestMapping(value = "/admin/addTrainer",method = RequestMethod.GET)
     public ModelAndView addTrainer() {
         ModelAndView modelAndView = new ModelAndView();
-        Trainer trainer = new Trainer();
-        modelAndView.addObject("cities", cityService.findAll());
-        modelAndView.addObject("sports", sportService.findAll());
-        modelAndView.addObject("trainer", trainer);
+        modelAndView.addObject("allCities", cityService.findAll());
+        modelAndView.addObject("allSports", sportService.findAll());
+        modelAndView.addObject("trainer", new Trainer());
         modelAndView.setViewName("admin/add_trainer");
         return modelAndView;
     }
 
     @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.POST)
-    public ModelAndView createNewUser(Trainer trainer, HttpServletRequest request) {
+    public ModelAndView createNewUser(@Valid  Trainer trainer, BindingResult trainerResult, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 
         try {
@@ -57,7 +57,7 @@ public class TrainerController {
             String extension = getExtension(file.getOriginalFilename());
 
             if (extension.equals(".jpg") || extension.equals(".png") || extension.equals(".gif")) {
-                String fileName = "trainer" + trainer.getId() + extension;
+                String fileName = "trainer" + String.valueOf(trainer.hashCode()) + extension;
                 Path path = Paths.get(dir + FILE_SEPARATOR + fileName);
                 Files.write(path, bytes);
                 trainerService.saveTrainer(trainer, fileName);
@@ -71,6 +71,14 @@ public class TrainerController {
         }
 
         modelAndView.setViewName("admin/add_trainer");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/trainers",method = RequestMethod.GET)
+    public ModelAndView showAllTrainers() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("allTrainers", trainerService.findAll());
+        modelAndView.setViewName("trainers");
         return modelAndView;
     }
 
