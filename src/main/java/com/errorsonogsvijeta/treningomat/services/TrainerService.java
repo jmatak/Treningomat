@@ -24,6 +24,9 @@ public class TrainerService {
     public Trainer findTrainerById(Integer id) {
         return trainerRepository.findTrainerById(id);
     }
+    public Trainer findTrainerByUsername(String username) {
+        return trainerRepository.findTrainerByUsername(username);
+    }
 
     public void saveTrainer(Trainer trainer, String idPhoto) {
         trainer.setPassword(bCryptPasswordEncoder.encode(trainer.getPassword()));

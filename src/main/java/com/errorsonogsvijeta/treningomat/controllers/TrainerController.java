@@ -31,7 +31,7 @@ public class TrainerController {
     @Autowired
     private CityService cityService;
 
-    @RequestMapping(value = "/admin/addTrainer",method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.GET)
     public ModelAndView addTrainer() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("allCities", cityService.findAll());
@@ -42,7 +42,7 @@ public class TrainerController {
     }
 
     @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.POST)
-    public ModelAndView createNewUser(@Valid  Trainer trainer, BindingResult trainerResult, HttpServletRequest request) {
+    public ModelAndView createNewUser(@Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();
 
         try {
@@ -50,7 +50,7 @@ public class TrainerController {
             byte[] bytes = file.getBytes();
             Path dir = Paths.get(request.getServletContext().getRealPath("") + FILE_SEPARATOR + UPLOADED_FOLDER);
 
-            if (! Files.exists(dir)) {
+            if (!Files.exists(dir)) {
                 Files.createDirectory(dir);
             }
 
@@ -64,7 +64,7 @@ public class TrainerController {
 
                 modelAndView.addObject("message", "Trener je uspješno dodan.");
             } else {
-                modelAndView.addObject("message", "Nevaljana ekstenzija slike !");
+                modelAndView.addObject("message", "Nevaljana ekstenzija slike!");
             }
         } catch (Exception e) {
             modelAndView.addObject("message", "Neuspješno dodavanje trenera.");
@@ -74,7 +74,7 @@ public class TrainerController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/trainers",method = RequestMethod.GET)
+    @RequestMapping(value = "/trainers", method = RequestMethod.GET)
     public ModelAndView showAllTrainers() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("allTrainers", trainerService.findAll());

@@ -4,6 +4,7 @@ import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,8 @@ public class TrainingGroup {
     private List<Attendant> attendants;
     private Integer capacity;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getId() {
         return id;
     }
@@ -70,7 +72,7 @@ public class TrainingGroup {
         this.attendants = attendants;
     }
 
-    @Column
+    @Column(nullable = false)
     public Integer getCapacity() {
         return capacity;
     }

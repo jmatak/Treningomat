@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Treningomat</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -15,57 +15,57 @@
                   th:object="${trainer}" method="post" class="form-horizontal"
                   role="form">
                 <h2>Registriraj treeenera</h2>
-                <div class="form-trainingGroup">
+                <div class="form-trainer">
                     <div class="col-sm-9">
                         <input type="text" th:field="*{name}" placeholder="Ime"
                                class="form-control"/>
                     </div>
                 </div>
-                <div class="form-trainingGroup">
+                <div class="form-trainer">
                     <div class="col-sm-9">
                         <input type="text" th:field="*{surname}" placeholder="Prezime"
                                class="form-control"/>
                     </div>
                 </div>
-                <div class="form-trainingGroup">
+                <div class="form-trainer">
                     <div class="col-sm-9">
                         <input type="text" th:field="*{address}" placeholder="Adresa"
                                class="form-control"/>
                     </div>
                 </div>
-                <div class="form-trainingGroup">
+                <div class="form-trainer">
                     <div class="col-sm-9">
                             <select class="form-control" th:field="*{city}">
                                 <option th:each="c : ${allCities}" th:value="${c}" th:text="${c}">Grad</option>
                             </select>
                      </div>
                 </div>
-                <div class="form-trainingGroup">
+                <div class="form-trainer">
                     <div class="col-sm-9">
                         <select class="form-control" th:field="*{sport}">
                             <option th:each="s : ${allSports}" th:value="${s}" th:text="${s}">Sport</option>
                         </select>
                     </div>
                 </div>
-                <div class="form-trainingGroup">
+                <div class="form-trainer">
                     <div class="col-sm-9">
                         <input type="number" th:field="*{PID}" placeholder="OIB"
                                class="form-control"/>
                     </div>
                 </div>
-                <div class="form-trainingGroup">
+                <div class="form-trainer">
                     <div class="col-sm-9">
                         <input type="tel" th:field="*{phoneNumber}" placeholder="Broj mobitela"
                                class="form-control"/>
                     </div>
                 </div>
-                <div class="form-trainingGroup">
+                <div class="form-trainer">
                     <div class="col-sm-9">
                         <input type="file" th:field="*{file}" placeholder="Slika [.jpg, .gif, .png]"
                                class="form-control"/>
                     </div>
                 </div>
-                <div class="form-trainingGroup">
+                <div class="form-trainer">
                     <div class="col-sm-9">
                         <input type="text" th:field="*{username}" placeholder="Username"
                                class="form-control"/> <label
@@ -74,7 +74,7 @@
                     </div>
                 </div>
 
-                <div class="form-trainingGroup">
+                <div class="form-trainer">
                     <div class="col-sm-9">
                         <input type="password" th:field="*{password}"
                                placeholder="Password" class="form-control"/> <label
