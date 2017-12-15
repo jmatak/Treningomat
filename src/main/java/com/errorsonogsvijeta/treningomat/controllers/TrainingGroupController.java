@@ -9,12 +9,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Patrik
@@ -66,5 +68,26 @@ public class TrainingGroupController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/trainer/groups", method = RequestMethod.GET)
+    public ModelAndView viewTrainersGroups() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
+
+        List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersTrainingGroups(trainer);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("allTrainingGroups", trainingGroups);
+        modelAndView.setViewName("/trainer/trainer_groups");
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/trainer/groups/delete/{id}", method = RequestMethod.POST)
+    public ModelAndView deleteGroup(@PathVariable("id") String id) {
+        if (id != null) {
+            trainingGroupService.deleteTrainingGroup(Integer.parseInt(id));
+        }
+
+        return new ModelAndView("redirect:" + "/trainer/groups");
+    }
 
 }
