@@ -36,14 +36,14 @@
                 <div class="form-trainingGroup">
                     <div class="col-sm-9">
                             <select class="form-control" th:field="*{city}">
-                                <option th:each="c : ${allCities}" th:value="${c}" th:text="${c}">Grad</option>
+                                <option th:each="c : ${allCities}" th:value="${c.id}" th:text="${c}">Grad</option>
                             </select>
                      </div>
                 </div>
                 <div class="form-trainingGroup">
                     <div class="col-sm-9">
                         <select class="form-control" th:field="*{sport}">
-                            <option th:each="s : ${allSports}" th:value="${s}" th:text="${s}">Sport</option>
+                            <option th:each="s : ${allSports}" th:value="${s.id}" th:text="${s}">Sport</option>
                         </select>
                     </div>
                 </div>
