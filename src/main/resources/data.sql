@@ -1,9 +1,9 @@
 INSERT INTO administrator VALUES
-  (1, '$2a$04$eALQTd29tHawhmLI23eUVeqnHfRcbL8ulpb4R6dHTiMfZ85bPugPS', 'admin');
+  (0, '$2a$04$eALQTd29tHawhmLI23eUVeqnHfRcbL8ulpb4R6dHTiMfZ85bPugPS', 'admin');
 INSERT INTO role VALUES
-  (1, 'ADMIN'), (2, 'TRAINER'), (3, 'ATTENDANT');
+  (0, 'ADMIN'), (1, 'TRAINER'), (2, 'ATTENDANT');
 INSERT INTO user_roles VALUES
-  (1, 1);
+  (0, 0);
 
 INSERT INTO region (id, name) VALUES (0, 'Nepoznata županija');
 INSERT INTO region (id, name) VALUES (1, 'Zagrebačka');
