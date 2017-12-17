@@ -86,7 +86,7 @@ public class TrainingGroupController {
         if (id != null) {
             trainingGroupService.deleteTrainingGroup(Integer.parseInt(id));
         }
-
+        //TODO: dodaj jos provjeru neku pomocu sifre jeli trener siguran zeli li obrisati grupu
         return new ModelAndView("redirect:" + "/trainer/groups");
     }
 
