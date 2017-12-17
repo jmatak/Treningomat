@@ -33,17 +33,12 @@ public class TrainerController {
 
     @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.GET)
     public ModelAndView addTrainer() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("allCities", cityService.findAll());
-        modelAndView.addObject("allSports", sportService.findAll());
-        modelAndView.addObject("trainer", new Trainer());
-        modelAndView.setViewName("admin/add_trainer");
-        return modelAndView;
+        return createTrainerModelAndView();
     }
 
     @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = createTrainerModelAndView();
 
         try {
             MultipartFile file = trainer.getFile();
@@ -70,6 +65,14 @@ public class TrainerController {
             modelAndView.addObject("message", "Neuspješno dodavanje trenera.");
         }
 
+        return modelAndView;
+    }
+
+    private ModelAndView createTrainerModelAndView() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("allCities", cityService.findAll());
+        modelAndView.addObject("allSports", sportService.findAll());
+        modelAndView.addObject("trainer", new Trainer());
         modelAndView.setViewName("admin/add_trainer");
         return modelAndView;
     }

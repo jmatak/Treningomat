@@ -25,6 +25,15 @@
                                class="form-control"/>
                     </div>
                 </div>
+
+                <div class="form-trainingGroup">
+                    <div class="col-sm-9">
+                        <select class="form-control" th:field="*{sport}">
+                            <option th:each="s : ${trainersSports}" th:value="${s.id}" th:text="${s}">Sport</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-trainingGroup">
                     <div class="col-sm-9">
                         <input type="text" th:field="*{place}" placeholder="Mjesto održavanja"

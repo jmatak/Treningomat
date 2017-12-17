@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Trainer extends User {
     private String name;
     private String surname;
-    private Sport sport;
+    private List<Sport> sports;
     private Long PID;
     private String phoneNumber;
     private String idPhoto;
@@ -40,13 +40,13 @@ public class Trainer extends User {
         this.surname = surname;
     }
 
-    @ManyToOne
-    public Sport getSport() {
-        return sport;
+    @ManyToMany
+    public List<Sport> getSports() {
+        return sports;
     }
 
-    public void setSport(Sport sport) {
-        this.sport = sport;
+    public void setSports(List<Sport> sports) {
+        this.sports = sports;
     }
 
     @Column(nullable = false)

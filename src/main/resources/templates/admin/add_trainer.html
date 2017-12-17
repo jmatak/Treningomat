@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-trainer">
                     <div class="col-sm-9">
-                        <select class="form-control" th:field="*{sport}">
+                        <select class="form-control" th:field="*{sports}" multiple="multiple">
                             <option th:each="s : ${allSports}" th:value="${s.id}" th:text="${s}">Sport</option>
                         </select>
                     </div>

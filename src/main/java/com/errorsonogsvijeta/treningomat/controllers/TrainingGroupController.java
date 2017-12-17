@@ -43,7 +43,6 @@ public class TrainingGroupController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
 
-        trainingGroup.setSport(trainer.getSport());
         trainingGroup.setTrainer(trainer);
 
         String message;
@@ -58,8 +57,12 @@ public class TrainingGroupController {
     }
 
     private ModelAndView getAddGroupModelAndView(String message) {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("trainingGroup", new TrainingGroup());
+        modelAndView.addObject("trainersSports", trainer.getSports());
         modelAndView.setViewName("trainer/add_training_group");
         if (!message.equals("")) {
             modelAndView.addObject("message", message);
@@ -86,7 +89,7 @@ public class TrainingGroupController {
         if (id != null) {
             trainingGroupService.deleteTrainingGroup(Integer.parseInt(id));
         }
-        //TODO: dodaj jos provjeru neku pomocu sifre jeli trener siguran zeli li obrisati grupu
+        //TODO: dodaj jos provjeru jeli trener siguran zeli li obrisati grupu(JS)
         return new ModelAndView("redirect:" + "/trainer/groups");
     }
 
