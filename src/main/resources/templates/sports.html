@@ -22,7 +22,10 @@
                 <div th:each="s : ${allSports}">
                     <li class="list-group-item clearfix">
                         <span th:text="${s.name}"></span>
-                        <span class="pull-right button-group">
+                        <div sec:authorize="hasRole('ADMIN')">
+                            This content is only shown to administrators.
+                        </div>
+                        <span sec:authorize="hasAuthority('ADMIN')" class="pull-right button-group">
                                     <form th:action="@{/admin/sports/delete/{id}(id=${s.id})}" method="post">
                                         <button type="submit" class="btn btn-danger"><span
                                                 class="glyphicon glyphicon-remove"></span> Obriši sport</button>

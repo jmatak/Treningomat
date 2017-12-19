@@ -67,10 +67,15 @@ public class SportController {
     @RequestMapping(value = "/admin/sports/delete/{id}", method = RequestMethod.POST)
     public ModelAndView deleteSportWithId(@PathVariable("id") String id) {
 
-        if (id != null) {
-            sportService.deleteSport(Integer.parseInt(id));
+        try {
+            if (id != null) {
+                sportService.deleteSport(Integer.parseInt(id));
+            }
+        } catch (Exception e) {
+            //TODO: smisli još što činiti u ovoj situaciji
+            //do ovoga ce doci ako se pokusa obrisat sport koji je foreign key nekom drugom entitetu
         }
-        //TODO: dodaj jos provjeru jeli admin siguran da zeli obrisati sport
+        //TODO: dodaj jos provjeru jeli admin siguran da zeli obrisati sport(JS)
         return new ModelAndView("redirect:" + "/sports");
     }
 
