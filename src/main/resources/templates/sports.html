@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Treningomat</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Popis sportova</h2>
+    <div class="row">
+
+        <div class="container">
+            <ul class="list-group">
+                <div th:each="s : ${allSports}">
+                    <li class="list-group-item clearfix">
+                        <span th:text="${s.name}"></span>
+                        <span class="pull-right button-group">
+                                    <form th:action="@{/admin/sports/delete/{id}(id=${s.id})}" method="post">
+                                        <button type="submit" class="btn btn-danger"><span
+                                                class="glyphicon glyphicon-remove"></span> Obriši sport</button>
+                                    </form>
+                        </span>
+                    </li>
+                </div>
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -16,7 +16,8 @@ public class Training {
     private List<Attendant> attendants;
     private String description;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getId() {
         return id;
     }

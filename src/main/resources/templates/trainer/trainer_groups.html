@@ -22,11 +22,6 @@
                     <p th:text="${g.name}"></p>
                     <p th:text="${g.place}"></p>
                     <p th:text="${g.capacity}"></p>
-                    <!--
-                    <div>
-                        <button class="btn btn-primary btn-block" th:onclick="upload(${g.id})">Obriši grupu</button>
-                    </div>
-                    -->
                     <form th:action="@{/trainer/groups/delete/{id}(id=${g.id})}" method="post">
                         <button type="submit" class="btn btn-primary btn-block">Obriši grupu</button>
                     </form>

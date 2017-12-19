@@ -15,4 +15,12 @@ public class SportService {
     public List<Sport> findAll() {
         return sportRepository.findAll();
     }
+
+    public void saveSport(Sport sport){
+        sportRepository.save(sport);
+    }
+
+    public void deleteSport(int id) {
+        sportRepository.delete(id);
+    }
 }
