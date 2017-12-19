@@ -4,6 +4,8 @@ import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import com.errorsonogsvijeta.treningomat.services.TrainerService;
 import com.errorsonogsvijeta.treningomat.services.TrainingGroupService;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -82,6 +85,54 @@ public class TrainingGroupController {
         modelAndView.setViewName("/trainer/trainer_groups");
 
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/trainer/groups/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView editGroup(@PathVariable("id") String id) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
+
+        TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(Integer.parseInt(id));
+
+        modelAndView.addObject("trainingGroup", trainingGroup);
+        modelAndView.setViewName("trainer/edit_group");
+        modelAndView.addObject("trainersSports", trainer.getSports());
+
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/trainer/groups/edit/{id}", method = RequestMethod.POST)
+    public ModelAndView updateGroup(@PathVariable("id") String id, HttpServletRequest request, TrainingGroup trainingGroup, RedirectAttributes redirectAttributes) {
+        boolean changed = false;
+
+        TrainingGroup oldTrainingGroup = trainingGroupService.getTrainingGroup(Integer.parseInt(id));
+
+        if(!oldTrainingGroup.getName().equals(trainingGroup.getName())) {
+            oldTrainingGroup.setName(trainingGroup.getName());
+            changed = true;
+        }
+        if(!oldTrainingGroup.getPlace().equals(trainingGroup.getPlace())) {
+            oldTrainingGroup.setPlace(trainingGroup.getPlace());
+            changed = true;
+        }
+        if(!oldTrainingGroup.getSport().equals(trainingGroup.getSport())) {
+            oldTrainingGroup.setSport(trainingGroup.getSport());
+            changed = true;
+        }
+        if(trainingGroup.getCapacity() != null && !oldTrainingGroup.getCapacity().equals(trainingGroup.getCapacity())) {
+            oldTrainingGroup.setCapacity(trainingGroup.getCapacity());
+            changed = true;
+        }
+
+        if(changed){
+            trainingGroupService.saveTrainingGroup(oldTrainingGroup);
+            redirectAttributes.addFlashAttribute("message", "Grupa izmjenjena!");
+        }
+
+        return new ModelAndView("redirect:" + ("/trainer/groups/edit/" + id));
     }
 
     @RequestMapping(value = "/trainer/groups/delete/{id}", method = RequestMethod.POST)

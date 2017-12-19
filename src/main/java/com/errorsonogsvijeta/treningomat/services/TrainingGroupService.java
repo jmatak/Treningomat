@@ -30,4 +30,8 @@ public class TrainingGroupService {
         trainingGroupRepository.delete(id);
     }
 
+    public TrainingGroup getTrainingGroup(Integer id){
+        return trainingGroupRepository.getOne(id);
+    }
+
 }

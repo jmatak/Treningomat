@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>Treningomat</title>
@@ -15,22 +15,32 @@
 
 <div class="container">
     <h2>Popis grupa</h2>
-    <div class="row" >
-        <div class="col-md-4" th:each="g : ${allTrainingGroups}">
-            <div class="thumbnail">
-                <div class="caption">
-                    <p th:text="${g.name}"></p>
-                    <p th:text="${g.place}"></p>
-                    <p th:text="${g.capacity}"></p>
-                    <form th:action="@{/trainer/groups/delete/{id}(id=${g.id})}" method="post">
-                        <button type="submit" class="btn btn-primary btn-block">Obriši grupu</button>
-                    </form>
-                </div>
+    <div class="container">
+        <ul class="list-group">
+            <div th:each="g : ${allTrainingGroups}">
+                <li class="list-group-item clearfix">
+                    <div class="caption">
+                        <p th:text="'Naziv grupe: ' + ${g.name}"></p>
+                        <p th:text="'Mjesto održavanja: ' + ${g.place}"></p>
+                        <p th:text="'Kapacitet grupe: ' + ${g.capacity}"></p>
+                    </div>
+                    <span class="pull-right">
+                        <form th:action="@{/trainer/groups/delete/{id}(id=${g.id})}" method="post">
+                            <button type="submit" class="btn btn-primary btn-danger"><span
+                                    class="glyphicon glyphicon-remove"></span> Obriši</button>
+                        </form>
+                    </span>
+                    <span class="pull-right">
+                        <form th:action="@{/trainer/groups/edit/{id}(id=${g.id})}" method="get">
+                            <button type="submit" class="btn btn-primary btn-block"><span
+                                    class="glyphicon glyphicon-edit"></span> Uredi</button>
+                        </form>
+                    </span>
+                </li>
             </div>
-        </div>
+        </ul>
     </div>
 </div>
-
 
 
 </body>
