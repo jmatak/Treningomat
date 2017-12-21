@@ -42,7 +42,6 @@ public class TrainingGroupController {
     //TODO: dodaj u JavaScriptu provjeru jeli korisnik zapravo popunio sva polja
     @RequestMapping(value = "/trainer/addTrainingGroup", method = RequestMethod.POST)
     public ModelAndView createNewGroup(@Valid TrainingGroup trainingGroup, BindingResult groupResult, HttpServletRequest request) {
-        //TODO: dodaj obradu iznimki
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
 
@@ -104,30 +103,34 @@ public class TrainingGroupController {
         return modelAndView;
     }
 
+    //tu bi mozda trebao dodati i izbacivanje korisnika iz grupe, da u prikazu
     @RequestMapping(value = "/trainer/groups/edit/{id}", method = RequestMethod.POST)
     public ModelAndView updateGroup(@PathVariable("id") String id, HttpServletRequest request, TrainingGroup trainingGroup, RedirectAttributes redirectAttributes) {
         boolean changed = false;
 
         TrainingGroup oldTrainingGroup = trainingGroupService.getTrainingGroup(Integer.parseInt(id));
 
-        if(!oldTrainingGroup.getName().equals(trainingGroup.getName())) {
+        if (!oldTrainingGroup.getName().equals(trainingGroup.getName())) {
             oldTrainingGroup.setName(trainingGroup.getName());
             changed = true;
         }
-        if(!oldTrainingGroup.getPlace().equals(trainingGroup.getPlace())) {
+        if (!oldTrainingGroup.getPlace().equals(trainingGroup.getPlace())) {
             oldTrainingGroup.setPlace(trainingGroup.getPlace());
             changed = true;
         }
-        if(!oldTrainingGroup.getSport().equals(trainingGroup.getSport())) {
+        if (!oldTrainingGroup.getSport().equals(trainingGroup.getSport())) {
             oldTrainingGroup.setSport(trainingGroup.getSport());
             changed = true;
         }
-        if(trainingGroup.getCapacity() != null && !oldTrainingGroup.getCapacity().equals(trainingGroup.getCapacity())) {
+        //TODO: moras dodat i ogranicenje da nova velicina grupe ne smije biti manja od trenotnog broja clanova
+        //TODO: ali to je vec mozda sredeno u bazi, ali opet morat ces hvatat iznimku
+        if (trainingGroup.getCapacity() != null && trainingGroup.getCapacity() >= 0
+                && !oldTrainingGroup.getCapacity().equals(trainingGroup.getCapacity())) {
             oldTrainingGroup.setCapacity(trainingGroup.getCapacity());
             changed = true;
         }
 
-        if(changed){
+        if (changed) {
             trainingGroupService.saveTrainingGroup(oldTrainingGroup);
             redirectAttributes.addFlashAttribute("message", "Grupa izmjenjena!");
         }

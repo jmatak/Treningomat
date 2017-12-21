@@ -4,6 +4,8 @@ import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -73,6 +75,7 @@ public class TrainingGroup {
     }
 
     @Column(nullable = false)
+    @Min(0)
     public Integer getCapacity() {
         return capacity;
     }
