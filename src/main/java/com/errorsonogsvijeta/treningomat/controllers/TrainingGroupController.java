@@ -1,7 +1,9 @@
 package com.errorsonogsvijeta.treningomat.controllers;
 
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
+import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
+import com.errorsonogsvijeta.treningomat.services.AttendantService;
 import com.errorsonogsvijeta.treningomat.services.TrainerService;
 import com.errorsonogsvijeta.treningomat.services.TrainingGroupService;
 import org.hibernate.Session;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +35,8 @@ public class TrainingGroupController {
     private TrainerService trainerService;
     @Autowired
     private TrainingGroupService trainingGroupService;
+    @Autowired
+    private AttendantService attendantService;
 
     @RequestMapping(value = "/trainer/addTrainingGroup", method = RequestMethod.GET)
     public ModelAndView addGroup() {
@@ -145,6 +150,20 @@ public class TrainingGroupController {
         }
         //TODO: dodaj jos provjeru jeli trener siguran zeli li obrisati grupu(JS)
         return new ModelAndView("redirect:" + "/trainer/groups");
+    }
+
+    @RequestMapping(value = "/trainer/attendants/group/{id}", method = RequestMethod.GET)
+    public ModelAndView getListOfAttendants(@PathVariable("id") String id) {
+        List<Attendant> attendants = new ArrayList<>();
+        if (id != null) {
+            attendants = attendantService.getAllAttendantsOfAGroup(trainingGroupService.getTrainingGroup(Integer.parseInt(id)));
+        }
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("attendants", attendants);
+        modelAndView.setViewName("/trainer/group_attendants");
+
+        return modelAndView;
     }
 
 }
