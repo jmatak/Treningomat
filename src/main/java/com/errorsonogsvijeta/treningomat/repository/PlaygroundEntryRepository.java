@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PlaygroundEntryRepository extends JpaRepository<PlaygroundEntry, Integer> {
     List<PlaygroundEntry> findAllByOrderByCreationTime();
+
+    PlaygroundEntry findPlaygroundEntryById(Integer id);
 }
