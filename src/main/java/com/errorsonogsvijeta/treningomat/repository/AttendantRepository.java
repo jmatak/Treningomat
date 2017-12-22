@@ -1,7 +1,10 @@
 package com.errorsonogsvijeta.treningomat.repository;
 
+import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * TODO: opis
@@ -10,5 +13,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @version 1.0
  */
 public interface AttendantRepository extends JpaRepository<Attendant, Integer> {
-    public Attendant findAttendantByUsername(String username);
+    Attendant findAttendantByUsername(String username);
+
+    List<Attendant> findAllByTrainingGroups(TrainingGroup trainingGroup);
+
 }
+

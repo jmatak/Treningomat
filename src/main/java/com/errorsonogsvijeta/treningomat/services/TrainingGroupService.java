@@ -1,6 +1,7 @@
 package com.errorsonogsvijeta.treningomat.services;
 
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
+import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import com.errorsonogsvijeta.treningomat.repository.TrainingGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,10 @@ public class TrainingGroupService {
     public void deleteTrainingGroup(Integer id) {
         trainingGroupRepository.delete(id);
     }
+
+    public TrainingGroup getTrainingGroup(Integer id){
+        return trainingGroupRepository.getOne(id);
+    }
+
 
 }
