@@ -3,12 +3,9 @@ package com.errorsonogsvijeta.treningomat.model.users;
 import com.errorsonogsvijeta.treningomat.model.geo.City;
 import com.errorsonogsvijeta.treningomat.model.training.Training;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Size;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -22,6 +19,7 @@ public class Attendant extends User {
     private List<TrainingGroup> trainingGroups;
     private List<Training> trainings;
     private Boolean active;
+    private MultipartFile file;
 
     @Column(nullable = false)
     public String getName() {
@@ -93,5 +91,14 @@ public class Attendant extends User {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    @Transient
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }
