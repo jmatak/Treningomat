@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Treningomat</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Popis grupa koja treniraju <span th:text="${sportName}"></span></h2>
+    <div class="container">
+        <ul class="list-group">
+            <div th:each="g : ${groups}">
+                <li class="list-group-item clearfix">
+                    <div class="caption">
+                        <p th:text="'Naziv grupe: ' + ${g.name}"></p>
+                        <p th:text="'Popunjenost: ' + ${#lists.size(g.attendants)} + '/' + ${g.capacity}"></p>
+                    </div>
+                    <span class="pull-right">
+                        <span sec:authorize="hasAuthority('ATTENDANT')"
+                                                      class="pull-right button-group">
+                            <form th:action="@{/group/{id}/application(id=${g.id})}" method="post">
+                                <button type="submit" class="btn btn-primary btn-block"><span
+                                        class="glyphicon glyphicon-envelope"></span> Pošalji prijavu</button>
+                            </form>
+                        </span>
+                    </span>
+                </li>
+            </div>
+        </ul>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -23,4 +23,8 @@ public class SportService {
     public void deleteSport(int id) {
         sportRepository.delete(id);
     }
+
+    public Sport getSport(Integer id) {
+        return sportRepository.getOne(id);
+    }
 }

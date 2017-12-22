@@ -1,7 +1,9 @@
 package com.errorsonogsvijeta.treningomat.controllers;
 
 import com.errorsonogsvijeta.treningomat.model.training.Sport;
+import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.services.SportService;
+import com.errorsonogsvijeta.treningomat.services.TrainingGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,9 @@ public class SportController {
 
     @Autowired
     private SportService sportService;
+
+    @Autowired
+    private TrainingGroupService trainingGroupService;
 
     @RequestMapping(value = "/admin/addSport", method = RequestMethod.GET)
     public ModelAndView addSport() {
@@ -65,18 +70,29 @@ public class SportController {
 
 
     @RequestMapping(value = "/admin/sports/delete/{id}", method = RequestMethod.POST)
-    public ModelAndView deleteSportWithId(@PathVariable("id") String id) {
+    public ModelAndView deleteSportWithId(@PathVariable("id") Integer id) {
 
         try {
-            if (id != null) {
-                sportService.deleteSport(Integer.parseInt(id));
-            }
+            sportService.deleteSport(id);
         } catch (Exception e) {
             //TODO: smisli još što činiti u ovoj situaciji
             //do ovoga ce doci ako se pokusa obrisat sport koji je foreign key nekom drugom entitetu
         }
         //TODO: dodaj jos provjeru jeli admin siguran da zeli obrisati sport(JS)
         return new ModelAndView("redirect:" + "/sports");
+    }
+
+    @RequestMapping(value = "/sport/{id}/groups", method = RequestMethod.GET)
+    public ModelAndView listOfGroupsForSport(@PathVariable("id") Integer id) {
+        Sport sport = sportService.getSport(id);
+        List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersBySport(sport);
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("groups", trainingGroups);
+        modelAndView.addObject("sportName", sport.getName());
+        modelAndView.setViewName("sport_groups");
+
+        return modelAndView;
     }
 
 }

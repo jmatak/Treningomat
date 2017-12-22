@@ -1,5 +1,6 @@
 package com.errorsonogsvijeta.treningomat.repository;
 
+import com.errorsonogsvijeta.treningomat.model.training.Sport;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
@@ -15,5 +16,9 @@ import java.util.List;
 public interface TrainingGroupRepository extends JpaRepository<TrainingGroup, Integer> {
 
     List<TrainingGroup> findAllByTrainer(Trainer trainer);
+
+    List<TrainingGroup> findAllBySport(Sport sport);
+
+
 
 }

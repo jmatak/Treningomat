@@ -1,5 +1,6 @@
 package com.errorsonogsvijeta.treningomat.services;
 
+import com.errorsonogsvijeta.treningomat.model.training.Sport;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
@@ -36,4 +37,7 @@ public class TrainingGroupService {
     }
 
 
+    public List<TrainingGroup> getTrainersBySport(Sport sport) {
+        return trainingGroupRepository.findAllBySport(sport);
+    }
 }
