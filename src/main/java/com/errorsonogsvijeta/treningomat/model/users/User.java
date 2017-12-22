@@ -48,6 +48,11 @@ public abstract class User {
         this.roles = roles;
     }
 
+    @Override
+    public String toString() {
+        return username;
+    }
+
 
     @Override
     public boolean equals(Object o) {
