@@ -16,5 +16,4 @@ public interface TrainingGroupRepository extends JpaRepository<TrainingGroup, In
 
     List<TrainingGroup> findAllByTrainer(Trainer trainer);
 
-
 }
