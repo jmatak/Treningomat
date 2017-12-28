@@ -1,6 +1,5 @@
 package com.errorsonogsvijeta.treningomat.controllers;
 
-import com.errorsonogsvijeta.treningomat.model.administration.GroupRequest;
 import com.errorsonogsvijeta.treningomat.model.training.Sport;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.services.GroupRequestService;

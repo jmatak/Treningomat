@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 /**
  * @author Patrik
  */
@@ -30,6 +32,7 @@ public class GroupRequestController {
     @Autowired
     private AttendantService attendantService;
 
+    //TODO: dodaj da se ne moze slati vise istih zahtjeva!
     @RequestMapping(value = "/group/{id}/request", method = RequestMethod.POST)
     public ModelAndView saveGroupRequest(@PathVariable("id") Integer groupId) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -37,13 +40,15 @@ public class GroupRequestController {
 
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(groupId);
 
-        //TODO:sad cekaj da ti matak kaze sta ciniti sa onim from to
         //TODO: dali da redirecta opet na listu grupa ili negdje drugdje
         GroupRequest groupRequest = new GroupRequest();
         groupRequest.setAttendant(attendant);
         groupRequest.setToTrainingGroup(trainingGroup);
 
-        groupRequestService.save(groupRequest);
+        List<GroupRequest> groupRequests = groupRequestService.getAllByTrainingGroup(trainingGroup);
+        if(!groupRequests.contains(groupRequest) && !trainingGroup.getAttendants().contains(attendant)) {
+            groupRequestService.save(groupRequest);
+        }
 
         return new ModelAndView("redirect:" + "/sport/" + trainingGroup.getSport().getId()   +"/groups");
     }

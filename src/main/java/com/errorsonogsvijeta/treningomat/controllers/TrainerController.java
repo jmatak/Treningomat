@@ -1,12 +1,16 @@
 package com.errorsonogsvijeta.treningomat.controllers;
 
+import com.errorsonogsvijeta.treningomat.model.administration.GroupRequest;
+import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
+import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
-import com.errorsonogsvijeta.treningomat.services.CityService;
-import com.errorsonogsvijeta.treningomat.services.SportService;
-import com.errorsonogsvijeta.treningomat.services.TrainerService;
+import com.errorsonogsvijeta.treningomat.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +21,7 @@ import javax.validation.Valid;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.regex.Pattern;
+import java.util.List;
 
 @Controller
 public class TrainerController {
@@ -30,6 +34,10 @@ public class TrainerController {
     private SportService sportService;
     @Autowired
     private CityService cityService;
+    @Autowired
+    private GroupRequestService groupRequestService;
+    @Autowired
+    private TrainingGroupService trainingGroupService;
 
     @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.GET)
     public ModelAndView addTrainer() {
@@ -94,4 +102,44 @@ public class TrainerController {
         }
         return extension;
     }
+
+    @RequestMapping(value = "/trainer/groupRequests", method = RequestMethod.GET)
+    public ModelAndView showGroupRequests() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
+
+        List<GroupRequest> groupRequests = groupRequestService.getTrainersGroupRequests(trainer);
+
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("allGroupRequests", groupRequests);
+        modelAndView.setViewName("trainer/trainer_group_requests");
+
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/trainer/groupRequest/accept/{id}", method = RequestMethod.POST)
+    public ModelAndView acceptUserRequest(@PathVariable Integer id) {
+        GroupRequest groupRequest = groupRequestService.getGroupRequestById(id);
+
+        Attendant attendant = groupRequest.getAttendant();
+        TrainingGroup toTrainingGroup = groupRequest.getToTrainingGroup();
+        List<Attendant> attendants = toTrainingGroup.getAttendants();
+        attendants.add(attendant);
+
+        trainingGroupService.saveTrainingGroup(toTrainingGroup);
+        groupRequestService.deleteGroupRequest(id);
+
+        return new ModelAndView("redirect:" + "/trainer/groupRequests");
+    }
+
+
+    @RequestMapping(value = "/trainer/groupRequest/decline/{id}", method = RequestMethod.POST)
+    public ModelAndView declineUserRequest(@PathVariable Integer id) {
+        groupRequestService.deleteGroupRequest(id);
+
+        return new ModelAndView("redirect:" + "/trainer/groupRequests");
+    }
+
 }
