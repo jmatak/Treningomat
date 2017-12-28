@@ -1,7 +1,9 @@
 package com.errorsonogsvijeta.treningomat.controllers;
 
+import com.errorsonogsvijeta.treningomat.model.administration.GroupRequest;
 import com.errorsonogsvijeta.treningomat.model.training.Sport;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
+import com.errorsonogsvijeta.treningomat.services.GroupRequestService;
 import com.errorsonogsvijeta.treningomat.services.SportService;
 import com.errorsonogsvijeta.treningomat.services.TrainingGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class SportController {
 
     @Autowired
     private TrainingGroupService trainingGroupService;
+
+    @Autowired
+    private GroupRequestService groupRequestService;
 
     @RequestMapping(value = "/admin/addSport", method = RequestMethod.GET)
     public ModelAndView addSport() {
@@ -82,6 +87,8 @@ public class SportController {
         return new ModelAndView("redirect:" + "/sports");
     }
 
+
+
     @RequestMapping(value = "/sport/{id}/groups", method = RequestMethod.GET)
     public ModelAndView listOfGroupsForSport(@PathVariable("id") Integer id) {
         Sport sport = sportService.getSport(id);
@@ -92,6 +99,7 @@ public class SportController {
         modelAndView.addObject("sportName", sport.getName());
         modelAndView.setViewName("sport_groups");
 
+        //TODO: trebo bi nekak dodat dali je za neki sport vec poslana prijava, pa ako je onemoguciti klik na gumb za slanje prijave
         return modelAndView;
     }
 

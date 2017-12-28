@@ -21,6 +21,8 @@ public interface AttendantRepository extends JpaRepository<Attendant, Integer> {
 
     Attendant findAttendantsById(Integer id);
 
+    Attendant findAttendantsByUsername(String username);
+
 
 }
 

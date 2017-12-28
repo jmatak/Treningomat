@@ -33,7 +33,7 @@ public class TrainingGroupService {
     }
 
     public TrainingGroup getTrainingGroup(Integer id){
-        return trainingGroupRepository.getOne(id);
+        return trainingGroupRepository.findOne(id);
     }
 
 

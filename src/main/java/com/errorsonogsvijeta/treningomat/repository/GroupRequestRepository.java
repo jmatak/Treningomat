@@ -1,7 +1,20 @@
 package com.errorsonogsvijeta.treningomat.repository;
 
+import com.errorsonogsvijeta.treningomat.model.administration.GroupRequest;
+import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
 /**
  * @author Patrik
  */
-public class GroupRequestRepository {
+@Repository
+public interface GroupRequestRepository extends JpaRepository<GroupRequest, Integer> {
+
+    List<GroupRequest> findAllByToTrainingGroupIn(List<TrainingGroup> trainingGroups);
+
+    List<GroupRequest> findAllByToTrainingGroup(TrainingGroup trainingGroup);
+
 }

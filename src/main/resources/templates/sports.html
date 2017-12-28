@@ -25,7 +25,13 @@
                         <span sec:authorize="hasAuthority('ADMIN')" class="pull-right button-group">
                                     <form th:action="@{/admin/sports/delete/{id}(id=${s.id})}" method="post">
                                         <button type="submit" class="btn btn-danger"><span
-                                                class="glyphicon glyphicon-remove"></span> Obriši sport</button>
+                                                class="glyphicon glyphicon-remove"></span> Obriši</button>
+                                    </form>
+                        </span>
+                        <span class="pull-right button-group">
+                                    <form th:action="@{/sport/{id}/groups(id=${s.id})}" method="get">
+                                        <button type="submit" class="btn btn-primary"><span
+                                                class="glyphicon glyphicon-list"></span> Grupe</button>
                                     </form>
                         </span>
                     </li>

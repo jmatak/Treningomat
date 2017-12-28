@@ -25,4 +25,7 @@ public class AttendantService {
         return attendantRepository.findAttendantsById(id);
     }
 
+    public Attendant findAttendantByUsername(String username) {
+        return attendantRepository.findAttendantByUsername(username);
+    }
 }
