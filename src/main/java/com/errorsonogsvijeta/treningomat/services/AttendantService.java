@@ -21,4 +21,8 @@ public class AttendantService {
         return attendantRepository.findAllByTrainingGroups(trainingGroup);
     }
 
+    public Attendant getAttendantById(Integer id){
+        return attendantRepository.findAttendantsById(id);
+    }
+
 }

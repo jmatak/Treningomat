@@ -92,28 +92,27 @@ public class TrainingGroupController {
     }
 
     @RequestMapping(value = "/trainer/groups/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editGroup(@PathVariable("id") String id) {
+    public ModelAndView editGroup(@PathVariable("id") Integer id) {
         ModelAndView modelAndView = new ModelAndView();
 
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
 
-        TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(Integer.parseInt(id));
+        TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(id);
 
         modelAndView.addObject("trainingGroup", trainingGroup);
         modelAndView.setViewName("trainer/edit_group");
         modelAndView.addObject("trainersSports", trainer.getSports());
-
 
         return modelAndView;
     }
 
     //tu bi mozda trebao dodati i izbacivanje korisnika iz grupe, da u prikazu
     @RequestMapping(value = "/trainer/groups/edit/{id}", method = RequestMethod.POST)
-    public ModelAndView updateGroup(@PathVariable("id") String id, HttpServletRequest request, TrainingGroup trainingGroup, RedirectAttributes redirectAttributes) {
+    public ModelAndView updateGroup(@PathVariable("id") Integer id, HttpServletRequest request, TrainingGroup trainingGroup, RedirectAttributes redirectAttributes) {
         boolean changed = false;
 
-        TrainingGroup oldTrainingGroup = trainingGroupService.getTrainingGroup(Integer.parseInt(id));
+        TrainingGroup oldTrainingGroup = trainingGroupService.getTrainingGroup(id);
 
         if (!oldTrainingGroup.getName().equals(trainingGroup.getName())) {
             oldTrainingGroup.setName(trainingGroup.getName());
@@ -127,9 +126,10 @@ public class TrainingGroupController {
             oldTrainingGroup.setSport(trainingGroup.getSport());
             changed = true;
         }
-        //TODO: moras dodat i ogranicenje da nova velicina grupe ne smije biti manja od trenotnog broja clanova
-        //TODO: ali to je vec mozda sredeno u bazi, ali opet morat ces hvatat iznimku
-        if (trainingGroup.getCapacity() != null && trainingGroup.getCapacity() >= 0
+
+        //nije moguce smanjiti kapacitet vise od trenutnog broja clanova
+        List<Attendant> attendants = attendantService.getAllAttendantsOfAGroup(trainingGroup);
+        if (trainingGroup.getCapacity() != null && trainingGroup.getCapacity() >= attendants.size()
                 && !oldTrainingGroup.getCapacity().equals(trainingGroup.getCapacity())) {
             oldTrainingGroup.setCapacity(trainingGroup.getCapacity());
             changed = true;
@@ -137,7 +137,9 @@ public class TrainingGroupController {
 
         if (changed) {
             trainingGroupService.saveTrainingGroup(oldTrainingGroup);
-            redirectAttributes.addFlashAttribute("message", "Grupa izmjenjena!");
+            redirectAttributes.addFlashAttribute("message", "Grupa izmjenjena.");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Krivi unos!");
         }
 
         return new ModelAndView("redirect:" + ("/trainer/groups/edit/" + id));
@@ -152,18 +154,38 @@ public class TrainingGroupController {
         return new ModelAndView("redirect:" + "/trainer/groups");
     }
 
-    @RequestMapping(value = "/trainer/attendants/group/{id}", method = RequestMethod.GET)
-    public ModelAndView getListOfAttendants(@PathVariable("id") String id) {
+    @RequestMapping(value = "/trainer/group/{id}/attendants", method = RequestMethod.GET)
+    public ModelAndView getListOfAttendants(@PathVariable("id") Integer id) {
         List<Attendant> attendants = new ArrayList<>();
         if (id != null) {
-            attendants = attendantService.getAllAttendantsOfAGroup(trainingGroupService.getTrainingGroup(Integer.parseInt(id)));
+            attendants = attendantService.getAllAttendantsOfAGroup(trainingGroupService.getTrainingGroup(id));
         }
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("attendants", attendants);
+        modelAndView.addObject("groupId", id);
         modelAndView.setViewName("/trainer/group_attendants");
 
         return modelAndView;
     }
+
+    //TODO: provjeri postoji li bolji nacin za ovo, i u JQuerry-u dodat provjeru jeli je trener siguran
+    @RequestMapping(value = "/trainer/group/{groupId}/attendant/{attendantId}", method = RequestMethod.POST)
+    public ModelAndView removeAttendantFromGroup(@PathVariable("groupId") Integer groupId, @PathVariable("attendantId") Integer attendantId) {
+        TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(groupId);
+        Attendant attendant = attendantService.getAttendantById(attendantId);
+
+        for (Attendant a : trainingGroup.getAttendants()) {
+            if (a.equals(attendant)) {
+                trainingGroup.getAttendants().remove(a);
+                break;
+            }
+        }
+
+        trainingGroupService.saveTrainingGroup(trainingGroup);
+
+        return new ModelAndView("redirect:" + "/trainer/group/" + groupId + "/attendants");
+    }
+
 
 }

@@ -101,4 +101,6 @@ public class Attendant extends User {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
+
+
 }

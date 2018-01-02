@@ -14,7 +14,7 @@
 <body>
 
 <div class="container">
-    <h2>Popis grupa</h2>
+    <h2>Popis članova grupe</h2>
     <div class="container">
         <ul class="list-group">
             <div th:each="a : ${attendants}">
@@ -25,9 +25,9 @@
                         <p th:text="'Korisničko ime: ' + ${a.username}"></p>
                     </div>
                     <span class="pull-right">
-                        <form th:action="@{/}" method="post">
+                        <form th:action="@{/trainer/group/{groupId}/attendant/{attendantId}(groupId=${groupId}, attendantId=${a.id})}" method="post">
                             <button type="submit" class="btn btn-danger btn-block"><span
-                                    class="glyphicon glyphicon-remove"></span> Obriši</button>
+                                    class="glyphicon glyphicon-remove"></span> Izbaci</button>
                         </form>
                     </span>
                 </li>

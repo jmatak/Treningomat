@@ -37,7 +37,7 @@
                         </form>
                     </span>
                     <span class="pull-right">
-                        <form th:action="@{/trainer/attendants/group/{id}(id=${g.id})}" method="get">
+                        <form th:action="@{/trainer/group/{id}/attendants(id=${g.id})}" method="get">
                             <button type="submit" class="btn btn-info btn-block"><span
                                     class="glyphicon glyphicon-th-list"></span> Članovi</button>
                         </form>
