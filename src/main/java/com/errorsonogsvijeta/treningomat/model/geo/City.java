@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class City {
 
     private int id;
+    private int zipCode;
     private Region region;
     private String name;
 
@@ -14,8 +15,17 @@ public class City {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
+    }
+
+    @Column
+    public int getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(int zipCode) {
+        this.zipCode = zipCode;
     }
 
     @ManyToOne

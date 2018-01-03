@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -18,6 +19,7 @@ public class TrainingGroup {
     private Trainer trainer;
     private List<Attendant> attendants;
     private Integer capacity;
+    private BigDecimal amount;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -82,5 +84,15 @@ public class TrainingGroup {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+
+    @Column(precision = 8, scale = 2)
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 }

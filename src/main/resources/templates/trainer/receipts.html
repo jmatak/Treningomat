@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Receipts</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+    <style>
+        table, td, th {
+            padding: 15px;
+        }
+
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+
+    <body>
+        <div class="container">
+            <h3>Svi računi:</h3>
+
+            <div class="container">
+                <div th:if="${#lists.isEmpty(receipts)}">
+                    <h2><p>Nema racuna</p></h2>
+                </div>
+
+                <div th:unless="${#lists.isEmpty(receipts)}">
+                    <table>
+                        <tr>
+                            <th>Racun stvoren</th>
+                            <th>Ime</th>
+                            <th>Prezime</th>
+                            <th>Trening grupa</th>
+                            <th>Placeno</th>
+                        </tr>
+
+                        <tr th:each="r : ${receipts}">
+                            <td><p th:text="${r.createdDate}"></p></td>
+                            <td><p th:text="${r.attendant.name}"></p></td>
+                            <td><p th:text="${r.attendant.surname}"></p></td>
+                            <td><p th:text="${r.trainingGroup.name}"></p></td>
+
+                            <td th:if="${r.confirmed}">
+                                <form th:action="@{/trainer/receipt/pay?paid=false}" method="post">
+                                    <button type="submit" class="btn btn-success btn-block" th:name="id"
+                                            th:value="${r.id}">
+                                        Oznaci neplaćeno
+                                    </button>
+                                </form>
+                            </td>
+                            <td th:unless="${r.confirmed}">
+                                <form th:action="@{/trainer/receipt/pay?paid=true}" method="post">
+                                    <button type="submit" class="btn btn-danger btn-block" th:name="id"
+                                            th:value="${r.id}">
+                                        Oznaci plaćeno
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

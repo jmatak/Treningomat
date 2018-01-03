@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <meta charset="UTF-8"/>
+        <title>My profile</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <form th:action="@{/attendant/groups}" method="get">
+            <button class="btn btn-md btn-primary btn-block" type="Submit">Vidi grupe</button>
+        </form>
+
+        <!--todo bilo bi lijepo da se ovo moze bolje(btn-info -- btn-danger), nezz kako bi-->
+        <div th:if="${#lists.isEmpty(allNonPaidReceipts)}">
+            <form th:action="@{/attendant/receipts}" method="get">
+                <button class="btn btn-md btn-info btn-block" type="Submit" th:text="'Racuni (' + ${#lists.size(allNonPaidReceipts)} + ')'"></button>
+            </form>
+        </div>
+        <div th:unless="${#lists.isEmpty(allNonPaidReceipts)}">
+            <form th:action="@{/attendant/receipts}" method="get">
+                <button class="btn btn-md btn-danger btn-block" type="Submit" th:text="'Racuni (' + ${#lists.size(allNonPaidReceipts)} + ')'"></button>
+            </form>
+        </div>
+
+    </body>
+</html>

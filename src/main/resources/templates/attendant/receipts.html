@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:form="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Receipts</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+
+    <style>
+        table, td, th {
+            padding: 15px;
+        }
+
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+
+    <body>
+        <div class="container">
+            <h2>Svi racuni</h2>
+
+            <div th:if="${#lists.isEmpty(receipts)}">
+                <h3>Nema racuna</h3>
+            </div>
+
+            <div th:unless="${#lists.isEmpty(receipts)}">
+                <table>
+                    <tr>
+                        <th>Racun stvoren</th>
+                        <th>Trening grupa</th>
+                        <th>Placeno</th>
+                    </tr>
+
+                    <tr th:each="r : ${receipts}">
+                        <td><p th:text="${r.createdDate}"></p></td>
+                        <td><p th:text="${r.trainingGroup.name}"></p></td>
+
+                        <td th:if="${r.confirmed}" bgcolor="#7cfc00">
+                            <p th:text="placeno"></p>
+                        </td>
+
+                        <td th:unless="${r.confirmed}">
+                            <form th:action="@{/attendant/receipt/}" method="post">
+                                <button type="submit" class="btn btn-danger btn-block" th:name="id" th:value="${r.id}">
+                                    <span class="glyphicon glyphicon-barcode"></span>
+                                    Plati
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>

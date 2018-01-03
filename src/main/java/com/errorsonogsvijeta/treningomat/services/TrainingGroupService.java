@@ -8,6 +8,7 @@ import com.errorsonogsvijeta.treningomat.repository.TrainingGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,6 +37,14 @@ public class TrainingGroupService {
         return trainingGroupRepository.findOne(id);
     }
 
+    public List<TrainingGroup> getAllGroupsOfAttendant(Attendant attendant) {
+        List<TrainingGroup> trainingGroups = trainingGroupRepository.findByAttendantsContains(attendant);
+        if (trainingGroups == null) {
+            trainingGroups = Collections.emptyList();
+        }
+
+        return trainingGroups;
+    }
 
     public List<TrainingGroup> getTrainersBySport(Sport sport) {
         return trainingGroupRepository.findAllBySport(sport);

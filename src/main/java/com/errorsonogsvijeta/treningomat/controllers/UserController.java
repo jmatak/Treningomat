@@ -14,17 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-/**
- * TODO: opis
- *
- * @author Matej Pipalović
- * @version 1.0
- */
 @Controller
 public class UserController {
-    // todo dodati lokalizirane poruke...
-    // todo, sve ove "errore" se moze ispitati i preko jQuerrya
-
     @Autowired
     private RegistrationService registrationService;
     @Autowired
@@ -43,11 +34,9 @@ public class UserController {
             return error("username vec postoji");
         }
 
-        // todo, sta ako nema slike
         String fileName = Util.writeToFile(attendant.getFile(), request, "users", "user_" + attendant.getUsername());
         if (fileName == null) {
-            // todo neuspjesno dodavanje(slika se ne moze spremiti), neka prikladnija poruka mozda?!
-            return error("pogreska, molimo pokusajte kasnije");
+            return error("pogreska prilikom spremanja slike(pogresan format)");
         }
 
         registrationService.saveAttendant(attendant, fileName);

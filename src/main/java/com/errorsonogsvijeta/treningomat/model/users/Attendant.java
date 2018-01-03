@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 public class Attendant extends User {
-
     private String name;
     private String surname;
     private Long PID;
@@ -20,6 +19,7 @@ public class Attendant extends User {
     private List<Training> trainings;
     private Boolean active;
     private MultipartFile file;
+    private String streetAndNumber;
 
     @Column(nullable = false)
     public String getName() {
@@ -102,5 +102,12 @@ public class Attendant extends User {
         this.file = file;
     }
 
+    @Column
+    public String getStreetAndNumber() {
+        return streetAndNumber;
+    }
 
+    public void setStreetAndNumber(String streetAndNumber) {
+        this.streetAndNumber = streetAndNumber;
+    }
 }

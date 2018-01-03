@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:form="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Pay receipt</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(
+                function () {
+                    getImage();
+                }
+            )
+        </script>
+    </head>
+    <style>
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border-bottom: 1px solid #ddd;
+            padding: 3px 3px 3px 15px;
+        }
+    </style>
+    <body>
+        <div class="container">
+            <h2>Informacije za uplatu</h2>
+            <table>
+                <tr>
+                    <!--todo promijeniti u nesta prikladnije-->
+                    <th>Naziv</th>
+                    <th>Informacija</th>
+                </tr>
+                <tr th:each="i:${info}">
+                    <td><p th:text="${i.f}"></p></td>
+                    <td><p th:text="${i.s}"></p></td>
+                </tr>
+            </table>
+
+            <form th:action="@{/attendant/receipt/2d/}" method="post" target="_blank">
+                <button type="submit" class="btn btn-danger btn-block" th:name="id" th:value="${id}">
+                    <span class="glyphicon glyphicon-barcode"></span>
+                    Dohvati 2d barcode
+                </button>
+            </form>
+
+        </div>
+    </body>
+</html>

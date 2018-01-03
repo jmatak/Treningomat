@@ -9,12 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
-/**
- * TODO: opis
- *
- * @author Matej Pipalović
- * @version 1.0
- */
 @Service
 public class RegistrationService {
     @Autowired

@@ -14,11 +14,7 @@ import java.util.List;
  */
 @Repository
 public interface TrainingGroupRepository extends JpaRepository<TrainingGroup, Integer> {
-
     List<TrainingGroup> findAllByTrainer(Trainer trainer);
-
+    List<TrainingGroup> findByAttendantsContains(Attendant attendant);
     List<TrainingGroup> findAllBySport(Sport sport);
-
-
-
 }

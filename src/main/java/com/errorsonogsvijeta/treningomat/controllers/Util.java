@@ -5,12 +5,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.file.*;
 
-/**
- * TODO: opis
- *
- * @author Matej Pipalović
- * @version 1.0
- */
 public class Util {
 
     // todo
