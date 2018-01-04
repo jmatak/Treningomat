@@ -6,8 +6,6 @@ import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import com.errorsonogsvijeta.treningomat.repository.ReceiptRepository;
-import com.errorsonogsvijeta.treningomat.repository.TrainerRepository;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
