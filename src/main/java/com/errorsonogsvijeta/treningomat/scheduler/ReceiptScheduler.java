@@ -41,11 +41,6 @@ public class ReceiptScheduler {
         return generateReceiptsFor(yesterday);
     }
 
-    // izdvojno u metodu za dan, tako da ako server nije bio pokrenut neki dan,
-    // mozemo generirati racune jedostavno pokretanjem ove metode
-
-    // nisam se zamarao sa time dali ce uzastopno pozivanje ove metode
-    // generirati vise racuna za isti tr... (spoiler: hoce)
     public int generateReceiptsFor(LocalDate localDate) {
         int n = 0;
 

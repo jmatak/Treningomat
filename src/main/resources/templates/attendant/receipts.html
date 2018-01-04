@@ -47,8 +47,11 @@
                         <td><p th:text="${r.createdDate}"></p></td>
                         <td><p th:text="${r.trainingGroup.name}"></p></td>
 
-                        <td th:if="${r.confirmed}" bgcolor="#7cfc00">
-                            <p th:text="placeno"></p>
+                        <td th:if="${r.confirmed}">
+                            <button type="button" class="btn btn-success btn-block" th:name="id" th:value="${r.id}">
+                                <span class="glyphicon glyphicon-ok"></span>
+                                Placeno
+                            </button>
                         </td>
 
                         <td th:unless="${r.confirmed}">

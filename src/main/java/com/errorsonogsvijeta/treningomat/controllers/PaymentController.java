@@ -174,7 +174,7 @@ public class PaymentController {
 
     private Attendant getThisAttendant() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return attendantService.getAttendantWithUserName(user.getUsername());
+        return attendantService.findAttendantByUsername(user.getUsername());
     }
 
     private Trainer getThisTrainer() {

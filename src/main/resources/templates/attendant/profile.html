@@ -14,7 +14,6 @@
             <button class="btn btn-md btn-primary btn-block" type="Submit">Vidi grupe</button>
         </form>
 
-        <!--todo bilo bi lijepo da se ovo moze bolje(btn-info -- btn-danger), nezz kako bi-->
         <div th:if="${#lists.isEmpty(allNonPaidReceipts)}">
             <form th:action="@{/attendant/receipts}" method="get">
                 <button class="btn btn-md btn-info btn-block" type="Submit" th:text="'Racuni (' + ${#lists.size(allNonPaidReceipts)} + ')'"></button>
