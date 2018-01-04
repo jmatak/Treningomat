@@ -6,11 +6,8 @@ import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import com.errorsonogsvijeta.treningomat.services.AttendantService;
 import com.errorsonogsvijeta.treningomat.services.TrainerService;
 import com.errorsonogsvijeta.treningomat.services.TrainingGroupService;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,13 +21,8 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Patrik
- */
-
 @Controller
 public class TrainingGroupController {
-
     @Autowired
     private TrainerService trainerService;
     @Autowired
@@ -40,15 +32,13 @@ public class TrainingGroupController {
 
     @RequestMapping(value = "/trainer/addTrainingGroup", method = RequestMethod.GET)
     public ModelAndView addGroup() {
-        return getAddGroupModelAndView("");
+        return getAddGroupModelAndView(null);
     }
 
-
-    //TODO: dodaj u JavaScriptu provjeru jeli korisnik zapravo popunio sva polja
+    //TODO: JavaScriptu provjera je li korisnik zapravo popunio sva polja
     @RequestMapping(value = "/trainer/addTrainingGroup", method = RequestMethod.POST)
     public ModelAndView createNewGroup(@Valid TrainingGroup trainingGroup, BindingResult groupResult, HttpServletRequest request) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
+        Trainer trainer = getLoggedTrainer();
 
         trainingGroup.setTrainer(trainer);
 
@@ -63,57 +53,35 @@ public class TrainingGroupController {
         return getAddGroupModelAndView(message);
     }
 
-    private ModelAndView getAddGroupModelAndView(String message) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("trainingGroup", new TrainingGroup());
-        modelAndView.addObject("trainersSports", trainer.getSports());
-        modelAndView.setViewName("trainer/add_training_group");
-        if (!message.equals("")) {
-            modelAndView.addObject("message", message);
-        }
-
-        return modelAndView;
-    }
-
     @RequestMapping(value = "/trainer/groups", method = RequestMethod.GET)
     public ModelAndView viewTrainersGroups() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
+        ModelAndView modelAndView = new ModelAndView("/trainer/trainer_groups");
 
+        Trainer trainer = getLoggedTrainer();
         List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersTrainingGroups(trainer);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("allTrainingGroups", trainingGroups);
-        modelAndView.setViewName("/trainer/trainer_groups");
 
+        modelAndView.addObject("allTrainingGroups", trainingGroups);
         return modelAndView;
     }
 
     @RequestMapping(value = "/trainer/groups/edit/{id}", method = RequestMethod.GET)
     public ModelAndView editGroup(@PathVariable("id") Integer id) {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("trainer/edit_group");
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
-
+        Trainer trainer = getLoggedTrainer();
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(id);
 
         modelAndView.addObject("trainingGroup", trainingGroup);
-        modelAndView.setViewName("trainer/edit_group");
         modelAndView.addObject("trainersSports", trainer.getSports());
-
         return modelAndView;
     }
 
     //tu bi mozda trebao dodati i izbacivanje korisnika iz grupe, da u prikazu
     @RequestMapping(value = "/trainer/groups/edit/{id}", method = RequestMethod.POST)
-    public ModelAndView updateGroup(@PathVariable("id") Integer id, HttpServletRequest request, TrainingGroup trainingGroup, RedirectAttributes redirectAttributes) {
-        boolean changed = false;
-
+    public String updateGroup(@PathVariable("id") Integer id, HttpServletRequest request, TrainingGroup trainingGroup, RedirectAttributes redirectAttributes) {
         TrainingGroup oldTrainingGroup = trainingGroupService.getTrainingGroup(id);
 
+        boolean changed = false;
         if (!oldTrainingGroup.getName().equals(trainingGroup.getName())) {
             oldTrainingGroup.setName(trainingGroup.getName());
             changed = true;
@@ -127,7 +95,7 @@ public class TrainingGroupController {
             changed = true;
         }
 
-        //nije moguce smanjiti kapacitet vise od trenutnog broja clanova
+        // Nije moguce smanjiti kapacitet vise od trenutnog broja clanova
         List<Attendant> attendants = attendantService.getAllAttendantsOfAGroup(trainingGroup);
         if (trainingGroup.getCapacity() != null && trainingGroup.getCapacity() >= attendants.size()
                 && !oldTrainingGroup.getCapacity().equals(trainingGroup.getCapacity())) {
@@ -142,50 +110,60 @@ public class TrainingGroupController {
             redirectAttributes.addFlashAttribute("message", "Krivi unos!");
         }
 
-        return new ModelAndView("redirect:" + ("/trainer/groups/edit/" + id));
+        return "redirect:" + ("/trainer/groups/edit/" + id);
     }
 
     @RequestMapping(value = "/trainer/groups/delete/{id}", method = RequestMethod.POST)
-    public ModelAndView deleteGroup(@PathVariable("id") String id) {
+    public String deleteGroup(@PathVariable("id") Integer id) {
         if (id != null) {
-            trainingGroupService.deleteTrainingGroup(Integer.parseInt(id));
+            trainingGroupService.deleteTrainingGroup(id);
         }
         //TODO: dodaj jos provjeru jeli trener siguran zeli li obrisati grupu(JS)
-        return new ModelAndView("redirect:" + "/trainer/groups");
+        return "redirect:/trainer/groups";
     }
 
     @RequestMapping(value = "/trainer/group/{id}/attendants", method = RequestMethod.GET)
     public ModelAndView getListOfAttendants(@PathVariable("id") Integer id) {
+        ModelAndView modelAndView = new ModelAndView("/trainer/group_attendants");
+
         List<Attendant> attendants = new ArrayList<>();
         if (id != null) {
             attendants = attendantService.getAllAttendantsOfAGroup(trainingGroupService.getTrainingGroup(id));
         }
 
-        ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("attendants", attendants);
         modelAndView.addObject("groupId", id);
-        modelAndView.setViewName("/trainer/group_attendants");
-
         return modelAndView;
     }
 
-    //TODO: provjeri postoji li bolji nacin za ovo, i u JQuerry-u dodat provjeru jeli je trener siguran
+    //TODO: provjeri postoji li bolji nacin za ovo, i u JQuerry-u dodat provjeru je li je trener siguran
     @RequestMapping(value = "/trainer/group/{groupId}/attendant/{attendantId}", method = RequestMethod.POST)
-    public ModelAndView removeAttendantFromGroup(@PathVariable("groupId") Integer groupId, @PathVariable("attendantId") Integer attendantId) {
+    public String removeAttendantFromGroup(@PathVariable("groupId") Integer groupId, @PathVariable("attendantId") Integer attendantId) {
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(groupId);
         Attendant attendant = attendantService.getAttendantById(attendantId);
 
-        for (Attendant a : trainingGroup.getAttendants()) {
-            if (a.equals(attendant)) {
-                trainingGroup.getAttendants().remove(a);
-                break;
-            }
-        }
+        trainingGroup.getAttendants().remove(attendant);
 
         trainingGroupService.saveTrainingGroup(trainingGroup);
 
-        return new ModelAndView("redirect:" + "/trainer/group/" + groupId + "/attendants");
+        return "redirect:" + "/trainer/group/" + groupId + "/attendants";
     }
 
+    private ModelAndView getAddGroupModelAndView(String message) {
+        ModelAndView modelAndView = new ModelAndView("trainer/add_training_group");
 
+        Trainer trainer = getLoggedTrainer();
+
+        modelAndView.addObject("trainingGroup", new TrainingGroup());
+        modelAndView.addObject("trainersSports", trainer.getSports());
+        if (message != null) {
+            modelAndView.addObject("message", message);
+        }
+        return modelAndView;
+    }
+
+    private Trainer getLoggedTrainer() {
+        org.springframework.security.core.userdetails.User loggedUser = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return trainerService.findTrainerByUsername(loggedUser.getUsername());
+    }
 }

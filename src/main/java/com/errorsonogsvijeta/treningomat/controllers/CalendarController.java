@@ -16,11 +16,13 @@ public class CalendarController {
     @Autowired
     private TrainingService trainingService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView getCalendar() {
-        List<Term> terms = Term.toTerms(trainingService.findAll());
         ModelAndView modelAndView = new ModelAndView("calendar");
+
+        List<Term> terms = Term.toTerms(trainingService.findAll());
         modelAndView.addObject("events", terms);
+
         return modelAndView;
     }
 }

@@ -26,40 +26,51 @@ public class PlaygroundController {
     @Autowired
     private PlaygroundEntryService playgroundEntryService;
 
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ModelAndView allEntries() {
+        List<PlaygroundEntry> allEntries = playgroundEntryService.findAllOrderByCreationTime();
+
+        ModelAndView modelAndView = new ModelAndView("playground/entries");
+        modelAndView.addObject("allEntries", allEntries);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/newEntry", method = RequestMethod.GET)
     public ModelAndView newEntry() {
+        ModelAndView modelAndView = new ModelAndView("playground/new_entry");
+
         User user = getLoggedUser();
 
-        ModelAndView modelAndView = new ModelAndView("playground/new_entry");
         modelAndView.addObject("entry", new PlaygroundEntry());
         modelAndView.addObject("user", user);
         return modelAndView;
     }
 
     @RequestMapping(value = "/newEntry", method = RequestMethod.POST)
-    public ModelAndView saveEntry(@Valid PlaygroundEntry entry) {
+    public String saveEntry(@Valid PlaygroundEntry entry) {
         User loggedUser = getLoggedUser();
         entry.setCreator(loggedUser);
         entry.setCreationTime(new Date());
 
         playgroundEntryService.saveEntry(entry);
-        return new ModelAndView("home");
+        return "redirect:/playground";
     }
 
-    @RequestMapping(value = "/entry/{id}" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/entry/{id}", method = RequestMethod.GET)
     public ModelAndView viewEntry(@PathVariable("id") Integer id) {
+        ModelAndView modelAndView = new ModelAndView("playground/entry");
+
         PlaygroundEntry entry = playgroundEntryService.findPlaygroundEntryById(id);
         if (entry == null) {
             //TODO obradi pogrešku
         }
 
-        ModelAndView modelAndView = new ModelAndView("playground/entry");
         modelAndView.addObject("entry", entry);
         modelAndView.addObject("comment", new PlaygroundComment());
         return modelAndView;
     }
 
-    @RequestMapping(value = "/entry/{id}" ,method = RequestMethod.POST)
+    @RequestMapping(value = "/entry/{id}", method = RequestMethod.POST)
     public ModelAndView addComment(@PathVariable("id") Integer id, @Valid PlaygroundComment comment) {
         PlaygroundEntry entry = playgroundEntryService.findPlaygroundEntryById(id);
         if (entry == null) {
@@ -71,16 +82,7 @@ public class PlaygroundController {
         comment.setCreationTime(new Date());
         playgroundEntryService.addComment(entry, comment);
 
-        return new ModelAndView("redirect:/playground/entry/"+entry.getId());
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView allEntries(@Valid PlaygroundEntry entry) {
-        List<PlaygroundEntry> allEntries = playgroundEntryService.findAllOrderByCreationTime();
-
-        ModelAndView modelAndView = new ModelAndView("playground/entries");
-        modelAndView.addObject("allEntries", allEntries);
-        return modelAndView;
+        return new ModelAndView("redirect:/playground/entry/" + entry.getId());
     }
 
     private User getLoggedUser() {

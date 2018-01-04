@@ -2,7 +2,6 @@ package com.errorsonogsvijeta.treningomat.controllers;
 
 import com.errorsonogsvijeta.treningomat.model.training.Sport;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
-import com.errorsonogsvijeta.treningomat.services.GroupRequestService;
 import com.errorsonogsvijeta.treningomat.services.SportService;
 import com.errorsonogsvijeta.treningomat.services.TrainingGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +14,23 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * @author Patrik
- */
 @Controller
 public class SportController {
-
     @Autowired
     private SportService sportService;
 
     @Autowired
     private TrainingGroupService trainingGroupService;
 
-    @Autowired
-    private GroupRequestService groupRequestService;
+    @RequestMapping(value = "/sports", method = RequestMethod.GET)
+    public ModelAndView showAllSports() {
+        ModelAndView modelAndView = new ModelAndView("sports");
+
+        List<Sport> sports = sportService.findAll();
+        modelAndView.addObject("allSports", sports);
+
+        return modelAndView;
+    }
 
     @RequestMapping(value = "/admin/addSport", method = RequestMethod.GET)
     public ModelAndView addSport() {
@@ -49,6 +51,32 @@ public class SportController {
         return createAddSportModelAndView(message);
     }
 
+    @RequestMapping(value = "/admin/sports/delete/{id}", method = RequestMethod.POST)
+    public String deleteSportWithId(@PathVariable("id") Integer id) {
+
+        try {
+            sportService.deleteSport(id);
+        } catch (Exception e) {
+            //TODO: smisli još što činiti u ovoj situaciji
+            //do ovoga ce doci ako se pokusa obrisat sport koji je foreign key nekom drugom entitetu
+        }
+        //TODO: Provjera je li admin siguran da želi obrisati sport(JS)
+        return "redirect:/sports";
+    }
+
+    @RequestMapping(value = "/sport/{id}/groups", method = RequestMethod.GET)
+    public ModelAndView listOfGroupsForSport(@PathVariable("id") Integer id) {
+        ModelAndView modelAndView = new ModelAndView("sport_groups");
+
+        Sport sport = sportService.getSport(id);
+        List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersBySport(sport);
+
+        modelAndView.addObject("groups", trainingGroups);
+        modelAndView.addObject("sportName", sport.getName());
+        //TODO: trebo bi nekak dodat dali je za neki sport vec poslana prijava, pa ako je onemoguciti klik na gumb za slanje prijave
+        return modelAndView;
+    }
+
     private ModelAndView createAddSportModelAndView(String message) {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -60,46 +88,4 @@ public class SportController {
 
         return modelAndView;
     }
-
-    @RequestMapping(value = "/sports", method = RequestMethod.GET)
-    public ModelAndView showAllSports() {
-        ModelAndView modelAndView = new ModelAndView();
-
-        List<Sport> sports = sportService.findAll();
-        modelAndView.addObject("allSports", sports);
-        modelAndView.setViewName("/sports");
-
-        return modelAndView;
-    }
-
-
-    @RequestMapping(value = "/admin/sports/delete/{id}", method = RequestMethod.POST)
-    public ModelAndView deleteSportWithId(@PathVariable("id") Integer id) {
-
-        try {
-            sportService.deleteSport(id);
-        } catch (Exception e) {
-            //TODO: smisli još što činiti u ovoj situaciji
-            //do ovoga ce doci ako se pokusa obrisat sport koji je foreign key nekom drugom entitetu
-        }
-        //TODO: dodaj jos provjeru jeli admin siguran da zeli obrisati sport(JS)
-        return new ModelAndView("redirect:" + "/sports");
-    }
-
-
-
-    @RequestMapping(value = "/sport/{id}/groups", method = RequestMethod.GET)
-    public ModelAndView listOfGroupsForSport(@PathVariable("id") Integer id) {
-        Sport sport = sportService.getSport(id);
-        List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersBySport(sport);
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("groups", trainingGroups);
-        modelAndView.addObject("sportName", sport.getName());
-        modelAndView.setViewName("sport_groups");
-
-        //TODO: trebo bi nekak dodat dali je za neki sport vec poslana prijava, pa ako je onemoguciti klik na gumb za slanje prijave
-        return modelAndView;
-    }
-
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,30 +32,32 @@ public class UserController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView registerUser(@Valid Attendant attendant, BindingResult result, HttpServletRequest request) {
         if (attendantRepository.findAttendantByUsername(attendant.getUsername()) != null) {
-            return error("username vec postoji");
+            return error("Username vec postoji");
         }
 
-        String fileName = Util.writeToFile(attendant.getFile(), request, "users", "user_" + attendant.getUsername());
-        if (fileName == null) {
-            return error("pogreska prilikom spremanja slike(pogresan format)");
+        MultipartFile file = attendant.getFile();
+        String fileName = "attendant_" + attendant.getUsername();
+        String subdir = "attendants";
+        String msg = Util.writeToFile(file, subdir, fileName, request);
+        if (msg != null) {
+            return error(msg);
         }
 
         registrationService.saveAttendant(attendant, fileName);
 
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("home");
-        return mav;
+        return new ModelAndView("home");
     }
 
     private ModelAndView error(String message) {
         ModelAndView modelAndView = getModelAndView();
+        
         modelAndView.addObject("message", message);
         return modelAndView;
     }
 
     private ModelAndView getModelAndView() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("registration");
+        ModelAndView modelAndView = new ModelAndView("registration");
+
         modelAndView.addObject("allCities", cityService.findAll());
         modelAndView.addObject("attendant", new Attendant());
         return modelAndView;

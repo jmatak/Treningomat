@@ -18,16 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Controller
 public class TrainerController {
-    private static final String UPLOADED_FOLDER = "images";
-    private static final String FILE_SEPARATOR = "/";
-
     @Autowired
     private TrainerService trainerService;
     @Autowired
@@ -39,88 +33,28 @@ public class TrainerController {
     @Autowired
     private TrainingGroupService trainingGroupService;
 
-    @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.GET)
-    public ModelAndView addTrainer() {
-        return createTrainerModelAndView();
-    }
-
-    @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.POST)
-    public ModelAndView createNewUser(@Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request) {
-        ModelAndView modelAndView = createTrainerModelAndView();
-
-        try {
-            MultipartFile file = trainer.getFile();
-            byte[] bytes = file.getBytes();
-            Path dir = Paths.get(request.getServletContext().getRealPath("") + FILE_SEPARATOR + UPLOADED_FOLDER);
-
-            if (!Files.exists(dir)) {
-                Files.createDirectory(dir);
-            }
-
-            String extension = getExtension(file.getOriginalFilename());
-
-            if (extension.equals(".jpg") || extension.equals(".png") || extension.equals(".gif")) {
-                String fileName = "trainer" + String.valueOf(trainer.hashCode()) + extension;
-                Path path = Paths.get(dir + FILE_SEPARATOR + fileName);
-                Files.write(path, bytes);
-                trainerService.saveTrainer(trainer, fileName);
-
-                modelAndView.addObject("message", "Trener je uspješno dodan.");
-            } else {
-                modelAndView.addObject("message", "Nevaljana ekstenzija slike!");
-            }
-        } catch (Exception e) {
-            modelAndView.addObject("message", "Neuspješno dodavanje trenera.");
-        }
-
-        return modelAndView;
-    }
-
-    private ModelAndView createTrainerModelAndView() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("allCities", cityService.findAll());
-        modelAndView.addObject("allSports", sportService.findAll());
-        modelAndView.addObject("trainer", new Trainer());
-        modelAndView.setViewName("admin/add_trainer");
-        return modelAndView;
-    }
-
     @RequestMapping(value = "/trainers", method = RequestMethod.GET)
     public ModelAndView showAllTrainers() {
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("trainers");
+
         modelAndView.addObject("allTrainers", trainerService.findAll());
-        modelAndView.setViewName("trainers");
+
         return modelAndView;
-    }
-
-    private String getExtension(String fileName) {
-        String extension = "";
-
-        int i = fileName.lastIndexOf('.');
-        if (i > 0) {
-            extension = fileName.substring(i);
-        }
-        return extension;
     }
 
     @RequestMapping(value = "/trainer/groupRequests", method = RequestMethod.GET)
     public ModelAndView showGroupRequests() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Trainer trainer = trainerService.findTrainerByUsername(user.getUsername());
+        ModelAndView modelAndView = new ModelAndView("trainer/trainer_group_requests");
 
+        Trainer trainer = getLoggedTrainer();
         List<GroupRequest> groupRequests = groupRequestService.getTrainersGroupRequests(trainer);
 
-
-        ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("allGroupRequests", groupRequests);
-        modelAndView.setViewName("trainer/trainer_group_requests");
-
         return modelAndView;
     }
 
-
     @RequestMapping(value = "/trainer/groupRequest/accept/{id}", method = RequestMethod.POST)
-    public ModelAndView acceptUserRequest(@PathVariable Integer id) {
+    public String acceptUserRequest(@PathVariable Integer id) {
         GroupRequest groupRequest = groupRequestService.getGroupRequestById(id);
 
         Attendant attendant = groupRequest.getAttendant();
@@ -131,15 +65,53 @@ public class TrainerController {
         trainingGroupService.saveTrainingGroup(toTrainingGroup);
         groupRequestService.deleteGroupRequest(id);
 
-        return new ModelAndView("redirect:" + "/trainer/groupRequests");
+        return "redirect:/trainer/groupRequests";
     }
 
 
     @RequestMapping(value = "/trainer/groupRequest/decline/{id}", method = RequestMethod.POST)
-    public ModelAndView declineUserRequest(@PathVariable Integer id) {
+    public String declineUserRequest(@PathVariable Integer id) {
         groupRequestService.deleteGroupRequest(id);
 
-        return new ModelAndView("redirect:" + "/trainer/groupRequests");
+        return "redirect:/trainer/groupRequests";
     }
 
+    @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.GET)
+    public ModelAndView addTrainer() {
+        return createTrainerModelAndView();
+    }
+
+    @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.POST)
+    public ModelAndView createNewUser(@Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request) {
+        ModelAndView modelAndView = createTrainerModelAndView();
+
+        MultipartFile file = trainer.getFile();
+        String fileName = "trainer_" + trainer.getUsername() + Util.getExtension(file.getOriginalFilename());
+        String subdir = "trainers";
+        String msg = Util.writeToFile(file, subdir, fileName, request);
+
+        if (msg == null) {
+            trainerService.saveTrainer(trainer, fileName);
+            modelAndView.addObject("message", "Trener je uspješno dodan.");
+        } else {
+            modelAndView.addObject("message", msg);
+        }
+
+        return modelAndView;
+    }
+
+    private ModelAndView createTrainerModelAndView() {
+        ModelAndView modelAndView = new ModelAndView("admin/add_trainer");
+
+        modelAndView.addObject("allCities", cityService.findAll());
+        modelAndView.addObject("allSports", sportService.findAll());
+        modelAndView.addObject("trainer", new Trainer());
+
+        return modelAndView;
+    }
+
+    private Trainer getLoggedTrainer() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return trainerService.findTrainerByUsername(user.getUsername());
+    }
 }

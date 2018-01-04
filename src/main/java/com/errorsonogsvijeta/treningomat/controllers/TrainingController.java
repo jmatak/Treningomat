@@ -32,19 +32,22 @@ public class TrainingController {
     @RequestMapping(value = "/newTraining", method = RequestMethod.GET)
     public ModelAndView newTraining() {
         ModelAndView modelAndView = new ModelAndView("calendar/new_training");
-        Trainer trainer = getLoggedUser();
+
+        Trainer trainer = getLoggedTrainer();
+
         modelAndView.addObject("training", new Training());
         modelAndView.addObject("allGroups", trainer.getTrainingGroups());
         return modelAndView;
     }
+
     @RequestMapping(value = "/newTraining", method = RequestMethod.POST)
-    public ModelAndView newTraining(Training training, BindingResult result) {
+    public String newTraining(@Valid Training training, BindingResult result) {
         trainingService.save(training);
-        ModelAndView modelAndView = new ModelAndView("redirect:training/new_training");
-        return modelAndView;
+
+        return "redirect:/training/newTraining";
     }
 
-    private Trainer getLoggedUser() {
+    private Trainer getLoggedTrainer() {
         org.springframework.security.core.userdetails.User loggedUser = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return trainerService.findTrainerByUsername(loggedUser.getUsername());
     }

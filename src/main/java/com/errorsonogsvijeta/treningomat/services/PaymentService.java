@@ -7,6 +7,7 @@ import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import com.errorsonogsvijeta.treningomat.repository.ReceiptRepository;
 import com.errorsonogsvijeta.treningomat.repository.TrainerRepository;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,9 +52,9 @@ public class PaymentService {
         return receipts;
     }
 
-    public void markAsPaid(String id, String paid) {
-        Receipt receipt = receiptRepository.findById(Integer.parseInt(id));
-        receipt.setConfirmed(Boolean.parseBoolean(paid));
+    public void markAsPaid(Integer id, Boolean paid) {
+        Receipt receipt = receiptRepository.findById(id);
+        receipt.setConfirmed(paid);
         receiptRepository.save(receipt);
     }
 

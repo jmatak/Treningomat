@@ -17,12 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-/**
- * @author Patrik
- */
 @Controller
+@RequestMapping("/group")
 public class GroupRequestController {
-
     @Autowired
     private GroupRequestService groupRequestService;
 
@@ -32,25 +29,25 @@ public class GroupRequestController {
     @Autowired
     private AttendantService attendantService;
 
-    //TODO: dodaj da se ne moze slati vise istih zahtjeva!
-    @RequestMapping(value = "/group/{id}/request", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/request", method = RequestMethod.POST)
     public ModelAndView saveGroupRequest(@PathVariable("id") Integer groupId) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Attendant attendant = attendantService.findAttendantByUsername(user.getUsername());
+        Attendant attendant = getLoggedAttendant();
 
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(groupId);
 
-        //TODO: dali da redirecta opet na listu grupa ili negdje drugdje
-        GroupRequest groupRequest = new GroupRequest();
-        groupRequest.setAttendant(attendant);
-        groupRequest.setToTrainingGroup(trainingGroup);
+        GroupRequest groupRequest = new GroupRequest(attendant, trainingGroup);
 
         List<GroupRequest> groupRequests = groupRequestService.getAllByTrainingGroup(trainingGroup);
-        if(!groupRequests.contains(groupRequest) && !trainingGroup.getAttendants().contains(attendant)) {
+        if (!groupRequests.contains(groupRequest) && !trainingGroup.getAttendants().contains(attendant)) {
             groupRequestService.save(groupRequest);
         }
-
-        return new ModelAndView("redirect:" + "/sport/" + trainingGroup.getSport().getId()   +"/groups");
+        //TODO: Redirect opet na listu grupa ili negdje drugdje ?
+        return new ModelAndView("redirect:" + "/sport/" + trainingGroup.getSport().getId() + "/groups");
     }
 
+
+    private Attendant getLoggedAttendant() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return attendantService.findAttendantByUsername(user.getUsername());
+    }
 }

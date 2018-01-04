@@ -12,6 +12,14 @@ public class GroupRequest {
     private Attendant attendant;
     private TrainingGroup toTrainingGroup;
 
+    public GroupRequest() {
+    }
+
+    public GroupRequest(Attendant attendant, TrainingGroup toTrainingGroup) {
+        this.attendant = attendant;
+        this.toTrainingGroup = toTrainingGroup;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getId() {

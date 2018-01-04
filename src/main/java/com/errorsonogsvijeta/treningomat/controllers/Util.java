@@ -1,52 +1,78 @@
 package com.errorsonogsvijeta.treningomat.controllers;
 
+import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Util {
+    private static final String UPLOADED_FOLDER = "images";
+    private static final String FILE_SEPARATOR = "/";
 
-    // todo
-    // treba promijeniti nacin na koji se odabire path jer nije uvijek isti
-    // npr. pri pokretanju se dodjeljuje novi privremeni radni direktorij
-    // tako da bi se nebi slike mogle ucitati ako je korisnik registriran u proslom pokretanju
-    // ne znam gdje bi bilo primjereno spremati... mozda neka fiksna ruta?
-    public static String writeToFile(MultipartFile file, HttpServletRequest request, String folder, String fileName) {
+    public static String writeToFile(MultipartFile file, String subdir, String fileName, HttpServletRequest request) {
         try {
             byte[] bytes = file.getBytes();
-            Path dir = Paths.get(request.getServletContext().getRealPath("") + "/" + folder);
+            Path dir = Paths.get(request.getServletContext().getRealPath("") + FILE_SEPARATOR + UPLOADED_FOLDER + "_" + subdir);
 
             if (!Files.exists(dir)) {
                 Files.createDirectory(dir);
             }
 
             String extension = getExtension(file.getOriginalFilename());
-            if (!(extension.equals(".jpg") || extension.equals(".png") || extension.equals(".gif"))) {
+
+            if (extension.equals(".jpg") || extension.equals(".png") || extension.equals(".gif")) {
+                Path path = Paths.get(dir + FILE_SEPARATOR + fileName);
+                Files.write(path, bytes);
                 return null;
+            } else {
+                return "Nevaljana ekstenzija slike!";
             }
-
-            String name = fileName + extension;
-            Path path = Paths.get(dir + "/" + name);
-            System.out.println(path.toString());
-            Files.write(path, bytes);
-
-            return name;
         } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            return "Nemoguć zapis datoteke na server.";
         }
     }
 
-
-    private static String getExtension(String fileName) {
+    public static String getExtension(String fileName) {
         String extension = "";
-
         int i = fileName.lastIndexOf('.');
         if (i > 0) {
             extension = fileName.substring(i);
         }
         return extension;
+    }
+
+    public static String barcode2DtoJson(String amount, Attendant attendant, String street,
+                                         String place, String nameRec, String strRec,
+                                         String placeRec, String iban, String model, String reference,
+                                         String purpose, String description) {
+        return "{" +
+                "\"renderer\": \"image\"," +
+                "\"options\": {" +
+                "\"format\": \"png\"," +
+                "\"color\": \"#000000\"" +
+                "}," +
+                "\"data\": {" +
+                "\"amount\": " + amount + "," +
+                "\"sender\": {" +
+                "\"name\": \"" + attendant.getName() + " " + attendant.getSurname() + "\"," +
+                "\"street\": \"" + street + "\"," +
+                "\"place\": \"" + place + "\"" +
+                "}," +
+                "\"receiver\": {" +
+                "\"name\": \"" + nameRec + "\"," +
+                "\"street\": \"" + strRec + "\"," +
+                "\"place\": \"" + placeRec + "\"," +
+                "\"iban\": \"" + iban + "\"," +
+                "\"model\": \"" + model + "\"," +
+                "\"reference\": \"" + reference + "\"" +
+                "}," +
+                "\"purpose\": \"" + purpose + "\"," +
+                "\"description\": \"" + description + "\"" +
+                "}" +
+                "}";
     }
 
 
