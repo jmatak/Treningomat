@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Treningomat</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/fontawesome-stars.css"/>
+    <link rel="stylesheet" href="/css/bars-1to10.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div>
+    <h1></h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form autocomplete="off" th:action="@{/attendant/trainerComments/comment/{id}(id=${request.id})}"
+                  th:object="${comment}" method="post" class="form-horizontal">
+                <h2>Unesi komentar na trenera :: <span th:text="${request.trainer.name + ' ' + request.trainer.surname}"></span></h2>
+
+                <select id="example-1to10" name="grade" autocomplete="off">
+                    <option value="1" >1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5" selected="selected">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+
+                <div class="form-group">
+                    <textarea th:field="*{description}" class="form-control" rows="3" required="required"></textarea>
+                </div>
+                <button type="submit" class="btn btn-success">Komentiraj</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.barrating.min.js"></script>
+<script type="text/javascript">
+    $(function() {
+        $('#example-1to10').barrating({
+            theme: 'fontawesome-stars',
+        });
+    });
+</script>
+</html>

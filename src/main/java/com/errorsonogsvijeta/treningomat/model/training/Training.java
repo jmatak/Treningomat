@@ -3,7 +3,6 @@ package com.errorsonogsvijeta.treningomat.model.training;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +35,6 @@ public class Training {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Future
     public Date getStartAt() {
         return startAt;
     }
@@ -46,7 +44,6 @@ public class Training {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Future
     public Date getEndsAt() {
         return endsAt;
     }

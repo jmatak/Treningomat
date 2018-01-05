@@ -2,17 +2,23 @@ package com.errorsonogsvijeta.treningomat.model.administration;
 
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-public class TrainerComment {
+public class TrainerCommentRequest {
     private Integer id;
     private Attendant attendant;
     private Trainer trainer;
-    private Integer grade;
-    private String description;
+
+    public TrainerCommentRequest() {
+    }
+
+    public TrainerCommentRequest(Attendant attendant, Trainer trainer) {
+        this.attendant = attendant;
+        this.trainer = trainer;
+    }
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getId() {
@@ -41,22 +47,17 @@ public class TrainerComment {
         this.trainer = trainer;
     }
 
-    @Column
-    @Range(min = 1, max = 10)
-    public Integer getGrade() {
-        return grade;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TrainerCommentRequest that = (TrainerCommentRequest) o;
+        return Objects.equals(attendant, that.attendant) &&
+                Objects.equals(trainer, that.trainer);
     }
 
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
-
-    @Column(length = 4096)
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    @Override
+    public int hashCode() {
+        return Objects.hash(attendant, trainer);
     }
 }

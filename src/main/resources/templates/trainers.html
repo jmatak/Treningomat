@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Treningomat</title>
@@ -20,7 +20,7 @@
             <div class="thumbnail">
             <img th:src="@{'/images_trainers/' + ${t.idPhoto}}" style="width:100%"/>
                 <div class="caption">
-                    <p th:text="${t.name + ' ' + t.surname}"></p>
+                    <a th:href="@{/trainer/comments}" th:text="${t.name + ' ' + t.surname}"></a>
                     <p th:text="${t.address}"></p>
                     <p th:text="${t.phoneNumber}"></p>
                 </div>

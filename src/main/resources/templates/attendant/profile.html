@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+      xmlns:th="http://www.thymeleaf.org">
 
     <head>
         <meta charset="UTF-8"/>
@@ -33,6 +33,17 @@
         <div th:unless="${#lists.isEmpty(allTrainingCommentRequests)}">
             <form th:action="@{/attendant/trainingComments}" method="get">
                 <button class="btn btn-md btn-info btn-block" type="Submit" th:text="'Trening komentari (' + ${#lists.size(allTrainingCommentRequests)} + ')'"></button>
+            </form>
+        </div>
+
+        <div th:if="${#lists.isEmpty(allTrainerCommentRequests)}">
+            <form th:action="@{/attendant/trainerComments}" method="get">
+                <button class="btn btn-md btn-info btn-block" type="Submit" th:text="'Komentari trenera (' + ${#lists.size(allTrainerCommentRequests)} + ')'"></button>
+            </form>
+        </div>
+        <div th:unless="${#lists.isEmpty(allTrainerCommentRequests)}">
+            <form th:action="@{/attendant/trainerComments}" method="get">
+                <button class="btn btn-md btn-info btn-block" type="Submit" th:text="'Komentari trenera (' + ${#lists.size(allTrainerCommentRequests)} + ')'"></button>
             </form>
         </div>
 
