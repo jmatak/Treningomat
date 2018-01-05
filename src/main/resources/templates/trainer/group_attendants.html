@@ -25,7 +25,8 @@
                         <p th:text="'Korisničko ime: ' + ${a.username}"></p>
                     </div>
                     <span class="pull-right">
-                        <form th:action="@{/trainer/group/{groupId}/attendant/{attendantId}(groupId=${groupId}, attendantId=${a.id})}" method="post">
+                        <form th:action="@{/trainer/group/{groupId}/attendant/{attendantId}(groupId=${groupId}, attendantId=${a.id})}"
+                              method="post">
                             <button type="submit" class="btn btn-danger btn-block"><span
                                     class="glyphicon glyphicon-remove"></span> Izbaci</button>
                         </form>
@@ -35,7 +36,11 @@
         </ul>
     </div>
 </div>
-
+<script>$(function () {
+    $('.btn-danger').click(function () {
+        return window.confirm("Jesi li siguran da želiš obrisati ?");
+    });
+});</script>
 
 </body>
 </html>

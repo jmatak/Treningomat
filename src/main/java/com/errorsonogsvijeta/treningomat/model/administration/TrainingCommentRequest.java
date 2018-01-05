@@ -2,19 +2,26 @@ package com.errorsonogsvijeta.treningomat.model.administration;
 
 import com.errorsonogsvijeta.treningomat.model.training.Training;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
-import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-public class TrainingComment {
+public class TrainingCommentRequest {
     private Integer id;
     private Attendant attendant;
     private Training training;
-    private Integer grade;
-    private String description;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    public TrainingCommentRequest() {
+    }
+
+    public TrainingCommentRequest(Attendant attendant, Training training) {
+        this.attendant = attendant;
+        this.training = training;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getId() {
         return id;
     }
@@ -41,22 +48,18 @@ public class TrainingComment {
         this.training = training;
     }
 
-    @Column
-    @Range(min = 1, max = 10)
-    public Integer getGrade() {
-        return grade;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TrainingCommentRequest request = (TrainingCommentRequest) o;
+        return Objects.equals(attendant, request.attendant) &&
+                Objects.equals(training, request.training);
     }
 
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
+    @Override
+    public int hashCode() {
 
-    @Column(length = 4096)
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        return Objects.hash(attendant, training);
     }
 }

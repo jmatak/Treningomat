@@ -118,7 +118,7 @@ public class TrainingGroupController {
         if (id != null) {
             trainingGroupService.deleteTrainingGroup(id);
         }
-        //TODO: dodaj jos provjeru jeli trener siguran zeli li obrisati grupu(JS)
+
         return "redirect:/trainer/groups";
     }
 
@@ -136,7 +136,6 @@ public class TrainingGroupController {
         return modelAndView;
     }
 
-    //TODO: provjeri postoji li bolji nacin za ovo, i u JQuerry-u dodat provjeru je li je trener siguran
     @RequestMapping(value = "/trainer/group/{groupId}/attendant/{attendantId}", method = RequestMethod.POST)
     public String removeAttendantFromGroup(@PathVariable("groupId") Integer groupId, @PathVariable("attendantId") Integer attendantId) {
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(groupId);

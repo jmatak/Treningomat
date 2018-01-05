@@ -8,12 +8,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * @author Patrik
- */
 @Service
 public class AttendantService {
-
     @Autowired
     AttendantRepository attendantRepository;
 
@@ -27,5 +23,9 @@ public class AttendantService {
 
     public Attendant findAttendantByUsername(String username) {
         return attendantRepository.findAttendantByUsername(username);
+    }
+
+    public void save(Attendant attendant) {
+        attendantRepository.save(attendant);
     }
 }

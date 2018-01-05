@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Treningomat</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Trening grupe : <span th:text="${training.trainingGroup.name}"></span></h2>
+    <div class="container"> <!-- TODO th:if="${isEditable}" -->
+        <div class="row">
+            <div class="col-sm-4">
+                <ul class="list-group">
+                    <form th:action="@{/training/{id}(id=${training.id})}" th:object="${training}" method="post">
+                        <div th:each="a : ${training.trainingGroup.attendants}">
+                            <input type="checkbox" th:field="*{attendants}" th:value="${a.id}"
+                                   th:checked="${training.attendants.contains(a)}"/>
+                            <label th:text="${a.fullName()}"></label>
+                        </div>
+                        <input type="submit"/>
+                    </form>
+                </ul>
+            </div>
+            <div class="col-sm-8">
+                <div th:each="c : ${comments}">
+                    <h4 th:text="${c.attendant.fullName()}"></h4>
+                    <h4 th:text="${c.grade}"></h4>
+                    <p th:text="${c.description}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:unless="${isEditable}">
+        <div>Trening još nije završio !</div>
+    </div>
+</div>
+
+</body>
+</html>

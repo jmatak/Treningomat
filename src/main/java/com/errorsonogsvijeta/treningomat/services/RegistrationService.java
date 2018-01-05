@@ -22,6 +22,7 @@ public class RegistrationService {
         attendant.setPassword(bCryptPasswordEncoder.encode(attendant.getPassword()));
         attendant.setIdPhoto(idPhoto);
         attendant.setActive(false);
+        attendant.setCommentSubscription(true);
         Role role = roleRepository.findByRole("ATTENDANT");
         attendant.setRoles(Collections.singletonList(role));
         attendantRepository.save(attendant);

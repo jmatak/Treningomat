@@ -20,6 +20,7 @@ public class Attendant extends User {
     private Boolean active;
     private MultipartFile file;
     private String streetAndNumber;
+    private Boolean commentSubscription;
 
     @Column(nullable = false)
     public String getName() {
@@ -109,5 +110,18 @@ public class Attendant extends User {
 
     public void setStreetAndNumber(String streetAndNumber) {
         this.streetAndNumber = streetAndNumber;
+    }
+
+    @Column
+    public Boolean getCommentSubscription() {
+        return commentSubscription;
+    }
+
+    public void setCommentSubscription(Boolean commentSubscription) {
+        this.commentSubscription = commentSubscription;
+    }
+
+    public String fullName() {
+        return String.format("%s %s", name, surname);
     }
 }

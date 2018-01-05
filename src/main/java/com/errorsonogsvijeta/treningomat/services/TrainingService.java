@@ -12,6 +12,10 @@ public class TrainingService {
     @Autowired
     private TrainingRepository trainingRepository;
 
+    public Training findTrainingById(Integer id) {
+        return trainingRepository.findTrainingById(id);
+    }
+
     public List<Training> findAll() {
         return trainingRepository.findAll();
     }

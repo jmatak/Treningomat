@@ -60,7 +60,6 @@ public class SportController {
             //TODO: smisli još što činiti u ovoj situaciji
             //do ovoga ce doci ako se pokusa obrisat sport koji je foreign key nekom drugom entitetu
         }
-        //TODO: Provjera je li admin siguran da želi obrisati sport(JS)
         return "redirect:/sports";
     }
 

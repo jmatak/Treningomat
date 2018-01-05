@@ -12,7 +12,13 @@
     <script th:inline="javascript">
         $(document).ready(function () {
             $('#calendar').fullCalendar({
-                defaultDate: '2017-12-12',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month, agendaWeek,agendaDay'
+                },
+                minTime : "08:00:00",
+                maxTime : "22:00:00",
                 editable: false,
                 eventLimit: true,
                 events: [[${events}]]
@@ -21,7 +27,6 @@
         });
     </script>
     <style>
-
         body {
             margin: 40px 10px;
             padding: 0;
