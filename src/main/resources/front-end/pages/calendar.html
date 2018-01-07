@@ -9,7 +9,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Treningomat_Sportovi</title>
+    <title>Treningomat_Kalendar</title>
+
+    <!-- FullCalendar files -->
+    <link href='../css/fullcalendar.min.css' rel='stylesheet' />
+    <link href='../css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <script src='../js/moment.min.js'></script>
+    <script src='../js/jquery.min.js'></script>
+    <script src='../js/fullcalendar.min.js'></script>
+
+    
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -26,6 +35,61 @@
     <!-- Custom Fonts -->
     <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+
+    <!-- FullCalendar Script -->
+    <script>
+        $(document).ready(function() {
+        $('#calendar').fullCalendar({
+        header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+        },
+      
+        navLinks: true, // can click day/week names to navigate views
+        editable: true,
+        eventLimit: true, // allow "more" link when too many events
+        selectable: true,
+        selectHelper: true,
+
+        events: '/events.json',
+
+      select: function(start, end) {
+        $.getScript('/events/new', function() {});
+
+        calendar.fullCalendar('unselect');
+      },
+
+      eventDrop: function(event, delta, revertFunc) {
+        event_data = { 
+          event: {
+            id: event.id,
+            start: event.start.format(),
+            end: event.end.format()
+          }
+        };
+        $.ajax({
+            url: event.update_url,
+            data: event_data,
+            type: 'PATCH'
+        });
+      },
+      
+      eventClick: function(event, jsEvent, view) {
+        $.getScript(event.edit_url, function() {});
+      }
+        });
+        });
+
+    </script>
+
+    <!-- FullCalendar Style -->
+    <style>
+        #calendar {
+            max-width: 1000px;  
+        }
+    </style>
+    
 </head>
 
 <body>
@@ -126,7 +190,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Sportovi</h1>
+                        <h1 class="page-header">Kalendar</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -134,51 +198,7 @@
             </div>
             <!-- /.container-fluid -->
             <div class="container">
-                <!-- Button to Open the Modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                    Novi sport
-                </button>
-
-                <!-- The Modal -->
-                <div class="modal fade" id="myModal">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                      
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">Unos novog sporta</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                        
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Naziv sporta</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" placeholder="">
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Opis sporta</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control" rows="3"></textarea>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-success">Dodaj sport</button>
-                                <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div id='calendar'></div>
             </div>
         </div>
         <!-- /#page-wrapper -->
@@ -186,9 +206,7 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="../js/jquery.min.js"></script>
-
+    
     <!-- Bootstrap Core JavaScript -->
     <script src="../js/bootstrap.min.js"></script>
 

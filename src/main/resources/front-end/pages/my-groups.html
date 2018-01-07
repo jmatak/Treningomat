@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Treningomat_Sportovi</title>
+    <title>Treningomat_MojeGrupe</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -126,7 +126,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Sportovi</h1>
+                        <h1 class="page-header">Moje grupe</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -136,7 +136,7 @@
             <div class="container">
                 <!-- Button to Open the Modal -->
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                    Novi sport
+                    Nova grupa
                 </button>
 
                 <!-- The Modal -->
@@ -146,7 +146,7 @@
                       
                             <!-- Modal Header -->
                             <div class="modal-header">
-                                <h4 class="modal-title">Unos novog sporta</h4>
+                                <h4 class="modal-title">Unos nove grupe</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                         
@@ -154,7 +154,7 @@
                             <div class="modal-body">
                                 <form class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Naziv sporta</label>
+                                        <label class="col-sm-2 control-label">Naziv grupe</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" placeholder="">
                                         </div>
@@ -163,17 +163,38 @@
 
                                 <form class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">Opis sporta</label>
+                                        <label class="col-sm-2 control-label">Maksimalan broj članova</label>
                                         <div class="col-sm-10">
-                                            <textarea class="form-control" rows="3"></textarea>
+                                            <input type="number" class="form-control" placeholder="">
                                         </div>
                                     </div>
                                 </form>
+
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Odabir sporta</label>
+                                        <div class="col-sm-10">
+                                            <form>
+                                                <div class="radio">
+                                                    <label><input type="radio" name="optradio">Rukomet</label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label><input type="radio" name="optradio">Odbojka</label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label><input type="radio" name="optradio">Košarka</label>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                
                             </div>
                         
                             <!-- Modal footer -->
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-success">Dodaj sport</button>
+                                <button type="button" class="btn btn-success">Dodaj grupu</button>
                                 <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
                             </div>
                         </div>
