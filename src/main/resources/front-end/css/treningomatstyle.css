@@ -31,6 +31,15 @@ label {
     border-left: 1px solid #e7e7e7;
   }
 }
+.modal-body th {
+  color: black;
+}
+.modal-body td {
+  color: black;
+}
+.checkbox label {
+  color: white;
+}
 .table {
   color: white;
 }
