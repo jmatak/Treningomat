@@ -1,53 +1,46 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Treningomat</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+<head th:include="base::head"></head>
 
 <body>
+<div th:replace="base :: header"></div>
+<div id="page-wrapper">
 
-<div class="container">
-    <h2>Popis grupa</h2>
-    <div class="container">
-        <ul class="list-group">
-            <div th:each="g : ${allTrainingGroups}">
-                <li class="list-group-item clearfix">
-                    <div class="caption">
-                        <p th:text="'Naziv grupe: ' + ${g.name}"></p>
-                        <p th:text="'Mjesto održavanja: ' + ${g.place}"></p>
-                        <p th:text="'Kapacitet grupe: ' + ${g.capacity}"></p>
-                    </div>
-                    <span class="pull-right">
+    <div class="container-fluid">
+        <h2>Popis grupa</h2>
+        <div class="container">
+            <ul class="list-group">
+                <div th:each="g : ${allTrainingGroups}">
+                    <li class="list-group-item clearfix">
+                        <div class="caption">
+                            <p th:text="'Naziv grupe: ' + ${g.name}"></p>
+                            <p th:text="'Mjesto održavanja: ' + ${g.place}"></p>
+                            <p th:text="'Kapacitet grupe: ' + ${g.capacity}"></p>
+                        </div>
+                        <span class="pull-right">
                         <form th:action="@{/trainer/groups/delete/{id}(id=${g.id})}" method="post">
                             <button type="submit" class="btn btn-danger btn-block"><span
                                     class="glyphicon glyphicon-remove"></span> Obriši</button>
                         </form>
                     </span>
-                    <span class="pull-right">
+                        <span class="pull-right">
                         <form th:action="@{/trainer/groups/edit/{id}(id=${g.id})}" method="get">
                             <button type="submit" class="btn btn-primary btn-block"><span
                                     class="glyphicon glyphicon-edit"></span> Uredi</button>
                         </form>
                     </span>
-                    <span class="pull-right">
+                        <span class="pull-right">
                         <form th:action="@{/trainer/group/{id}/attendants(id=${g.id})}" method="get">
                             <button type="submit" class="btn btn-info btn-block"><span
                                     class="glyphicon glyphicon-th-list"></span> Članovi</button>
                         </form>
                     </span>
-                </li>
-            </div>
-        </ul>
+                    </li>
+                </div>
+            </ul>
+        </div>
     </div>
 </div>
-
-
 </body>
 </html>

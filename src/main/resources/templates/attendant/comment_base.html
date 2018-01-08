@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Treningomat</title>
+
+
+    <!-- Bootstrap Core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    <!-- MetisMenu CSS -->
+    <link th:href="@{/css/metisMenu.min.css}" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link th:href="@{/css/treningomatstyle.css}" rel="stylesheet"/>
+    <!-- Custom Fonts -->
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+
+    <!-- jQuery -->
+    <script th:src="@{/js/jquery.min.js}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script th:src="@{/js/metisMenu.min.js}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script th:src="@{/js/treningomatjs.js}"></script>
+
+    <!-- Rating Theme CSS -->
+    <link rel="stylesheet" th:href="@{/css/fontawesome-stars.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bars-1to10.css}"/>
+
+    <!-- Rating Theme JS -->
+    <script th:src="@{/js/jquery.barrating.min.js}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#example-1to10').barrating({
+                theme: 'fontawesome-stars',
+            });
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

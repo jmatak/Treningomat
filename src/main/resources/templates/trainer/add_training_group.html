@@ -1,68 +1,65 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Treningomat</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="base::head"></head>
+
 <body>
+<div th:replace="base :: header"></div>
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <!--/*@thymesVar id="trainingGroup" type="com.errorsonogsvijeta.treningomat.model.training.TrainingGroup"*/-->
+                <form autocomplete="off" action="#" th:action="@{/trainer/addTrainingGroup}"
+                      enctype="multipart/form-data"
+                      th:object="${trainingGroup}" method="post" class="form-horizontal"
+                      role="form">
+                    <h2>Kreiraj grupu</h2>
 
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <!--/*@thymesVar id="trainingGroup" type="com.errorsonogsvijeta.treningomat.model.training.TrainingGroup"*/-->
-            <form autocomplete="off" action="#" th:action="@{/trainer/addTrainingGroup}" enctype="multipart/form-data"
-                  th:object="${trainingGroup}" method="post" class="form-horizontal"
-                  role="form">
-                <h2>Kreiraj grupu</h2>
-
-                <div class="form-trainingGroup">
-                    <div class="col-sm-9">
-                        <input type="text" th:field="*{name}" placeholder="Naziv grupe"
-                               class="form-control"/>
+                    <div class="form-trainingGroup">
+                        <div class="col-sm-9">
+                            <input type="text" th:field="*{name}" placeholder="Naziv grupe"
+                                   class="form-control"/>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-trainingGroup">
-                    <div class="col-sm-9">
-                        <select class="form-control" th:field="*{sport}">
-                            <option th:each="s : ${trainersSports}" th:value="${s.id}" th:text="${s}">Sport</option>
-                        </select>
+                    <div class="form-trainingGroup">
+                        <div class="col-sm-9">
+                            <select class="form-control" th:field="*{sport}">
+                                <option th:each="s : ${trainersSports}" th:value="${s.id}" th:text="${s}">Sport</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-trainingGroup">
-                    <div class="col-sm-9">
-                        <input type="text" th:field="*{place}" placeholder="Mjesto održavanja"
-                               class="form-control"/>
+                    <div class="form-trainingGroup">
+                        <div class="col-sm-9">
+                            <input type="text" th:field="*{place}" placeholder="Mjesto održavanja"
+                                   class="form-control"/>
+                        </div>
                     </div>
-                </div>
-                <div class="form-trainingGroup">
-                    <div class="col-sm-9">
-                        <input type="number" th:field="*{capacity}" placeholder="Kapacitet"
-                               class="form-control"/>
+                    <div class="form-trainingGroup">
+                        <div class="col-sm-9">
+                            <input type="number" th:field="*{capacity}" placeholder="Kapacitet"
+                                   class="form-control"/>
+                        </div>
                     </div>
-                </div>
-                <div class="form-trainingGroup">
-                    <div class="col-sm-9">
-                        <input type="number" th:field="*{amount}" placeholder="Cijena"
-                               class="form-control"/>
+                    <div class="form-trainingGroup">
+                        <div class="col-sm-9">
+                            <input type="number" th:field="*{amount}" placeholder="Cijena"
+                                   class="form-control"/>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-trainingGroup">
-                    <div class="col-sm-9">
-                        <button type="submit" class="btn btn-primary btn-block">Kreiraj grupu</button>
+                    <div class="form-trainingGroup">
+                        <div class="col-sm-9">
+                            <button type="submit" class="btn btn-primary btn-block">Kreiraj grupu</button>
+                        </div>
                     </div>
-                </div>
 
-
-                <!--/*@thymesVar id="message" type="String"*/-->
-                <span th:utext="${message}"></span>
-            </form>
+                    <!--/*@thymesVar id="message" type="String"*/-->
+                    <span th:utext="${message}"></span>
+                </form>
+            </div>
         </div>
     </div>
 </div>

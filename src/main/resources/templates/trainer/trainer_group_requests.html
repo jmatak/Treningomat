@@ -1,43 +1,37 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Treningomat</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+<head th:include="base::head"></head>
 
 <body>
-
-<div class="container">
-    <h2>Zahtjevi za upad u grupu</h2>
+<div th:replace="base :: header"></div>
+<div id="page-wrapper">
     <div class="container">
-        <ul class="list-group">
-            <div th:each="gr : ${allGroupRequests}">
-                <li class="list-group-item clearfix">
-                    <div class="caption">
-                        <p th:text="'Naziv grupe: ' + ${gr.getToTrainingGroup().getName()}"></p>
-                        <p th:text="'Pošiljatelj zahtjeva: ' + ${gr.getAttendant().getUsername()}"></p>
-                    </div>
-                    <span class="pull-right">
+        <h2>Zahtjevi za upad u grupu</h2>
+        <div class="container">
+            <ul class="list-group">
+                <div th:each="gr : ${allGroupRequests}">
+                    <li class="list-group-item clearfix">
+                        <div class="caption">
+                            <p th:text="'Naziv grupe: ' + ${gr.getToTrainingGroup().getName()}"></p>
+                            <p th:text="'Pošiljatelj zahtjeva: ' + ${gr.getAttendant().getUsername()}"></p>
+                        </div>
+                        <span class="pull-right">
                         <form th:action="@{/trainer/groupRequest/decline/{id}(id=${gr.getId()})}" method="post">
                             <button type="submit" class="btn btn-danger btn-block"><span
                                     class="glyphicon glyphicon-remove"></span> Odbij</button>
                         </form>
                     </span>
-                    <span class="pull-right">
+                        <span class="pull-right">
                         <form th:action="@{/trainer/groupRequest/accept/{id}(id=${gr.getId()})}" method="post">
                             <button type="submit" class="btn btn-primary btn-block"><span
                                     class="glyphicon glyphicon-ok"></span> Prihvati</button>
                         </form>
                     </span>
-                </li>
-            </div>
-        </ul>
+                    </li>
+                </div>
+            </ul>
+        </div>
     </div>
 </div>
 

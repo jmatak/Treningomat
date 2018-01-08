@@ -50,7 +50,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <img class="navbar-brand" th:href="@{/}" th:src="@{/treningomat.png}"/>
+            <a class="navbar-brand" th:href="@{/}" ><img th:src="@{/treningomat.png}" class="navbar-brand"/></a>
         </div>
         <!-- /.navbar-header -->
 
@@ -106,7 +106,7 @@
                     </li>
 
                     <li sec:authorize="hasAuthority('ATTENDANT')">
-                        <a th:href="@{attendant/profile}"><i class="fa fa-folder" aria-hidden="true"></i> Osobni
+                        <a th:href="@{/attendant/profile}"><i class="fa fa-folder" aria-hidden="true"></i> Osobni
                             pretinac</a>
                     </li>
 
@@ -119,7 +119,11 @@
                     </li>
 
                     <li sec:authorize="hasAuthority('ATTENDANT')">
-                        <a th:href="@{attendant/groups}"><i class="fa fa-users" aria-hidden="true"></i> Moje grupe</a>
+                        <a th:href="@{/attendant/groups}"><i class="fa fa-users" aria-hidden="true"></i> Moje grupe</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/groups}"><i class="fa fa-users" aria-hidden="true"></i> Moje grupe</a>
                     </li>
 
                     <li>
@@ -127,12 +131,12 @@
                     </li>
 
                     <li>
-                        <a href="attendants.html"><i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                        <a th:href="@{/trainer/groupRequests}"><i class="fa fa-user-circle-o" aria-hidden="true"></i>
                             Polaznici treninga</a>
                     </li>
 
-                    <li>
-                        <a href="user-requirements.html"><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/groupRequests}"><i class="fa fa-check-square-o" aria-hidden="true"></i>
                             Zahtjevi korisnika</a>
                     </li>
 
