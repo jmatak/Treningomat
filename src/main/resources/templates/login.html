@@ -1,34 +1,120 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" >
+
 
 <head>
+    <meta charset="utf-8"/>
     <title>Treningomat</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- For Responsive Screen -->
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Ubuntu" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
 </head>
 
 <body>
-<form th:action="@{/registration}" method="get">
-    <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration Page</button>
-</form>
+<!-- Form -->
+<div class="container-form">
 
-<div class="container">
-    <form th:action="@{/login}" method="POST" class="form-signin">
-        <h3 class="form-signin-heading">Dobrodošli u TRENINGOMAT</h3>
-        <br/>
+    <!-- Links form -->
+    <ul class="container-tabs">
+        <li class="tab tab-second active"><a href="#log-in">Prijava</a></li>
+        <li class="tab tab-first"><a href="#registration">Registracija</a></li>
+    </ul>
 
-        <input type="text" id="username" name="username"  placeholder="Korisničko ime"
-               class="form-control" /> <br/>
-        <input type="password"  placeholder="Lozinka"
-               id="password" name="password" class="form-control" /> <br />
+    <!-- Content form -->
+    <div class="content-tab">
 
-        <div align="center" th:if="${param.error}">
-            <p style="font-size: 20pt; color: #FF1C19;">Korisničko ime ili lozinka neispravni.</p>
+        <!-- Log in -->
+        <div id="log-in">
+            <h1>TRENINGOMAT</h1>
+            <form th:action="@{/login}" method="post">
+                <div class="container-input">
+                    <label>
+                        Korisničko ime <span class="req"></span>
+                    </label>
+                    <input type="text" name="username" required="required"/>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        Lozinka <span class="req"></span>
+                    </label>
+                    <input type="password" name="password" required="required"/>
+                </div>
+
+                <p class="forgot"><a href="#">Zaboravljena lozinka?</a></p>
+
+                <input type="submit" class="button button-block" value="Prijavi se"/>
+            </form>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" name="Submit" value="Login" type="Submit" >Ulogiraj se</button>
-    </form>
+
+        <!-- Registration -->
+        <div id="registration">
+            <h1>TRENINGOMAT</h1>
+            <form th:action="@{/registration}" method="post"
+                  enctype="multipart/form-data" th:object="${attendant}">
+                <div class="row-up">
+                    <div class="container-input">
+                        <label>
+                            Ime <span class="req"></span>
+                        </label>
+                        <input type="text" th:field="*{name}" required="required"/>
+                    </div>
+
+                    <div class="container-input">
+                        <label>
+                            Prezime <span class="req"></span>
+                        </label>
+                        <input type="text" th:field="*{surname}" required="required"/>
+                    </div>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        Korisničko ime <span class="req"></span>
+                    </label>
+                    <input type="text" th:field="*{username}" required="required"/>
+                </div>
+
+                <div class="container-input">
+                    Mjesto stanovanja
+                    <select th:field="*{city}">
+                        <option th:each="c : ${allCities}" th:value="${c.id}" th:text="${c}">Grad</option>
+                    </select>
+                </div>
+
+                <div class="container-input">
+                    Identifikacijska fotografija [.jpg, .png, .gif]
+                    <input type="file" th:field="*{file}" required="required"/>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        OIB <span class="req"></span>
+                    </label>
+                    <input type="text" th:field="*{PID}" required="required"/>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        Lozinka <span class="req"></span>
+                    </label>
+                    <input type="password" th:field="*{password}" required="required"/>
+                </div>
+
+                <input type="submit" class="button button-block" value="Registriraj me"/>
+            </form>
+        </div>
+    </div>
 </div>
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+
 </body>
 </html>

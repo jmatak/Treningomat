@@ -28,9 +28,11 @@ public class PlaygroundController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView allEntries() {
+        ModelAndView modelAndView = new ModelAndView("playground/entries");
+
         List<PlaygroundEntry> allEntries = playgroundEntryService.findAllOrderByCreationTime();
 
-        ModelAndView modelAndView = new ModelAndView("playground/entries");
+        modelAndView.addObject("entry", new PlaygroundEntry());
         modelAndView.addObject("allEntries", allEntries);
         return modelAndView;
     }

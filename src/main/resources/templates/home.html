@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Treningomat</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="base::head"></head>
+
 <body>
-    <h1>Početna stranica</h1>
-    <h3>Ulogiran si kao :  <span sec:authentication="name"></span></h3>
-    <span sec:authentication="principal.authorities"></span>
-    <span th:utext="${message}"></span>
+<div th:include="base::header"></div>
+<div id="page-wrapper">
+
+</div>
 </body>
 </html>

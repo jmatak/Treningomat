@@ -1,25 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Treningomat</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
-<body>
-<div>
-    <h1></h1>
-</div>
+<html xmlns:th="http://www.thymeleaf.org">
 
-<div class="container">
-    <ul class="list-group">
-        <div th:each="e : ${allEntries}">
-            <li class="list-group-item clearfix">
-                <a th:href="@{/playground/entry/{id}(id=${e.id})}"><span th:text="${e.title}"></span></a>
-            </li>
-        </div>
-    </ul>
+<head th:include="base::head"></head>
+
+<body>
+<div th:replace="base :: header"></div>
+<div id="page-wrapper">
+    <div class="container">
+        <form autocomplete="off" th:action="@{/playground/newEntry}"
+              enctype="multipart/form-data"
+              th:object="${entry}" method="post" class="form-horizontal"
+              role="form">
+            <h4>Unosite novu temu</h4>
+
+            <div class="form-trainingGroup">
+                <div class="col-sm-9">
+                    <input class="form-control" type="text" placeholder="Naslov" th:field="*{title}"
+                           required="required"/>
+                </div>
+            </div>
+
+            <div class="form-trainingGroup">
+                <div class="col-sm-9">
+                        <textarea class="form-control" placeholder="Reci što ti je na umu ..."
+                                  th:field="*{text}"></textarea>
+                </div>
+            </div>
+
+            <div class="form-trainingGroup">
+                <div class="col-sm-9">
+                    <button type="submit" class="btn btn-primary btn-block">Dodaj temu</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container">
+        <ul class="list-group">
+            <div th:each="e : ${allEntries}">
+                <li class="list-group-item clearfix">
+                    <a th:href="@{/playground/entry/{id}(id=${e.id})}"><span th:text="${e.title}"></span></a>
+                </li>
+            </div>
+        </ul>
+    </div>
 </div>
 </body>
 </html>

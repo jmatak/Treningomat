@@ -1,33 +1,26 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-    <title>Treningomat</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</head>
+<head th:include="base::head"></head>
 
 <body>
-
-<div class="container">
-    <h2>Popis trenera</h2>
-    <div class="row" >
-        <div class="col-md-4" th:each="t : ${allTrainers}">
-            <div class="thumbnail">
-            <img th:src="@{'/images_trainers/' + ${t.idPhoto}}" style="width:100%"/>
-                <div class="caption">
-                    <a th:href="@{/trainer/comments}" th:text="${t.name + ' ' + t.surname}"></a>
-                    <p th:text="${t.address}"></p>
-                    <p th:text="${t.phoneNumber}"></p>
+<div th:replace="base :: header"></div>
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <h2>Popis trenera</h2>
+        <div class="row">
+            <div class="col-md-4" th:each="t : ${allTrainers}">
+                <div class="thumbnail">
+                    <img th:src="@{'/images_trainers/' + ${t.idPhoto}}" style="width:100%"/>
+                    <div class="caption">
+                        <a th:href="@{/trainer/comments}" th:text="${t.name + ' ' + t.surname}"></a>
+                        <p th:text="${t.address}"></p>
+                        <p th:text="${t.phoneNumber}"></p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 </body>
 </html>

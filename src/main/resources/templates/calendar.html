@@ -1,49 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset='utf-8'/>
-    <link href='/css/fullcalendar.min.css' rel='stylesheet'/>
-    <link href='/css/fullcalendar.print.min.css' rel='stylesheet' media='print'/>
-    <script src='/js/moment.min.js'></script>
-    <script src='/js/jquery.min.js'></script>
-    <script src='/js/fullcalendar.min.js'></script>
-
-    <script th:inline="javascript">
-        $(document).ready(function () {
-            $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month, agendaWeek,agendaDay'
-                },
-                minTime : "08:00:00",
-                maxTime : "22:00:00",
-                editable: false,
-                eventLimit: true,
-                events: [[${events}]]
-
-            });
-        });
-    </script>
-    <style>
-        body {
-            margin: 40px 10px;
-            padding: 0;
-            font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
-            font-size: 14px;
-        }
-
-        #calendar {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-    </style>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="calendar/base::head"></head>
 <body>
+<div th:replace="base::header"></div>
 
-<div id='calendar'></div>
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Kalendar</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <div class="container">
+        <div id='calendar'></div>
+    </div>
+</div>
 
 </body>
 </html>

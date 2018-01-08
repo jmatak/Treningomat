@@ -24,7 +24,7 @@ public class Term {
     }
 
     public Term(TrainingGroup trainingGroup, Integer id, Date startAt, Date endsAt) {
-        title = trainingGroup.getName();
+        title = trainingGroup.getSport().toString() +  " : " + trainingGroup.getName() ;
         url = DEFAULT_URL + id;
         start = formatter.apply(DATE_FORMAT.format(startAt));
         end = formatter.apply(DATE_FORMAT.format(endsAt));
