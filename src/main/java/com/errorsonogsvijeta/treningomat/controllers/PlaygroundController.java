@@ -30,10 +30,12 @@ public class PlaygroundController {
     public ModelAndView allEntries() {
         ModelAndView modelAndView = new ModelAndView("playground/entries");
 
-        List<PlaygroundEntry> allEntries = playgroundEntryService.findAllOrderByCreationTime();
+        List<PlaygroundEntry> allEntries = playgroundEntryService.findAll();
+
 
         modelAndView.addObject("entry", new PlaygroundEntry());
         modelAndView.addObject("allEntries", allEntries);
+        modelAndView.addObject("comment", new PlaygroundComment());
         return modelAndView;
     }
 
@@ -73,7 +75,7 @@ public class PlaygroundController {
     }
 
     @RequestMapping(value = "/entry/{id}", method = RequestMethod.POST)
-    public ModelAndView addComment(@PathVariable("id") Integer id, @Valid PlaygroundComment comment) {
+    public String addComment(@PathVariable("id") Integer id, @Valid PlaygroundComment comment) {
         PlaygroundEntry entry = playgroundEntryService.findPlaygroundEntryById(id);
         if (entry == null) {
             //TODO obradi pogrešku
@@ -84,7 +86,7 @@ public class PlaygroundController {
         comment.setCreationTime(new Date());
         playgroundEntryService.addComment(entry, comment);
 
-        return new ModelAndView("redirect:/playground/entry/" + entry.getId());
+        return "redirect:/playground";
     }
 
     private User getLoggedUser() {

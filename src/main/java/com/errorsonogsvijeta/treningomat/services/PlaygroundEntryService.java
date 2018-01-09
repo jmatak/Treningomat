@@ -5,12 +5,10 @@ import com.errorsonogsvijeta.treningomat.model.playground.PlaygroundEntry;
 import com.errorsonogsvijeta.treningomat.repository.PlaygroundCommentRepository;
 import com.errorsonogsvijeta.treningomat.repository.PlaygroundEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -25,8 +23,8 @@ public class PlaygroundEntryService {
         playgroundEntryRepository.save(entry);
     }
 
-    public List<PlaygroundEntry> findAllOrderByCreationTime() {
-        return playgroundEntryRepository.findAllByOrderByCreationTime();
+    public List<PlaygroundEntry> findAll() {
+        return playgroundEntryRepository.findAllByOrderByCreationTimeDesc();
     }
 
     public PlaygroundEntry findPlaygroundEntryById(Integer id) {
