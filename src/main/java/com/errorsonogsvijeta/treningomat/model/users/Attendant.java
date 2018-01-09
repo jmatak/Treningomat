@@ -124,4 +124,9 @@ public class Attendant extends User {
     public String fullName() {
         return String.format("%s %s", name, surname);
     }
+
+    @Override
+    public String toString() {
+        return fullName();
+    }
 }

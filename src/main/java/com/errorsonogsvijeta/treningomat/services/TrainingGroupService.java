@@ -4,6 +4,7 @@ import com.errorsonogsvijeta.treningomat.model.training.Sport;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
+import com.errorsonogsvijeta.treningomat.repository.GroupRequestRepository;
 import com.errorsonogsvijeta.treningomat.repository.TrainingGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class TrainingGroupService {
     @Autowired
     private TrainingGroupRepository trainingGroupRepository;
 
+    @Autowired
+    private GroupRequestRepository groupRequestRepository;
+
     public void saveTrainingGroup(TrainingGroup trainingGroup) {
         trainingGroupRepository.save(trainingGroup);
     }
@@ -29,8 +33,9 @@ public class TrainingGroupService {
         return trainingGroupRepository.findAllByTrainer(trainer);
     }
 
-    public void deleteTrainingGroup(Integer id) {
-        trainingGroupRepository.delete(id);
+    public void deleteTrainingGroup(TrainingGroup group) {
+        groupRequestRepository.deleteAllByToTrainingGroup(group);
+        trainingGroupRepository.delete(group.getId());
     }
 
     public TrainingGroup getTrainingGroup(Integer id){

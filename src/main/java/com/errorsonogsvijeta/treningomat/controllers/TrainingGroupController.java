@@ -55,12 +55,14 @@ public class TrainingGroupController {
 
     @RequestMapping(value = "/trainer/groups", method = RequestMethod.GET)
     public ModelAndView viewTrainersGroups() {
-        ModelAndView modelAndView = new ModelAndView("/trainer/trainer_groups");
+        ModelAndView modelAndView = new ModelAndView("my_groups");
 
         Trainer trainer = getLoggedTrainer();
         List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersTrainingGroups(trainer);
 
+        modelAndView.addObject("trainer", trainer);
         modelAndView.addObject("allTrainingGroups", trainingGroups);
+
         return modelAndView;
     }
 
@@ -114,9 +116,12 @@ public class TrainingGroupController {
     }
 
     @RequestMapping(value = "/trainer/groups/delete/{id}", method = RequestMethod.POST)
-    public String deleteGroup(@PathVariable("id") Integer id) {
-        if (id != null) {
-            trainingGroupService.deleteTrainingGroup(id);
+    public String deleteGroup(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        TrainingGroup group = trainingGroupService.getTrainingGroup(id);
+        if (group.getAttendants().size() == 0) {
+            trainingGroupService.deleteTrainingGroup(group);
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Nije moguće izbrisati ovu grupu!");
         }
 
         return "redirect:/trainer/groups";
