@@ -4,8 +4,7 @@ target/
 mvnw
 mvnw.cmd
 
-src/main/webapp/images_trainers
-src/main/webapp/images_attendants
+src/main/webapp/images
 
 src/main/resources/application.properties
 
@@ -30,4 +29,3 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-src/main/webapp/
