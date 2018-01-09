@@ -116,4 +116,13 @@ public class Trainer extends User {
     public int hashCode() {
         return Objects.hash(name, surname, PID);
     }
+
+    public String fullName() {
+        return String.format("%s %s", name, surname);
+    }
+
+    @Override
+    public String toString() {
+        return fullName();
+    }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PlaygroundEntryRepository extends JpaRepository<PlaygroundEntry, Integer> {
-    List<PlaygroundEntry> findAllByOrderByCreationTime();
+    List<PlaygroundEntry> findAllByOrderByCreationTimeDesc();
 
     PlaygroundEntry findPlaygroundEntryById(Integer id);
 }
