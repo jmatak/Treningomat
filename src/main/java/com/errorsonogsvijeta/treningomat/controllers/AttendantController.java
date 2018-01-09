@@ -3,6 +3,7 @@ package com.errorsonogsvijeta.treningomat.controllers;
 import com.errorsonogsvijeta.treningomat.model.administration.*;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
+import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import com.errorsonogsvijeta.treningomat.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,6 +60,9 @@ public class AttendantController {
         Attendant attendant = getLoggedAttendant();
         List<TrainingGroup> trainingGroups = trainingGroupService.getAllGroupsOfAttendant(attendant);
         modelAndView.addObject("allTrainingGroups", trainingGroups);
+        modelAndView.addObject("group", new TrainingGroup());
+        modelAndView.addObject("trainer", new Trainer());
+
 
         return modelAndView;
     }
