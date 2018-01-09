@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CityRepository extends JpaRepository<City, Integer>{
     List<City> findAll();
+    List<City> findAllByOrderByName();
 }

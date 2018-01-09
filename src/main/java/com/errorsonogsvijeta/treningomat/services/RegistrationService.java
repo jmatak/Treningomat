@@ -12,20 +12,17 @@ import java.util.Collections;
 @Service
 public class RegistrationService {
     @Autowired
-    private AttendantRepository attendantRepository;
+    private AttendantService attendantService;
     @Autowired
     private RoleRepository roleRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void saveAttendant(Attendant attendant, String idPhoto) {
-        attendant.setPassword(bCryptPasswordEncoder.encode(attendant.getPassword()));
+        attendantService.editPassword(attendant);
         attendant.setIdPhoto(idPhoto);
         attendant.setActive(false);
         attendant.setCommentSubscription(true);
         Role role = roleRepository.findByRole("ATTENDANT");
         attendant.setRoles(Collections.singletonList(role));
-        attendantRepository.save(attendant);
+        attendantService.save(attendant);
     }
-
 }

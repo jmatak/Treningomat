@@ -21,7 +21,7 @@ public class Util {
                 Files.createDirectory(dir);
             }
 
-            String extension = getExtension(file.getOriginalFilename());
+            String extension = getExtension(file.getOriginalFilename()).toLowerCase();
 
             if (extension.equals(".jpg") || extension.equals(".png") || extension.equals(".gif")) {
                 Path path = Paths.get(dir + FILE_SEPARATOR + fileName);

@@ -36,7 +36,7 @@ public class UserController {
         }
 
         MultipartFile file = attendant.getFile();
-        String fileName = "attendant_" + attendant.getUsername();
+        String fileName = "attendant_" + attendant.getUsername() + Util.getExtension(file.getOriginalFilename());
         String subdir = "attendants";
         String msg = Util.writeToFile(file, subdir, fileName, request);
         if (msg != null) {
@@ -50,7 +50,6 @@ public class UserController {
 
     private ModelAndView error(String message) {
         ModelAndView modelAndView = getModelAndView();
-        
         modelAndView.addObject("message", message);
         return modelAndView;
     }
