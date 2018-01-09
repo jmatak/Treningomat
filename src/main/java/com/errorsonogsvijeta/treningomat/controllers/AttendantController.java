@@ -54,13 +54,24 @@ public class AttendantController {
 
     @RequestMapping(value = "/groups", method = RequestMethod.GET)
     public ModelAndView getGroups() {
-        ModelAndView modelAndView = new ModelAndView("attendant/groups");
+        ModelAndView modelAndView = new ModelAndView("my_groups");
 
         Attendant attendant = getLoggedAttendant();
         List<TrainingGroup> trainingGroups = trainingGroupService.getAllGroupsOfAttendant(attendant);
         modelAndView.addObject("allTrainingGroups", trainingGroups);
 
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/group/{id}/leave", method = RequestMethod.POST)
+    public ModelAndView leaveGroup(@PathVariable Integer id) {
+        TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(id);
+        Attendant attendant = getLoggedAttendant();
+
+        trainingGroup.getAttendants().remove(attendant);
+        trainingGroupService.saveTrainingGroup(trainingGroup);
+
+        return new ModelAndView("redirect:/attendant/groups");
     }
 
     @RequestMapping(value = "/trainingComments", method = RequestMethod.GET)

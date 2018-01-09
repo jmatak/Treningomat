@@ -9,6 +9,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class TrainingGroup {
@@ -94,5 +95,22 @@ public class TrainingGroup {
 
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public int freeCapacity() {
+        return capacity - attendants.size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TrainingGroup that = (TrainingGroup) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
