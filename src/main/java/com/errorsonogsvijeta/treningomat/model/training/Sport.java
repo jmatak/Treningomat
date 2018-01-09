@@ -8,6 +8,7 @@ public class Sport {
 
     private Integer id;
     private String name;
+    private String description;
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer getId() {
@@ -25,6 +26,15 @@ public class Sport {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Column
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

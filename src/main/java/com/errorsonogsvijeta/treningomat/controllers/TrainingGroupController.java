@@ -30,28 +30,6 @@ public class TrainingGroupController {
     @Autowired
     private AttendantService attendantService;
 
-    @RequestMapping(value = "/trainer/addTrainingGroup", method = RequestMethod.GET)
-    public ModelAndView addGroup() {
-        return getAddGroupModelAndView(null);
-    }
-
-    //TODO: JavaScriptu provjera je li korisnik zapravo popunio sva polja
-    @RequestMapping(value = "/trainer/addTrainingGroup", method = RequestMethod.POST)
-    public ModelAndView createNewGroup(@Valid TrainingGroup trainingGroup, BindingResult groupResult, HttpServletRequest request) {
-        Trainer trainer = getLoggedTrainer();
-
-        trainingGroup.setTrainer(trainer);
-
-        String message;
-        try {
-            trainingGroupService.saveTrainingGroup(trainingGroup);
-            message = "Training group successfully added.";
-        } catch (Exception e) {
-            message = "Failed to add training group!";
-        }
-
-        return getAddGroupModelAndView(message);
-    }
 
     @RequestMapping(value = "/trainer/groups", method = RequestMethod.GET)
     public ModelAndView viewTrainersGroups() {
@@ -60,6 +38,7 @@ public class TrainingGroupController {
         Trainer trainer = getLoggedTrainer();
         List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersTrainingGroups(trainer);
 
+        modelAndView.addObject("group", new TrainingGroup());
         modelAndView.addObject("trainer", trainer);
         modelAndView.addObject("allTrainingGroups", trainingGroups);
 
@@ -92,8 +71,8 @@ public class TrainingGroupController {
             oldTrainingGroup.setPlace(trainingGroup.getPlace());
             changed = true;
         }
-        if (!oldTrainingGroup.getSport().equals(trainingGroup.getSport())) {
-            oldTrainingGroup.setSport(trainingGroup.getSport());
+        if (!oldTrainingGroup.getAmount().equals(trainingGroup.getAmount())) {
+            oldTrainingGroup.setAmount(trainingGroup.getAmount());
             changed = true;
         }
 
@@ -112,17 +91,13 @@ public class TrainingGroupController {
             redirectAttributes.addFlashAttribute("message", "Krivi unos!");
         }
 
-        return "redirect:" + ("/trainer/groups/edit/" + id);
+        return "redirect:/trainer/groups";
     }
 
     @RequestMapping(value = "/trainer/groups/delete/{id}", method = RequestMethod.POST)
     public String deleteGroup(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         TrainingGroup group = trainingGroupService.getTrainingGroup(id);
-        if (group.getAttendants().size() == 0) {
-            trainingGroupService.deleteTrainingGroup(group);
-        } else {
-            redirectAttributes.addFlashAttribute("message", "Nije moguće izbrisati ovu grupu!");
-        }
+        trainingGroupService.deleteTrainingGroup(group);
 
         return "redirect:/trainer/groups";
     }
@@ -153,17 +128,20 @@ public class TrainingGroupController {
         return "redirect:" + "/trainer/group/" + groupId + "/attendants";
     }
 
-    private ModelAndView getAddGroupModelAndView(String message) {
-        ModelAndView modelAndView = new ModelAndView("trainer/add_training_group");
-
+    //TODO: JavaScriptu provjera je li korisnik zapravo popunio sva polja
+    @RequestMapping(value = "/trainer/addTrainingGroup", method = RequestMethod.POST)
+    public ModelAndView createNewGroup(@Valid TrainingGroup trainingGroup, BindingResult groupResult, HttpServletRequest request) {
         Trainer trainer = getLoggedTrainer();
 
-        modelAndView.addObject("trainingGroup", new TrainingGroup());
-        modelAndView.addObject("trainersSports", trainer.getSports());
-        if (message != null) {
-            modelAndView.addObject("message", message);
+        trainingGroup.setTrainer(trainer);
+
+        String message;
+        try {
+            trainingGroupService.saveTrainingGroup(trainingGroup);
+        } catch (Exception ignored) {
         }
-        return modelAndView;
+
+        return new ModelAndView("redirect:/trainer/groups");
     }
 
     private Trainer getLoggedTrainer() {
