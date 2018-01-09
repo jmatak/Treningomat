@@ -2,26 +2,36 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+
     <title>Treningomat_ZajedničkoIgralište</title>
+
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+
     <!-- MetisMenu CSS -->
     <link href="../css/metisMenu.min.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="../css/treningomatstyle.css" rel="stylesheet">
+
     <!-- Custom Fonts -->
     <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body>
+
     <div id="wrapper">
+
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -34,6 +44,7 @@
                 <a class="navbar-brand" href="playground.html">TRENINGOMAT</a>
             </div>
             <!-- /.navbar-header -->
+
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <li><a href="trainers.html"><i class="fa fa-male" aria-hidden="true"></i> TRENERI</a></li>
@@ -47,8 +58,8 @@
                     <li><a href="groups.html"><i class="fa fa-users" aria-hidden="true"></i> GRUPE</a></li>
                 </li>
                 <!-- /.dropdown -->
-                <li class="dropdown">
-                    <li><a href="trainings.html"><i class="fa fa-tasks" aria-hidden="true"></i> TRENINZI</a></li>
+                 <li class="dropdown">
+                <li><a href="trainings.html"><i class="fa fa-tasks" aria-hidden="true"></i> TRENINZI</a></li>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -66,154 +77,141 @@
                 <!-- /.dropdown -->
             </ul>
             <!-- /.navbar-top-links -->
+
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
                             <a href="playground.html"><i class="fa fa-bicycle" aria-hidden="true"></i> Zajedničko igralište</a>
                         </li>
+
                         <li>
                             <a href="inbox.html"><i class="fa fa-folder" aria-hidden="true"></i> Osobni pretinac</a>
                         </li>
+
                         <li>
                             <a href="calendar.html"><i class="fa fa-table fa-fw"></i> Kalendar</a>
                         </li>
+
                         <li>
                             <a href="my-trainers.html"><i class="fa fa-male" aria-hidden="true"></i> Moji treneri</a>
                         </li>
+
                         <li>
                             <a href="my-groups.html"><i class="fa fa-users" aria-hidden="true"></i> Moje grupe</a>
                         </li>
+
                         <li>
                             <a href="my-trainings.html"><i class="fa fa-th-list" aria-hidden="true"></i> Moji treninzi</a>
                         </li>
+
                         <li>
                             <a href="attendants.html"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Polaznici treninga</a>
                         </li>
-                        <li>
+
+                         <li>
                             <a href="user-requirements.html"><i class="fa fa-check-square-o" aria-hidden="true"></i> Zahtjevi korisnika</a>
                         </li>
+
+                        
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
             <!-- /.navbar-static-side -->
         </nav>
+
         <!-- Page Content -->
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Osobni profil</h1>
+                        <h1 class="page-header">Inbox</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            <div class="container">
-                <div class="row">
-                    <!-- left column -->
-                    <div class="col-md-3">
-                        <div class="text-center">
-                            <img src="https://cdn.pixabay.com/photo/2017/12/31/15/56/portrait-3052641__180.jpg" alt="Avatar">
-                            <font color="white">
-                                <h6>Upload a different photo...</h6></font>
-                            <input type="file" class="form-control">
+            <div class="container"></div>
+  <div class="col-md-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <div class="panel-title">Roberto Prezime</div>
+        <div class="btn-group pull-right" style="margin-top: -25px">
+          
+                <!-- Button to Open the Modal -->
+                <button type="button" class="btn btn-danger btn-sm" style="" data-toggle="modal" data-target="#myModal">
+                    Obriši
+                </button>
+
+                <!-- The Modal -->
+                <div class="modal fade" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                      
+                           
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        
+                                        <div class="col-sm-8">
+                                           <label> Jeste li sigurni da želite obrisati poruku?</label>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                
+                                
+
+                                
+                            </div>
+                        
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger">Obriši</button>
+                                <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
+                            </div>
                         </div>
                     </div>
-                    <!-- edit form column -->
-                    <div class="col-md-9 personal-info">
-                         <font color="white">
-                        <h3>Personal info</h3>
-                        <form class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">First name:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" type="text" value="Robert" id="FirstName" disabled="true">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Last name:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" type="text" value="Kumrle" id="LastName" disabled="true">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-3 control-label">Email:</label>
-                                <div class="col-lg-8">
-                                    <input class="form-control" type="text" value="Robert@gmail.com" id="Email" disabled="true">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Username:</label>
-                                <div class="col-md-8">
-                                    <input class="form-control" type="text" value="robi8" id="Username" disabled="true">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Password:</label>
-                                <div class="col-md-8">
-                                    <input class="form-control" type="password" value="password1234" id="Password" disabled="true">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Confirm password:</label>
-                                <div class="col-md-8">
-                                    <input class="form-control" type="password" value="pasword1234" id="ConfirmPassword" disabled="true">
-                                </div>
-                            </div>
-                            <div class="form-group" onclick="myFunction()">
-                                <label class="col-md-3 control-label"></label>
-                                <div class="col-md-8">
-                                    <input type="button" class="btn btn-danger" value="Edit">
-                                    
-                                </div>
-                            </div>
-                            <div class="form-group" onclick="myFunction1()">
-                                <label class="col-md-3 control-label"></label>
-                                <div class="col-md-8">
-                                    <input type="reset" class="btn btn-default" value="Cancel">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                 </div>
+            
+        </div>
+      </div>
+      <div class="panel-body">
+        
+             
+                   
+  <p>fhahdfhasfh</p>
+
+                
+                <div class="container" id="custom">
+                  
+                </div>
+              </div>
             </div>
-            <hr>
+          
+    </div>            
+  </div>
         </div>
         <!-- /#page-wrapper -->
+
     </div>
     <!-- /#wrapper -->
+
     <!-- jQuery -->
     <script src="../js/jquery.min.js"></script>
+
     <!-- Bootstrap Core JavaScript -->
     <script src="../js/bootstrap.min.js"></script>
+
     <!-- Metis Menu Plugin JavaScript -->
     <script src="../js/metisMenu.min.js"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="../js/treningomatjs.js"></script>
-    print "
-    <script>
-    function myFunction() {
-        document.getElementById('ConfirmPassword').disabled = false;
-        document.getElementById('Password').disabled = false;
-        document.getElementById('Email').disabled = false;
-        document.getElementById('FirstName').disabled = false;
-        document.getElementById('LastName').disabled = false;
-        document.getElementById('Username').disabled = false;
-        //confirm("Želite li spremiti promjene?");
-    }
-    function myFunction1() {
-        document.getElementById('ConfirmPassword').disabled = true;
-        document.getElementById('Password').disabled = true;
-        document.getElementById('Email').disabled = true;
-        document.getElementById('FirstName').disabled = true;
-        document.getElementById('LastName').disabled = true;
-        document.getElementById('Username').disabled = true;
-        //confirm("Želite li spremiti promjene?");
-    }
-    </script>
+
 </body>
 
 </html>
