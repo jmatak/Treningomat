@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Treningomat_Sportovi</title>
+    <title>Treningomat_Moji treneri</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -126,106 +126,74 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Sportovi</h1>
+                        <h1 class="page-header">Moji treneri</h1>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            <div class="container">
-                <!-- Button to Open the Modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                    Novi sport
-                </button>
-
-                <!-- The Modal -->
-                <div class="modal fade" id="myModal">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                      
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">Unos novog sporta</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                        
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Naziv sporta</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" placeholder="">
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Opis sporta</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control" rows="3"></textarea>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-success">Dodaj sport</button>
-                                <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <div class="col-md-12">
                 <div class="table-responsive">           
                     <table class="table">
                         <thead>
                             <tr>
-                            <th>Slika sporta</th>
-                            <th>Naziv sporta</th>
-                            <th>Opis sporta</th>
-                            <th>Obriši sport</th>
+                            <th>Fotografija trenera</th>
+                            <th>Ime i prezime</th>
+                            <th>OIB</th>
+                            <th>Adresa</th>
+                            <th>Broj tel/mob</th>
+                            <th>Komentiraj i ocijeni</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                             <td><div class="box"><img src="odbojka.jpg" class="img-responsive"></div></td>
-                            <td>ODBOJKA</td>
-                            <td><p>Odbojka je sport s loptom u kojem se dvije suparničke momčadi natječu na terenu s razapetom mrežom na sredini. Cilj igre je prebaciti loptu preko mreže u protivničko polje na način da je protivnik ne uspije održati u zraku i vratiti natrag preko mreže na dozvoljen način prije nego li padne na teren.</p></td>
+                            <td>Ime Prezime</td>
+                            <td>23586253212</td>
+                            <td>Duga ulica 6, 44250, Petrinja</td>
+                            <td>099 8542 589</td>
                             <td>
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal1"><i class="fa fa-trash" aria-hidden="true"></i> Obriši</button>
-                                <div class="modal fade" id="myModal1">
+
+                                <div class="form-group">
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal2"><i class="fa fa-comments-o" aria-hidden="true"></i> Komentiraj i ocijeni</button>
+                                <div class="modal fade" id="myModal2">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
+
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Unos komentara i ocjene za trenera</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
                                       
                                             <!-- Modal body -->
                                             <div class="modal-body">
                                                 <form class="form-horizontal">
                                                     <div class="form-group">
-                                                        <label class="col-sm-8 control-label">Jeste li sigurni da želite obristi odabrani sport?</label>
+                                                        
                                                     </div>
                                                 </form>
                                             </div>
                                         
                                             <!-- Modal footer -->
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger">Obriši</button>
+                                                <button type="button" class="btn btn-success">Pošalji</button>
                                                 <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                                 </div>
                             </td>
                             </tr>
 
                             <tr>
                             <td></td>
-                            <td>RUKOMET</td>
+                            <td>Ime Prezime</td>
+                            <td></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             </tr>
@@ -233,6 +201,7 @@
                     </table>
                 </div>
             </div>
+            
         </div>
         <!-- /#page-wrapper -->
 
