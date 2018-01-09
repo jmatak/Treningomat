@@ -27,8 +27,9 @@ public class SportController {
         ModelAndView modelAndView = new ModelAndView("sports");
 
         List<Sport> sports = sportService.findAll();
-        modelAndView.addObject("allSports", sports);
 
+        modelAndView.addObject("sport", new Sport());
+        modelAndView.addObject("allSports", sports);
         return modelAndView;
     }
 

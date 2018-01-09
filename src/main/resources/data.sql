@@ -55,9 +55,9 @@ INSERT INTO public.role (id, role) VALUES (0, 'ADMIN');
 INSERT INTO public.role (id, role) VALUES (1, 'TRAINER');
 INSERT INTO public.role (id, role) VALUES (2, 'ATTENDANT');
 
-INSERT INTO public.sport (id, name) VALUES (0, 'Funkcionalni trening');
-INSERT INTO public.sport (id, name) VALUES (1, 'Nogomet');
-INSERT INTO public.sport (id, name) VALUES (6, 'Politika');
+INSERT INTO public.sport (id, name, description) VALUES (0, 'Funkcionalni trening','Funkcionalni trening označava koncept treninga kojim se utječe na istovremeni razvoj što većeg broja motoričkih i funkcionalnih sposobnosti i osobina te na sastav tijela.');
+INSERT INTO public.sport (id, name, description) VALUES (1, 'Nogomet', 'Nogomet je sport u kojemu se dvije momčadi od 11 igrača nadmeću na pravokutnom igralištu travnate površine.');
+INSERT INTO public.sport (id, name, description) VALUES (6, 'Politika','Politika (grč. ta politiká – poslovi vezani uz polis) je kolektivna djelatnost usmjerena ka donošenju odluke o rješenju problema i izvršenju te odluke koja je obvezna za sve članove zajednice.');
 
 
 INSERT INTO public.trainer (id, password, username, pid, address, id_photo, name, phone_number, surname, city_id) VALUES (7, '$2a$10$SvLtXUPs.r5osEUe5CxgUuJUn/xj//Djj0wVSeY3yGeW9whw.vWL6', 'caca', 52478956314, 'dr. Luje Naletilića 1', 'trainer_caca.jpg', 'Ivo', '091 5846 332', 'Sanader', 8);
