@@ -10,11 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -35,6 +35,8 @@ public class AttendantController {
     private TrainerCommentRequestService trainerCommentRequestService;
     @Autowired
     private TrainerCommentService trainerCommentService;
+    @Autowired
+    private CityService cityService;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView viewProfile() {
@@ -42,8 +44,10 @@ public class AttendantController {
 
         Attendant attendant = getLoggedAttendant();
         List<Receipt> receipts = paymentService.getAllNonPaidReceiptsOfAttendant(attendant);
-        List<TrainingCommentRequest> trainingCommentRequests = trainingCommentRequestService.findTrainingCommentRequestsByAttendant(attendant);
-        List<TrainerCommentRequest> trainerCommentRequests = trainerCommentRequestService.findTrainerCommentRequestsByAttendant(attendant);
+        List<TrainingCommentRequest> trainingCommentRequests = trainingCommentRequestService.findTrainingCommentRequestsByAttendant(
+                attendant);
+        List<TrainerCommentRequest> trainerCommentRequests = trainerCommentRequestService.findTrainerCommentRequestsByAttendant(
+                attendant);
 
         modelAndView.addObject("commentSubscription", attendant.getCommentSubscription());
         modelAndView.addObject("allTrainingCommentRequests", trainingCommentRequests);
@@ -83,7 +87,8 @@ public class AttendantController {
         ModelAndView modelAndView = new ModelAndView("attendant/training_comment_requests");
 
         Attendant attendant = getLoggedAttendant();
-        List<TrainingCommentRequest> requests = trainingCommentRequestService.findTrainingCommentRequestsByAttendant(attendant);
+        List<TrainingCommentRequest> requests = trainingCommentRequestService.findTrainingCommentRequestsByAttendant(
+                attendant);
 
         modelAndView.addObject("allTrainingCommentRequests", requests);
         return modelAndView;
@@ -101,7 +106,9 @@ public class AttendantController {
     }
 
     @RequestMapping(value = "/trainingComments/comment/{id}", method = RequestMethod.POST)
-    public String commentTraining(@PathVariable Integer id, @Valid TrainingComment comment, BindingResult trainerResult) {
+    public String commentTraining(
+            @PathVariable Integer id, @Valid TrainingComment comment, BindingResult trainerResult
+    ) {
         TrainingCommentRequest request = trainingCommentRequestService.findTrainingCommentRequestById(id);
 
         comment.setAttendant(request.getAttendant());
@@ -124,7 +131,8 @@ public class AttendantController {
         ModelAndView modelAndView = new ModelAndView("attendant/trainer_comment_requests");
 
         Attendant attendant = getLoggedAttendant();
-        List<TrainerCommentRequest> requests = trainerCommentRequestService.findTrainerCommentRequestsByAttendant(attendant);
+        List<TrainerCommentRequest> requests = trainerCommentRequestService.findTrainerCommentRequestsByAttendant(
+                attendant);
 
         modelAndView.addObject("allTrainerCommentRequests", requests);
         return modelAndView;
@@ -142,7 +150,9 @@ public class AttendantController {
     }
 
     @RequestMapping(value = "/trainerComments/comment/{id}", method = RequestMethod.POST)
-    public String commentTraining(@PathVariable Integer id, @Valid TrainerComment comment, BindingResult trainerResult) {
+    public String commentTraining(
+            @PathVariable Integer id, @Valid TrainerComment comment, BindingResult trainerResult
+    ) {
         TrainerCommentRequest request = trainerCommentRequestService.findTrainerCommentRequestById(id);
 
         comment.setAttendant(request.getAttendant());
@@ -163,12 +173,61 @@ public class AttendantController {
 
     @RequestMapping(value = "/commentSubscription", method = RequestMethod.POST)
     public String changeCommentSubscription() {
-
         Attendant attendant = getLoggedAttendant();
-        attendant.setCommentSubscription(! attendant.getCommentSubscription());
+        attendant.setCommentSubscription(!attendant.getCommentSubscription());
         attendantService.save(attendant);
 
         return "redirect:/attendant/profile";
+    }
+
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public ModelAndView getAttendantInfo() {
+        return getProfileInfoMAV();
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public ModelAndView editAttendantInfo(@Valid Attendant attendant, HttpServletRequest request) {
+        Attendant thisAttendant = getLoggedAttendant();
+
+        if (attendant.getPassword() != null &&
+                !attendant.getPassword().isEmpty() &&
+                !thisAttendant.getPassword().equals(attendant.getPassword())) {
+            thisAttendant.setPassword(attendant.getPassword());
+            attendantService.editPassword(thisAttendant);
+        }
+
+        MultipartFile file = attendant.getFile();
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            thisAttendant.setFile(file);
+            String fileName = "attendant_" + thisAttendant.getUsername() + Util.getExtension(
+                    file.getOriginalFilename());
+            String subdir = "attendants";
+            String msg = Util.writeToFile(file, subdir, fileName, request);
+
+            if (msg != null) return error(msg);
+            thisAttendant.setFile(attendant.getFile());
+            thisAttendant.setIdPhoto(attendant.getIdPhoto());
+        }
+
+        thisAttendant.setCity(attendant.getCity());
+        thisAttendant.setCommentSubscription(attendant.getCommentSubscription());
+        thisAttendant.setStreetAndNumber(attendant.getStreetAndNumber());
+        attendantService.save(thisAttendant);
+
+        return new ModelAndView("redirect:/attendant/info");
+    }
+
+    private ModelAndView error(String message) {
+        ModelAndView modelAndView = getProfileInfoMAV();
+        modelAndView.addObject("message", message);
+        return modelAndView;
+    }
+
+    private ModelAndView getProfileInfoMAV() {
+        ModelAndView modelAndView = new ModelAndView("attendant/personal-information");
+        modelAndView.addObject("allCities", cityService.findAll());
+        modelAndView.addObject("attendant", getLoggedAttendant());
+        return modelAndView;
     }
 
     private Attendant getLoggedAttendant() {

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:include="base::head"></head>
+
+    <body>
+        <div th:replace="base :: header"></div>
+        <div id="wrapper">
+            <!-- Page Content -->
+            <div id="page-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1 class="page-header">Osobni podaci</h1>
+                            <h3 style="color: red" th:text="${message}"></h3>
+                        </div>
+                        <!-- /.col-lg-12 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+                <div class="container">
+                    <div class="row">
+                        <!-- left column -->
+                        <form th:action="@{/attendant/edit}" method="post" class="form-horizontal" role="form"
+                              th:object="${attendant}" enctype="multipart/form-data" id="editForm">
+
+                            <div class="col-md-3">
+                                <div class="text-center">
+                                    <img th:src="@{'/images_attendants/' + ${attendant.idPhoto}}" alt="Avatar"/>
+                                    <font color="white">
+                                        <h6>Upload a different photo...</h6></font>
+                                    <input type="file" th:field="*{file}" class="form-control" id="File"
+                                           disabled="true"/>
+                                </div>
+                            </div>
+                            <!-- edit form column -->
+                            <div class="col-md-9 personal-info">
+                                <font color="white"/>
+                                <h3>Personal info</h3>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">First name:</label>
+                                    <div class="col-lg-8">
+                                        <input class="form-control" type="text" th:value="${attendant.name}"
+                                               id="FirstName" disabled="true"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Last name:</label>
+                                    <div class="col-lg-8">
+                                        <input class="form-control" type="text" th:value="${attendant.surname}"
+                                               id="LastName" disabled="true"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Username:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" type="text" th:value="*{username}"
+                                               id="Username" disabled="true"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">City:</label>
+                                    <div class="col-lg-8">
+                                        <select th:field="*{city}" class="form-control" id="City" disabled="true">
+                                            <option th:each="c : ${allCities}" th:value="${c.id}" th:text="${c}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Street and number:</label>
+                                    <div class="col-lg-8">
+                                        <input class="form-control" type="text" th:field="*{streetAndNumber}"
+                                               id="StreetAndNumber" disabled="true"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Password:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" type="password" th:field="*{password}"
+                                               placeholder="password(unchanged)" id="Password" disabled="true"
+                                               onchange="change()"
+                                        />
+                                        <p id="passMessage"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Confirm password:</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" type="password" placeholder="Confirm password"
+                                               id="ConfirmPassword" disabled="true"
+                                               onchange="change()"
+                                        />
+                                        <p id="confPassMessage"></p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Comment Subscription:</label>
+                                    <div class="col-md-8">
+                                        <input style="height: 35px; width: 35px" type="checkbox"
+                                               th:field="*{commentSubscription}"
+                                               placeholder="password(unchanged)" id="Subscription" disabled="true"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label"></label>
+                                    <div class="col-md-8">
+                                        <input type="button" class="btn btn-primary" value="Edit"
+                                               onclick="disableForm(false)"/>
+                                        <input type="submit" class="btn btn-primary" value="Save" id="Save"/>
+                                        <input type="reset" class="btn btn-default" value="Cancel"
+                                               onclick="disableForm(true)"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <hr/>
+                </div>
+            </div>
+        </div>
+        <!--<script type="text/javascript">//<![CDATA[-->
+        <!--function change() {-->
+            <!--myFunctionValidatePasswords();-->
+            <!--document.getElementById("save").disabled = bool;-->
+        <!--}-->
+
+        <!--function disableForm(disabled) {-->
+            <!--document.getElementById('File').disabled = disabled;-->
+            <!--document.getElementById('City').disabled = disabled;-->
+            <!--document.getElementById('StreetAndNumber').disabled = disabled;-->
+            <!--document.getElementById('Password').disabled = disabled;-->
+            <!--document.getElementById('ConfirmPassword').disabled = disabled;-->
+            <!--document.getElementById('Subscription').disabled = disabled;-->
+            <!--document.getElementById('Save').disabled = disabled;-->
+        <!--}-->
+
+        <!--function myFunctionValidatePasswords() {-->
+            <!--var text = null;-->
+            <!--var x = document.getElementById("Password").value;-->
+
+            <!--if (x.length === 0) {-->
+                <!--text = "";-->
+            <!--} else if (x.length < 8) {-->
+                <!--text = "Lozinka je prekratka!";-->
+            <!--} else if (!(/[a-z]/.test(x))) {-->
+                <!--text = "Lozinka mora sadržavati mala slova!";-->
+            <!--} else if (!(/[A-Z]/.test(x))) {-->
+                <!--text = "Lozinka mora sadržavati velika slova!";-->
+            <!--} else if (!(/[0-9]/.test(x))) {-->
+                <!--text = "Lozinka mora sadržavati brojke!";-->
+            <!--} else {-->
+                <!--text = "";-->
+            <!--}-->
+            <!--if (text !== "") {-->
+                <!--document.getElementById("passMessage").innerHTML = text;-->
+                <!--return false;-->
+            <!--}-->
+
+            <!--var bool = x === document.getElementById("ConfirmPassword").value;-->
+            <!--if (!bool) {-->
+                <!--text = "Lozinke nisu jednake";-->
+                <!--document.getElementById("confPassMessage").innerHTML = text;-->
+                <!--return false;-->
+            <!--}-->
+            <!--return true;-->
+        <!--}-->
+
+        <!--//]]></script>-->
+
+        <script>
+        function disableForm(disabled) {
+        document.getElementById('File').disabled = disabled;
+        document.getElementById('City').disabled = disabled;
+        document.getElementById('StreetAndNumber').disabled = disabled;
+        document.getElementById('Password').disabled = disabled;
+        document.getElementById('ConfirmPassword').disabled = disabled;
+        document.getElementById('Subscription').disabled = disabled;
+        document.getElementById('Save').disabled = disabled;
+        }
+        </script>
+    </body>
+</html>

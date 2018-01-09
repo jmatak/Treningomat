@@ -4,6 +4,7 @@ import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.repository.AttendantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.List;
 public class AttendantService {
     @Autowired
     AttendantRepository attendantRepository;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<Attendant> getAllAttendantsOfAGroup(TrainingGroup trainingGroup) {
         return attendantRepository.findAllByTrainingGroups(trainingGroup);
@@ -28,4 +31,9 @@ public class AttendantService {
     public void save(Attendant attendant) {
         attendantRepository.save(attendant);
     }
+
+    public void editPassword(Attendant attendant) {
+        attendant.setPassword(bCryptPasswordEncoder.encode(attendant.getPassword()));
+    }
+
 }
