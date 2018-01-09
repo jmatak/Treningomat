@@ -39,50 +39,59 @@
 
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <form class="form-horizontal">
+
+                        <form class="form-horizontal" th:action="@{/trainer/addTrainingGroup}" th:object="${group}"
+                              method="post" role="form">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Naziv grupe</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" placeholder=""/>
+                                    <input type="text" th:field="*{name}" placeholder=""
+                                           class="form-control"/>
                                 </div>
                             </div>
-                        </form>
 
-                        <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Maksimalan broj članova</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control" placeholder=""/>
+                                    <input type="number" th:field="*{capacity}" placeholder=""
+                                           class="form-control"/>
                                 </div>
                             </div>
-                        </form>
 
-                        <form class="form-horizontal">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Odabir sporta</label>
                                 <div class="col-sm-10">
-                                    <form>
-                                        <div class="radio">
-                                            <label><input type="radio" name="optradio"/>Rukomet</label>
-                                        </div>
-                                        <div class="radio">
-                                            <label><input type="radio" name="optradio"/>Odbojka</label>
-                                        </div>
-                                        <div class="radio">
-                                            <label><input type="radio" name="optradio"/>Košarka</label>
-                                        </div>
-                                    </form>
+                                    <select class="form-control" th:field="*{sport}">
+                                        <option th:each="s : ${trainer.getSports()}" th:value="${s.id}" th:text="${s}">
+                                            Sport
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Mjesto održavanja</label>
+                                <div class="col-sm-10">
+                                    <input type="text" th:field="*{place}" placeholder=""
+                                           class="form-control"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Članarina</label>
+                                <div class="col-sm-10">
+                                    <input type="number" th:field="*{amount}" placeholder=""
+                                           class="form-control"/>
+                                </div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Dodaj grupu</button>
+                                <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
+                            </div>
+
                         </form>
-
-
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success">Dodaj grupu</button>
-                        <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
                     </div>
                 </div>
             </div>
@@ -97,62 +106,35 @@
                     <th>Naziv grupe</th>
                     <th>Mjesto održavanja</th>
                     <th>Sport koji se trenira</th>
+                    <th>Članarina</th>
                     <th>Max. broj članova</th>
                     <th>Trenutni broj članova</th>
-                    <th>Mogućnosti</th>
                 </tr>
                 </thead>
                 <tbody>
                 <div th:each="g : ${allTrainingGroups}">
-
-                    <!--
-                    <li class="list-group-item clearfix">
-                        <div class="caption">
-                            <p th:text="'Naziv grupe: ' + ${g.name}"></p>
-                            <p th:text="'Mjesto održavanja: ' + ${g.place}"></p>
-                            <p th:text="'Kapacitet grupe: ' + ${g.capacity}"></p>
-                        </div>
-                        <span class="pull-right">
-                        <form th:action="@{/trainer/groups/delete/{id}(id=${g.id})}" method="post">
-                            <button type="submit" class="btn btn-danger btn-block"><span
-                                    class="glyphicon glyphicon-remove"></span> Obriši</button>
-                        </form>
-                    </span>
-                        <span class="pull-right">
-                        <form th:action="@{/trainer/groups/edit/{id}(id=${g.id})}" method="get">
-                            <button type="submit" class="btn btn-primary btn-block"><span
-                                    class="glyphicon glyphicon-edit"></span> Uredi</button>
-                        </form>
-                    </span>
-                        <span class="pull-right">
-                        <form th:action="@{/trainer/group/{id}/attendants(id=${g.id})}" method="get">
-                            <button type="submit" class="btn btn-info btn-block"><span
-                                    class="glyphicon glyphicon-th-list"></span> Članovi</button>
-                        </form>
-                    </span>
-                    </li>
-                    -->
-
                     <tr>
-                        <td th:text="${g.name}"></td>
-                        <td th:text="${g.place}"></td>
+                        <td th:id="${'groupName' + g.id}" th:text="${g.name}"></td>
+                        <td th:id="${'groupPlace' + g.id}" th:text="${g.place}"></td>
                         <td th:text="${g.sport}"></td>
-                        <td th:text="${g.capacity}"></td>
+                        <td th:id="${'groupPrice' + g.id}" th:value="${g.amount}"
+                            th:text="${g.amount + ' kn'}"></td>
+                        <td th:id="${'groupCapacity' + g.id}" th:text="${g.capacity}"></td>
                         <td th:text="${g.attendants.size()}"></td>
-                        <td>
 
-                            <form th:action="@{/trainer/group/{id}/attendants(id=${g.id})}" method="get">
-                                <button type="submit" class="btn btn-primary" data-toggle="modal"
+                        <td>
+                            <form th:action="@{/trainer/group/{id}/attendants(id=${g.id})}" method="GET">
+                                <button type="submit" class="btn btn-primary"
                                         sec:authorize="hasAuthority('TRAINER')"><i
                                         class="fa fa-book" aria-hidden="true"></i> Članovi
                                 </button>
                             </form>
-
-
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal2"
+                        </td>
+                        <td>
+                            <button th:id="${g.id}" type="button" class="btn btn-info editBtn" data-toggle="modal"
+                                    data-target="#myModal2"
                                     sec:authorize="hasAuthority('TRAINER')">
-                                <i
-                                        class="fa fa-pencil-square-o" aria-hidden="true"></i> Uredi
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Uredi
                             </button>
 
 
@@ -167,83 +149,67 @@
                                             </button>
                                         </div>
 
-                                        <!-- Modal body -->
-                                        <div class="modal-body">
-                                            <form autocomplete="off" action="#"
-                                                  th:action="@{/trainer/groups/edit/{id}(id=${g.id})}"
-                                                  enctype="multipart/form-data"
-                                                  th:object="${g}" method="post" class="form-horizontal"
-                                                  role="form">
+                                        <form id="modalForm" th:object="${group}" class="form-horizontal"
+                                              method="POST">
+
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
                                                 <div class="form-group">
-                                                    <h2>Uredi grupu</h2>
-
                                                     <div class="form-trainingGroup">
                                                         <div class="col-sm-9">
-                                                            <input type="text" th:field="*{name}"
-                                                                   th:value="${g.name}"
+                                                            <input id="modalName" type="text" th:field="*{name}"
                                                                    class="form-control"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-trainingGroup">
                                                         <div class="col-sm-9">
-                                                            <select class="form-control" th:field="*{sport}">
-                                                                <option th:each="s : ${trainer.getSports()}"
-                                                                        th:value="${s.id}" th:text="${s}"></option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-trainingGroup">
-                                                        <div class="col-sm-9">
-                                                            <input type="text" th:field="*{place}"
-                                                                   th:value="${g.place}"
+                                                            <input id="modalPlace" type="text" th:field="*{place}"
                                                                    class="form-control"/>
                                                         </div>
                                                     </div>
+
                                                     <div class="form-trainingGroup">
                                                         <div class="col-sm-9">
-                                                            <input type="number" th:field="*{capacity}"
-                                                                   th:value="${g.capacity}"
+                                                            <input id="modalPrice" type="text" th:field="*{amount}"
                                                                    class="form-control"/>
                                                         </div>
                                                     </div>
+
                                                     <div class="form-trainingGroup">
                                                         <div class="col-sm-9">
-                                                            <button type="submit" class="btn btn-primary btn-block">
-                                                                Uredi grupu
-                                                            </button>
+                                                            <input id="modalCapacity" type="number"
+                                                                   th:field="*{capacity}"
+                                                                   class="form-control"/>
                                                         </div>
                                                     </div>
-
-
-                                                    <!--/*@thymesVar id="message" type="String"*/-->
-                                                    <span th:utext="${message}"></span>
-
                                                 </div>
-                                            </form>
-                                        </div>
 
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-success">Spremi izmjene</button>
-                                            <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani
-                                            </button>
-                                        </div>
+                                            </div>
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-success">Spremi izmjene
+                                                </button>
+                                                <button type="button" class="btn btn-dark" data-dismiss="modal">
+                                                    Odustani
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-
+                        </td>
+                        <td>
                             <button type="button" class="btn btn-danger" data-toggle="modal"
-                                    data-target="#myModal3" sec:authorize="hasAuthority('TRAINER')"
+                                    th:href="${'#deleteModal'+g.id}" sec:authorize="hasAuthority('TRAINER')"
                                     th:classappend="${g.attendants.isEmpty()} ? active : disabled"
                                     th:disabled="${g.attendants.isEmpty()} ? false : true"><i
                                     class="fa fa-trash" aria-hidden="true"></i> Obriši
                             </button>
-                            <div class="modal fade" id="myModal3">
+                            <div class="modal fade" th:id="${'deleteModal'+g.id}">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-
                                         <!-- Modal body -->
                                         <div class="modal-body">
                                             <form class="form-horizontal">
@@ -274,10 +240,10 @@
                             </div>
 
                             <button type="button" class="btn btn-warning" data-toggle="modal"
-                                    data-target="#myModal4" sec:authorize="hasAuthority('ATTENDANT')"><i
+                                    th:href="${'#leaveModal'+g.id}" sec:authorize="hasAuthority('ATTENDANT')"><i
                                     class="fa fa-minus-square" aria-hidden="true"></i> Napusti
                             </button>
-                            <div class="modal fade" id="myModal4">
+                            <div class="modal fade" th:id="${'leaveModal'+g.id}">
                                 <div class="modal-dialog modal-sm">
                                     <div class="modal-content">
 
@@ -308,9 +274,21 @@
                 </div>
                 </tbody>
             </table>
+
+            <!--/*@thymesVar id="message" type="String"*/-->
+            <span th:utext="${message}"></span>
         </div>
     </div>
-
 </div>
 </body>
+
+<script>
+    $(".editBtn").click(function (e) {
+        $("#modalForm").attr('action', '/trainer/groups/edit/' + e.target.id);
+        $("#modalName").val($("#groupName" + e.target.id).html());
+        $("#modalPrice").val($("#groupPrice" + e.target.id).attr('value'));
+        $("#modalPlace").val($("#groupPlace" + e.target.id).html());
+        $("#modalCapacity").val($("#groupCapacity" + e.target.id).html());
+    });
+</script>
 </html>

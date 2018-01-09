@@ -60,6 +60,7 @@ public class TrainingGroupController {
         Trainer trainer = getLoggedTrainer();
         List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersTrainingGroups(trainer);
 
+        modelAndView.addObject("group", new TrainingGroup());
         modelAndView.addObject("trainer", trainer);
         modelAndView.addObject("allTrainingGroups", trainingGroups);
 
@@ -92,8 +93,8 @@ public class TrainingGroupController {
             oldTrainingGroup.setPlace(trainingGroup.getPlace());
             changed = true;
         }
-        if (!oldTrainingGroup.getSport().equals(trainingGroup.getSport())) {
-            oldTrainingGroup.setSport(trainingGroup.getSport());
+        if (!oldTrainingGroup.getAmount().equals(trainingGroup.getAmount())) {
+            oldTrainingGroup.setAmount(trainingGroup.getAmount());
             changed = true;
         }
 
@@ -112,7 +113,7 @@ public class TrainingGroupController {
             redirectAttributes.addFlashAttribute("message", "Krivi unos!");
         }
 
-        return "redirect:" + ("/trainer/groups/edit/" + id);
+        return "redirect:/trainer/groups";
     }
 
     @RequestMapping(value = "/trainer/groups/delete/{id}", method = RequestMethod.POST)
