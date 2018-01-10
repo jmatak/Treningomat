@@ -59,7 +59,7 @@ public class TrainingController {
     public String newTraining(@Valid Training training, BindingResult result) {
         trainingService.save(training);
 
-        return "redirect:/training/newTraining";
+        return "redirect:/calendar";
     }
 
     @RequestMapping(value = "/training/{id}", method = RequestMethod.GET)

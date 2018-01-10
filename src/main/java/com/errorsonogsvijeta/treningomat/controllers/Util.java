@@ -24,6 +24,10 @@ public class Util {
             String extension = getExtension(file.getOriginalFilename()).toLowerCase();
 
             if (extension.equals(".jpg") || extension.equals(".png") || extension.equals(".gif") || extension.equals(".jpeg")) {
+
+
+
+
                 Path path = Paths.get(dir + FILE_SEPARATOR + fileName);
                 Files.write(path, bytes);
                 return null;

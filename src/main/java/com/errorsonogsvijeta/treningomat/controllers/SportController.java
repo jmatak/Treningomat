@@ -1,10 +1,17 @@
 package com.errorsonogsvijeta.treningomat.controllers;
 
+import com.errorsonogsvijeta.treningomat.model.administration.GroupRequest;
 import com.errorsonogsvijeta.treningomat.model.training.Sport;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
+import com.errorsonogsvijeta.treningomat.model.users.Attendant;
+import com.errorsonogsvijeta.treningomat.services.AttendantService;
+import com.errorsonogsvijeta.treningomat.services.GroupRequestService;
 import com.errorsonogsvijeta.treningomat.services.SportService;
 import com.errorsonogsvijeta.treningomat.services.TrainingGroupService;
+import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -21,6 +29,12 @@ public class SportController {
 
     @Autowired
     private TrainingGroupService trainingGroupService;
+
+    @Autowired
+    private GroupRequestService groupRequestService;
+
+    @Autowired
+    private AttendantService attendantService;
 
     @RequestMapping(value = "/sports", method = RequestMethod.GET)
     public ModelAndView showAllSports() {
@@ -71,6 +85,22 @@ public class SportController {
         Sport sport = sportService.getSport(id);
         List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersBySport(sport);
 
+        Attendant attendant;
+        List<GroupRequest> groupRequests = new ArrayList<>();
+        List<TrainingGroup>  attendantGroupsSend = new ArrayList<>();
+
+
+        try {
+            attendant = getLoggedAttendant();
+            groupRequests = groupRequestService.getGroupRequestsByAttendantAndToTrainingGroupIn(attendant, trainingGroups);
+            for (GroupRequest groupRequest : groupRequests) {
+                attendantGroupsSend.add(groupRequest.getToTrainingGroup());
+            }
+
+        } catch (Exception ignored){
+        }
+
+        modelAndView.addObject("groupsAlreadySend", attendantGroupsSend);
         modelAndView.addObject("allTrainingGroups", trainingGroups);
         modelAndView.addObject("sportName", sport.getName());
         //TODO: trebo bi nekak dodat dali je za neki sport vec poslana prijava, pa ako je onemoguciti klik na gumb za slanje prijave
@@ -88,4 +118,10 @@ public class SportController {
 
         return modelAndView;
     }
+
+    private Attendant getLoggedAttendant() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return attendantService.findAttendantByUsername(user.getUsername());
+    }
+
 }

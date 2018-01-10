@@ -2,6 +2,7 @@ package com.errorsonogsvijeta.treningomat.services;
 
 import com.errorsonogsvijeta.treningomat.model.administration.GroupRequest;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
+import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import com.errorsonogsvijeta.treningomat.repository.GroupRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,10 @@ public class GroupRequestService {
 
     public List<GroupRequest> getAllByTrainingGroup(TrainingGroup trainingGroup){
         return groupRequestRepository.findAllByToTrainingGroup(trainingGroup);
+    }
+
+    public List<GroupRequest> getGroupRequestsByAttendantAndToTrainingGroupIn(Attendant attendant, List<TrainingGroup> trainingGroups){
+        return groupRequestRepository.findGroupRequestsByAttendantAndToTrainingGroupIn(attendant, trainingGroups);
     }
 
 

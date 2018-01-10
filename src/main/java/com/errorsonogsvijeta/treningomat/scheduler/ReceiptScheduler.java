@@ -25,7 +25,7 @@ public class ReceiptScheduler {
     private static final Logger log = LoggerFactory.getLogger(ReceiptScheduler.class);
 
     // https://stackoverflow.com/questions/26147044/spring-cron-expression-for-every-day-101am
-    @Scheduled(cron = "0 30 3 * * ?")
+    @Scheduled(cron = "0 26 2 * * ?")
     private void updateReceipts() {
         long ms1 = new Date().getTime();
         log.info("receipt generation started");
