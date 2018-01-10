@@ -106,17 +106,15 @@ public class TrainingGroupController {
     public ModelAndView getListOfAttendants(@PathVariable("id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("/trainer/group_attendants");
 
-        List<Attendant> attendants = new ArrayList<>();
-        if (id != null) {
-            attendants = attendantService.getAllAttendantsOfAGroup(trainingGroupService.getTrainingGroup(id));
-        }
+        TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(id);
+        List<Attendant> attendants = attendantService.getAllAttendantsOfAGroup(trainingGroup);
 
         modelAndView.addObject("attendants", attendants);
-        modelAndView.addObject("groupId", id);
+        modelAndView.addObject("group", trainingGroup);
         return modelAndView;
     }
 
-    @RequestMapping(value = "/trainer/group/{groupId}/attendant/{attendantId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/trainer/group/{groupId}/attendant/{attendantId}/remove", method = RequestMethod.POST)
     public String removeAttendantFromGroup(@PathVariable("groupId") Integer groupId, @PathVariable("attendantId") Integer attendantId) {
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(groupId);
         Attendant attendant = attendantService.getAttendantById(attendantId);

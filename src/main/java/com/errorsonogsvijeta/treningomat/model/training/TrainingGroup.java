@@ -50,7 +50,7 @@ public class TrainingGroup {
         this.sport = sport;
     }
 
-    @Column
+    @Column(nullable = false)
     public String getPlace() {
         return place;
     }
