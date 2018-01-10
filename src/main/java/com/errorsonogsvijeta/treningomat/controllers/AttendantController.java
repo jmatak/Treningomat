@@ -1,6 +1,7 @@
 package com.errorsonogsvijeta.treningomat.controllers;
 
 import com.errorsonogsvijeta.treningomat.model.administration.*;
+import com.errorsonogsvijeta.treningomat.model.training.Training;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -35,6 +37,8 @@ public class AttendantController {
     private TrainerCommentRequestService trainerCommentRequestService;
     @Autowired
     private TrainerCommentService trainerCommentService;
+    @Autowired
+    private TrainingService trainingService;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView viewProfile() {
@@ -169,6 +173,19 @@ public class AttendantController {
         attendantService.save(attendant);
 
         return "redirect:/attendant/profile";
+    }
+
+    @RequestMapping(value = "/trainings", method = RequestMethod.GET)
+    public ModelAndView getTrainings() {
+        ModelAndView modelAndView = new ModelAndView("trainings");
+
+        Attendant attendant = getLoggedAttendant();
+        List<Training> trainings = trainingService.findTrainingsByAttendantsContainsAndStartAtBefore(attendant, new Date());
+
+
+        modelAndView.addObject("training", new Training());
+        modelAndView.addObject("trainings", trainings);
+        return modelAndView;
     }
 
     private Attendant getLoggedAttendant() {

@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/training")
 public class TrainingController {
     private final static int TRAININGS_COUNT = 2;
 
@@ -45,7 +44,7 @@ public class TrainingController {
     @Autowired
     private TrainerCommentService trainerCommentService;
 
-    @RequestMapping(value = "/newTraining", method = RequestMethod.GET)
+    @RequestMapping(value = "/training/newTraining", method = RequestMethod.GET)
     public ModelAndView newTraining() {
         ModelAndView modelAndView = new ModelAndView("calendar/new_training");
 
@@ -56,14 +55,14 @@ public class TrainingController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/newTraining", method = RequestMethod.POST)
+    @RequestMapping(value = "/training/newTraining", method = RequestMethod.POST)
     public String newTraining(@Valid Training training, BindingResult result) {
         trainingService.save(training);
 
         return "redirect:/training/newTraining";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/training/{id}", method = RequestMethod.GET)
     public ModelAndView showTraining(@PathVariable Integer id) {
         ModelAndView modelAndView = new ModelAndView("calendar/training");
 
@@ -77,7 +76,7 @@ public class TrainingController {
     }
 
     // https://stackoverflow.com/questions/17692941/values-for-thfield-attributes-in-checkbox
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/training/{id}", method = RequestMethod.POST)
     public String addAttendants(@PathVariable Integer id, @ModelAttribute(value="training") Training trainingAttendants) {
 
         Training training = trainingService.findTrainingById(id);

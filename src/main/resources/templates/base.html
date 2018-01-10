@@ -126,8 +126,12 @@
                         <a th:href="@{/trainer/groups}"><i class="fa fa-users" aria-hidden="true"></i> Moje grupe</a>
                     </li>
 
-                    <li>
-                        <a href="my-trainings.html"><i class="fa fa-th-list" aria-hidden="true"></i> Moji treninzi</a>
+                    <li sec:authorize="hasAuthority('ATTENDANT')">
+                        <a th:href="@{/attendant/trainings}"><i class="fa fa-th-list" aria-hidden="true"></i> Moji treninzi</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/trainings}"><i class="fa fa-th-list" aria-hidden="true"></i> Moji treninzi</a>
                     </li>
 
                     <li>

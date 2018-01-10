@@ -1,6 +1,7 @@
 package com.errorsonogsvijeta.treningomat.controllers;
 
 import com.errorsonogsvijeta.treningomat.model.administration.GroupRequest;
+import com.errorsonogsvijeta.treningomat.model.training.Training;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -32,6 +34,8 @@ public class TrainerController {
     private GroupRequestService groupRequestService;
     @Autowired
     private TrainingGroupService trainingGroupService;
+    @Autowired
+    private TrainingService trainingService;
 
     @RequestMapping(value = "/trainers", method = RequestMethod.GET)
     public ModelAndView showAllTrainers() {
@@ -97,6 +101,19 @@ public class TrainerController {
             modelAndView.addObject("message", msg);
         }
 
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/trainer/trainings", method = RequestMethod.GET)
+    public ModelAndView getTrainings() {
+        ModelAndView modelAndView = new ModelAndView("trainings");
+
+        Trainer trainer = getLoggedTrainer();
+        List<Training> trainings = trainingService.findTrainingsByTrainingGroupInAndStartsAtBefore(trainer.getTrainingGroups(), new Date());
+
+
+        modelAndView.addObject("training", new Training());
+        modelAndView.addObject("trainings", trainings);
         return modelAndView;
     }
 
