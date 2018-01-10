@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
 
 <head th:include="base::head"></head>
 
@@ -39,7 +39,7 @@
                     <td th:text="${t.trainingGroup.sport.name}"></td>
                     <td th:text="${t.trainingGroup.trainer.fullName()}"></td>
                     <td>
-                        <button type="button" class="btn btn-success" data-toggle="modal"
+                        <button sec:authorize="hasAuthority('TRAINER')"  type="button" class="btn btn-success" data-toggle="modal"
                                 th:href="${'#attendantsModal'+t.id}"><i
                                 class="fa fa-check-square" aria-hidden="true"></i> Zabilježi prisutne
                         </button>
@@ -71,8 +71,6 @@
                                                                 </thead>
                                                                 <tbody>
                                                                 <tr th:each="a : ${t.trainingGroup.attendants}">
-                                                                    <input type="checkbox" th:field="*{attendants}" th:value="${a.id}"
-                                                                           th:checked="${t.attendants.contains(a)}"/>
                                                                     <td th:text="${a.name}"></td>
                                                                     <td th:text="${a.surname}"></td>
                                                                     <td>
@@ -101,40 +99,6 @@
                             </div>
                         </div>
 
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-info" data-toggle="modal" th:href="${'#ratingModal'+t.id}">
-                            <i class="fa fa-comments-o" aria-hidden="true"></i> Komentiraj i ocijeni
-                        </button>
-                        <div class="modal fade" th:id="${'ratingModal'+t.id}">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content">
-
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Unos komentara i ocjene za trening</h4>
-                                        <button type="button" class="close" data-dismiss="modal">&times;
-                                        </button>
-                                    </div>
-
-                                    <!-- Modal body -->
-                                    <div class="modal-body">
-                                        <form class="form-horizontal">
-                                            <div class="form-group">
-
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                    <!-- Modal footer -->
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-success">Pošalji</button>
-                                        <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </td>
                 </tr>
                 </tbody>

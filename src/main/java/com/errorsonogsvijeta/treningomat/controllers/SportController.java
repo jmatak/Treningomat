@@ -71,7 +71,7 @@ public class SportController {
         Sport sport = sportService.getSport(id);
         List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersBySport(sport);
 
-        modelAndView.addObject("groups", trainingGroups);
+        modelAndView.addObject("allTrainingGroups", trainingGroups);
         modelAndView.addObject("sportName", sport.getName());
         //TODO: trebo bi nekak dodat dali je za neki sport vec poslana prijava, pa ako je onemoguciti klik na gumb za slanje prijave
         return modelAndView;

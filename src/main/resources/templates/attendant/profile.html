@@ -38,7 +38,7 @@
                                         <form th:action="@{/attendant/receipt/}" method="post">
                                             <button type="submit" class="btn btn-danger btn-block" th:name="id"
                                                     th:value="${r.id}">
-                                                <span class="glyphicon glyphicon-barcode"></span>
+                                                <i class="fa fa-barcode" aria-hidden="true"></i>
                                                 Plati
                                             </button>
                                         </form>
@@ -64,8 +64,8 @@
                                     <td>
                                         <button type="button" class="btn btn-md btn-primary btn-block"
                                                 data-toggle="modal" th:href="${'#comment'+r.id}"
-                                                sec:authorize="hasAuthority('ATTENDANT')"><i
-                                        ></i> Ocijeni
+                                                sec:authorize="hasAuthority('ATTENDANT')"><i class="fa fa-star" aria-hidden="true"></i>
+                                            Ocijeni
                                         </button>
                                         <div class="modal fade" th:id="${'comment'+r.id}">
                                             <div class="modal-dialog modal-sm">
