@@ -78,8 +78,12 @@
                 </a>
 
                 <ul class="dropdown-menu dropdown-user">
-                    <li>
-                        <a href="personal-information.html"><i class="fa fa-address-card" aria-hidden="true"></i>
+                    <li sec:authorize="hasAuthority('ATTENDANT')">
+                        <a th:href="@{/attendant/info}"><i class="fa fa-address-card" aria-hidden="true"></i>
+                            Moji podaci</a>
+                    </li>
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/info}"><i class="fa fa-address-card" aria-hidden="true"></i>
                             Moji podaci</a>
                     </li>
                     <li class="divider"></li>

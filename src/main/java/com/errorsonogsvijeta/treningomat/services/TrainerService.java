@@ -29,11 +29,19 @@ public class TrainerService {
     }
 
     public void saveTrainer(Trainer trainer, String idPhoto) {
-        trainer.setPassword(bCryptPasswordEncoder.encode(trainer.getPassword()));
+        editPassword(trainer);
         trainer.setIdPhoto(idPhoto);
         Role role = roleRepository.findByRole("TRAINER");
         trainer.setRoles(new ArrayList<>(Collections.singletonList(role)));
         trainerRepository.save(trainer);
+    }
+
+    public void save(Trainer trainer) {
+        trainerRepository.save(trainer);
+    }
+
+    public void editPassword(Trainer trainer) {
+        trainer.setPassword(bCryptPasswordEncoder.encode(trainer.getPassword()));
     }
 
     public List<Trainer> findAll() {

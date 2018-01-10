@@ -80,6 +80,36 @@ public class TrainerController {
         return "redirect:/trainer/groupRequests";
     }
 
+    @RequestMapping(value = "/trainer/info", method = RequestMethod.GET)
+    public ModelAndView getTrainerInfo() {
+        return getProfileInfoMAV();
+    }
+
+    @RequestMapping(value = "/trainer/edit", method = RequestMethod.POST)
+    public ModelAndView editAttendantInfo(@Valid Trainer trainer, HttpServletRequest request) {
+        Trainer thisTrainer = getLoggedTrainer();
+
+        if (trainer.getPassword() != null &&
+                !trainer.getPassword().isEmpty() &&
+                !thisTrainer.getPassword().equals(trainer.getPassword())) {
+            thisTrainer.setPassword(trainer.getPassword());
+            trainerService.editPassword(thisTrainer);
+        }
+
+        thisTrainer.setCity(trainer.getCity());
+        thisTrainer.setAddress(trainer.getAddress());
+        trainerService.save(thisTrainer);
+
+        return new ModelAndView("redirect:/trainer/info");
+    }
+
+    private ModelAndView getProfileInfoMAV() {
+        ModelAndView modelAndView = new ModelAndView("trainer/personal-information");
+        modelAndView.addObject("allCities", cityService.findAll());
+        modelAndView.addObject("trainer", getLoggedTrainer());
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.GET)
     public ModelAndView addTrainer() {
         return createTrainerModelAndView();
