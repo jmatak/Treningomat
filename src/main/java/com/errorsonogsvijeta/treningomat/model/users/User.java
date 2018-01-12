@@ -12,7 +12,7 @@ public abstract class User {
     private String password;
     private List<Role> roles;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer getId() {
         return id;
     }

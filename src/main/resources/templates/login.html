@@ -75,13 +75,6 @@
                 </div>
 
                 <div class="container-input">
-                    <label>
-                        Korisničko ime <span class="req"></span>
-                    </label>
-                    <input type="text" th:field="*{username}" required="required"/>
-                </div>
-
-                <div class="container-input">
                     Mjesto stanovanja
                     <select th:field="*{city}">
                         <option th:each="c : ${allCities}" th:value="${c.id}" th:text="${c}">Grad</option>
@@ -98,6 +91,13 @@
                         OIB <span class="req"></span>
                     </label>
                     <input type="text" th:field="*{PID}" required="required"/>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        Korisničko ime <span class="req"></span>
+                    </label>
+                    <input type="text" th:field="*{username}" required="required"/>
                 </div>
 
                 <div class="container-input">

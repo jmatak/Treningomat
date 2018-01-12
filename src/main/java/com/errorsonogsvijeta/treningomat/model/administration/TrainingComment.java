@@ -14,7 +14,7 @@ public class TrainingComment {
     private Integer grade;
     private String description;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
