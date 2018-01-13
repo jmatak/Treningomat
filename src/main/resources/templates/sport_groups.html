@@ -47,7 +47,8 @@
                               class="pull-right button-group">
                             <form th:action="@{/group/{id}/request(id=${g.id})}" method="post">
                                 <button type="submit" class="btn btn-success"
-                                        th:disabled="${groupsAlreadySend.contains(g)} ? disabled"
+                                        th:disabled="${groupsAlreadySend.contains(g)} ? disabled : (${g.attendants.contains(attendant)} ? disabled)"
+
                                         aria-hidden="true"><span
                                         class="glyphicon glyphicon-envelope"></span> Pošalji prijavu</button>
                             </form>

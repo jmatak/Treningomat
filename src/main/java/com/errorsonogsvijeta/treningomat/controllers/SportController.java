@@ -87,7 +87,7 @@ public class SportController {
 
         Attendant attendant;
         List<GroupRequest> groupRequests = new ArrayList<>();
-        List<TrainingGroup>  attendantGroupsSend = new ArrayList<>();
+        List<TrainingGroup> attendantGroupsSend = new ArrayList<>();
 
 
         try {
@@ -97,7 +97,9 @@ public class SportController {
                 attendantGroupsSend.add(groupRequest.getToTrainingGroup());
             }
 
-        } catch (Exception ignored){
+            modelAndView.addObject("attendant", attendant);
+
+        } catch (Exception ignored) {
         }
 
         modelAndView.addObject("groupsAlreadySend", attendantGroupsSend);
