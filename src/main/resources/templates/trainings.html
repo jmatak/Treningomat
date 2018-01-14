@@ -39,6 +39,13 @@
                     <td th:text="${t.trainingGroup.sport.name}"></td>
                     <td th:text="${t.trainingGroup.trainer.fullName()}"></td>
                     <td>
+                        <form th:action="@{/training/{id}(id=${t.id})}" method="GET">
+                            <button type="submit" class="btn btn-primary"><i
+                                    class="fa fa-comments" aria-hidden="true"></i> Komentari
+                            </button>
+                        </form>
+                    </td>
+                    <td>
                         <button sec:authorize="hasAuthority('TRAINER')"  type="button" class="btn btn-success" data-toggle="modal"
                                 th:href="${'#attendantsModal'+t.id}"><i
                                 class="fa fa-check-square" aria-hidden="true"></i> Zabilježi prisutne
@@ -77,8 +84,7 @@
                                                                         <input type="checkbox"
                                                                                name="attendants"
                                                                                th:checked="${t.attendants.contains(a)}"
-                                                                               th:value="${a.id}"
-                                                                               />
+                                                                               th:value="${a.id}"/>
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>

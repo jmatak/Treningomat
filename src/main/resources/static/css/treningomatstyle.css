@@ -10,6 +10,9 @@ body {
   background-image: url(bg.jpg);
   background-size: 100% 100%;
 }
+#yellow-star {
+    color: yellow;
+}
 
 h1 {
   color: black;
@@ -433,4 +436,5 @@ table.dataTable thead .sorting:after {
     border-right-width: 14px;
     border-left-width: 0;
   }
+
 }
