@@ -2,27 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:include="base::head"></head>
-<style>
-    table, td, th {
-        padding: 15px;
-    }
-
-    table {
-        border: 1px solid black;
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    td, th {
-        border-bottom: 1px solid #ddd;
-    }
-</style>
 
 <body>
 <div th:replace="base :: header"></div>
 <div id="page-wrapper">
     <div class="container-fluid">
-        <h3>Svi računi:</h3>
+
+        <div style="width: 270px">
+            <div style="float: left; width: 120px">
+                <form th:action="@{/trainer/receipts/all}" method="get">
+                    <button type="submit" class="btn btn-primary active">Svi računi</button>
+                </form>
+            </div>
+            <div style="float: right; width: 150px">
+                <form th:action="@{/trainer/receipts/nonConfirmed}" method="get">
+                    <button type="submit" class="btn btn-primary active">Neplaćeni računi</button>
+                </form>
+            </div>
+        </div>
+        <br/><br/>
+
+        <h3>Računi:</h3>
 
         <div class="container">
             <div th:if="${#lists.isEmpty(receipts)}">
@@ -30,7 +30,7 @@
             </div>
 
             <div th:unless="${#lists.isEmpty(receipts)}">
-                <table>
+                <table class="table">
                     <tr>
                         <th>Racun stvoren</th>
                         <th>Ime</th>

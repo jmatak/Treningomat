@@ -133,6 +133,11 @@
                     <li sec:authorize="hasAuthority('TRAINER')">
                         <a th:href="@{/trainer/trainings}"><i class="fa fa-th-list" aria-hidden="true"></i> Moji treninzi</a>
                     </li>
+
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/receipts/nonConfirmed}"><i class="fa fa-barcode" aria-hidden="true"></i> Racuni korisnika</a>
+                    </li>
+
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

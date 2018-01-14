@@ -40,28 +40,42 @@ public class PaymentController {
     private TrainerService trainerService;
     @Autowired
     private AttendantService attendantService;
+    private String lastPath;
 
-    @RequestMapping(value = "/trainer/receipts", method = RequestMethod.GET)
+    @RequestMapping(value = "/trainer/receipts/all", method = RequestMethod.GET)
     public ModelAndView showAllReceipts() {
-        ModelAndView modelAndView = new ModelAndView("/trainer/receipts");
-
+        lastPath = "all";
         Trainer trainer = getLoggedTrainer();
         List<Receipt> receipts = paymentService.getReceiptsOfTrainerByDate(trainer);
+        return getMAVforReceipts(receipts);
+    }
 
+    @RequestMapping(value = "/trainer/receipts/nonConfirmed", method = RequestMethod.GET)
+    public ModelAndView showNonConfirmedReceipts() {
+        lastPath = "nonConfirmed";
+        Trainer trainer = getLoggedTrainer();
+        List<Receipt> receipts = paymentService.getNonPaidReceiptsOfTrainer(trainer);
+        return getMAVforReceipts(receipts);
+    }
+
+    ModelAndView getMAVforReceipts(List<Receipt> receipts) {
+        ModelAndView modelAndView = new ModelAndView("trainer/receipts");
         modelAndView.addObject("receipts", receipts);
         return modelAndView;
     }
+
 
     // TODO Javascript umjesto redirecta ?
     @RequestMapping(value = "/trainer/receipt/pay", method = RequestMethod.POST)
     public String markAsPaid(@RequestParam("id") Integer id, @RequestParam("paid") Boolean paid) {
         paymentService.markAsPaid(id, paid);
-        return "redirect:/trainer/receipts";
+
+        return "redirect:/trainer/receipts/" + lastPath;
     }
 
     @RequestMapping(value = {"/attendant/receipts"}, method = RequestMethod.GET)
     public ModelAndView getReceipts() {
-        ModelAndView modelAndView = new ModelAndView("/attendant/receipts");
+        ModelAndView modelAndView = new ModelAndView("attendant/receipts");
 
         Attendant attendant = getLoggedAttendant();
         List<Receipt> receipts = paymentService.getAllReceiptsOfAttendant(attendant);
@@ -72,7 +86,7 @@ public class PaymentController {
 
     @RequestMapping(value = {"/attendant/receipt/"}, method = RequestMethod.POST)
     public ModelAndView getReceipt(@RequestParam("id") Integer id) {
-        ModelAndView modelAndView = new ModelAndView("/attendant/receipt");
+        ModelAndView modelAndView = new ModelAndView("attendant/receipt");
 
         modelAndView.addObject("id", id);
         modelAndView.addObject("info", getInfo(paymentService.getReceipt(id)));

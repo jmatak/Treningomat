@@ -38,15 +38,27 @@ public class PaymentService {
         return receiptRepository.findAllByTrainingGroupIn(getGroups(trainer));
     }
 
+    public List<Receipt> getNonPaidReceiptsOfTrainer(Trainer trainer) {
+        return receiptRepository.findAllByConfirmedIsFalseAndTrainingGroupIn(getGroups(trainer));
+    }
+
     public List<Receipt> getReceiptsOfTrainerAlphabetical(Trainer trainer) {
         List<Receipt> receipts = getReceiptsOfTrainer(trainer);
+        receipts.sort(
+                Comparator.comparing((Receipt o3) -> o3.getAttendant().getSurname()).thenComparingInt(Receipt::getId));
         receipts.sort(Comparator.comparing(o -> o.getAttendant().getSurname()));
         return receipts;
     }
 
     public List<Receipt> getReceiptsOfTrainerByDate(Trainer trainer) {
         List<Receipt> receipts = getReceiptsOfTrainer(trainer);
-        receipts.sort(Comparator.comparing(Receipt::getCreatedDate).reversed());
+        receipts.sort(
+                Comparator
+                        .comparing(Receipt::getCreatedDate).reversed()
+                        .thenComparing(a -> a.getAttendant().getSurname())
+                        .thenComparing(Receipt::getId)
+        );
+
         return receipts;
     }
 
@@ -60,18 +72,18 @@ public class PaymentService {
         receiptRepository.save(receipt);
     }
 
-    public void generateReceipt(Subscription subscription) {
+    public void generateReceipt(Subscription subscription, Date date) {
         Receipt receipt = new Receipt();
         receipt.setAttendant(subscription.getAttendant());
         receipt.setTrainingGroup(subscription.getGroup());
-        receipt.setCreatedDate(new Date());
+        receipt.setCreatedDate(date);
         receipt.setConfirmed(false);
 
         saveReceipt(receipt);
     }
 
     private List<TrainingGroup> getGroups(Trainer trainer) {
-        return  trainingGroupService.getTrainersTrainingGroups(trainer);
+        return trainingGroupService.getTrainersTrainingGroups(trainer);
     }
 
 }

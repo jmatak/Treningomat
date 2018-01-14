@@ -16,4 +16,5 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
     List<Receipt> findAllByAttendantOrderByCreatedDateDesc(Attendant attendant);
     List<Receipt> findByConfirmedFalseAndAttendant(Attendant attendant);
     List<Receipt> findAllByTrainingGroupIn(Collection<TrainingGroup> groups);
+    List<Receipt> findAllByConfirmedIsFalseAndTrainingGroupIn(Collection<TrainingGroup> groups);
 }
