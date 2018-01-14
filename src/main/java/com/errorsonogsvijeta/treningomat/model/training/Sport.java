@@ -10,7 +10,7 @@ public class Sport {
     private String name;
     private String description;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer getId() {
         return id;
     }

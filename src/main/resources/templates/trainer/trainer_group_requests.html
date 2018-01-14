@@ -7,7 +7,7 @@
 <div th:replace="base :: header"></div>
 <div id="page-wrapper">
     <div class="container">
-        <h2>Zahtjevi za upad u grupu</h2>
+        <h2>Zahtjevi za ulaz u grupu</h2>
         <div class="container">
             <ul class="list-group">
                 <div th:each="gr : ${allGroupRequests}">
@@ -18,14 +18,14 @@
                         </div>
                         <span class="pull-right">
                         <form th:action="@{/trainer/groupRequest/decline/{id}(id=${gr.getId()})}" method="post">
-                            <button type="submit" class="btn btn-danger btn-block"><span
-                                    class="glyphicon glyphicon-remove"></span> Odbij</button>
+                            <button type="submit" class="btn btn-danger btn-block">
+                                <i class="fa fa-times" aria-hidden="true"></i> Odbij</button>
                         </form>
                     </span>
                         <span class="pull-right">
                         <form th:action="@{/trainer/groupRequest/accept/{id}(id=${gr.getId()})}" method="post">
-                            <button type="submit" class="btn btn-primary btn-block"><span
-                                    class="glyphicon glyphicon-ok"></span> Prihvati</button>
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fa fa-check" aria-hidden="true"></i> Prihvati</button>
                         </form>
                     </span>
                     </li>

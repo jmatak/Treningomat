@@ -20,7 +20,7 @@ public class TrainerCommentRequest {
         this.trainer = trainer;
     }
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer getId() {
         return id;
     }

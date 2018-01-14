@@ -1,5 +1,6 @@
 package com.errorsonogsvijeta.treningomat.services;
 
+import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Role;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import com.errorsonogsvijeta.treningomat.repository.RoleRepository;
@@ -34,6 +35,10 @@ public class TrainerService {
         Role role = roleRepository.findByRole("TRAINER");
         trainer.setRoles(new ArrayList<>(Collections.singletonList(role)));
         trainerRepository.save(trainer);
+    }
+
+    public List<Trainer> findTrainersByTrainingGroupsIn(List<TrainingGroup> groups) {
+        return trainerRepository.findTrainersByTrainingGroupsIn(groups);
     }
 
     public void save(Trainer trainer) {

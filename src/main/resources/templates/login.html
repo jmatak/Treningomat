@@ -31,7 +31,7 @@
 
         <!-- Log in -->
         <div id="log-in">
-            <h1>TRENINGOMAT</h1>
+            <a th:href="@{/home}"><h1>TRENINGOMAT</h1></a>
             <form th:action="@{/login}" method="post">
                 <div class="container-input">
                     <label>
@@ -79,6 +79,13 @@
                     <select th:field="*{city}">
                         <option th:each="c : ${allCities}" th:value="${c.id}" th:text="${c}">Grad</option>
                     </select>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        Ulica <span class="req"></span>
+                    </label>
+                    <input type="text" th:field="*{streetAndNumber}" required="required"/>
                 </div>
 
                 <div class="container-input">

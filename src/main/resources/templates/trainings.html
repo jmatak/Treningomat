@@ -74,8 +74,11 @@
                                                                     <td th:text="${a.name}"></td>
                                                                     <td th:text="${a.surname}"></td>
                                                                     <td>
-                                                                        <input type="checkbox" th:field="*{attendants}" th:value="${a.id}"
-                                                                               th:checked="${t.attendants.contains(a)}"/>
+                                                                        <input type="checkbox"
+                                                                               name="attendants"
+                                                                               th:checked="${t.attendants.contains(a)}"
+                                                                               th:value="${a.id}"
+                                                                               />
                                                                     </td>
                                                                 </tr>
                                                                 </tbody>

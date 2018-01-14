@@ -21,7 +21,7 @@ public class TrainingGroup {
     private BigDecimal amount;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer getId() {
         return id;
     }

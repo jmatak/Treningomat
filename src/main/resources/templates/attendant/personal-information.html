@@ -29,7 +29,7 @@
                                 <div class="text-center">
                                     <img th:src="@{'/images_attendants/' + ${attendant.idPhoto}}" alt="Avatar" width="200" height="200"/>
                                     <font color="white">
-                                        <h6>Upload a different photo...</h6></font>
+                                        <h6>Unesi novu fotografiju ...</h6></font>
                                     <input type="file" th:field="*{file}" class="form-control" id="File"
                                            disabled="true"/>
                                 </div>
@@ -37,31 +37,31 @@
                             <!-- edit form column -->
                             <div class="col-md-9 personal-info">
                                 <font color="white"/>
-                                <h3>Personal info</h3>
+                                <h3>Osobne informacije</h3>
 
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">First name:</label>
+                                    <label class="col-lg-3 control-label">Ime:</label>
                                     <div class="col-lg-8">
                                         <input class="form-control" type="text" th:value="${attendant.name}"
                                                id="FirstName" disabled="true"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Last name:</label>
+                                    <label class="col-lg-3 control-label">Prezime:</label>
                                     <div class="col-lg-8">
                                         <input class="form-control" type="text" th:value="${attendant.surname}"
                                                id="LastName" disabled="true"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Username:</label>
+                                    <label class="col-md-3 control-label">Korisničko ime:</label>
                                     <div class="col-md-8">
                                         <input class="form-control" type="text" th:value="*{username}"
                                                id="Username" disabled="true"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">City:</label>
+                                    <label class="col-lg-3 control-label">Grad:</label>
                                     <div class="col-lg-8">
                                         <select th:field="*{city}" class="form-control" id="City" disabled="true">
                                             <option th:each="c : ${allCities}" th:value="${c.id}" th:text="${c}">
@@ -71,7 +71,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Street and number:</label>
+                                    <label class="col-lg-3 control-label">Adresa:</label>
                                     <div class="col-lg-8">
                                         <input class="form-control" type="text" th:field="*{streetAndNumber}"
                                                id="StreetAndNumber" disabled="true"/>
@@ -79,19 +79,19 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Password:</label>
+                                    <label class="col-md-3 control-label">Nova lozinka:</label>
                                     <div class="col-md-8">
                                         <input class="form-control" type="password" th:field="*{password}"
-                                               placeholder="password(unchanged)" id="Password" disabled="true"
+                                               placeholder="*******" id="Password" disabled="true"
                                                onchange="change()"
                                         />
                                         <p id="passMessage"></p>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Confirm password:</label>
+                                    <label class="col-md-3 control-label">Potvrdi lozinku:</label>
                                     <div class="col-md-8">
-                                        <input class="form-control" type="password" placeholder="Confirm password"
+                                        <input class="form-control" type="password"
                                                id="ConfirmPassword" disabled="true"
                                                onchange="change()"
                                         />
@@ -100,11 +100,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-3 control-label">Comment Subscription:</label>
+                                    <label class="col-md-3 control-label">Pretplata na komentare:</label>
                                     <div class="col-md-8">
                                         <input style="height: 35px; width: 35px" type="checkbox"
                                                th:field="*{commentSubscription}"
-                                               placeholder="password(unchanged)" id="Subscription" disabled="true"/>
+                                               id="Subscription" disabled="true"/>
                                     </div>
                                 </div>
 

@@ -28,4 +28,20 @@ public class LoginController {
         modelAndView.setViewName("home");
         return modelAndView;
     }
+
+
+    @RequestMapping(value = {"/error"}, method = RequestMethod.GET)
+    public ModelAndView error() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("error");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/access-denied"}, method = RequestMethod.GET)
+    public ModelAndView accessDenied() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("access_denied");
+        return modelAndView;
+    }
+
 }

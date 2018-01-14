@@ -55,21 +55,12 @@
         <!-- /.navbar-header -->
 
         <ul class="nav navbar-top-links navbar-right">
-            <li sec:authorize="isAuthenticated()" class="dropdown">
-                <a th:href="@{/}" th:text="${#authentication.name}"><i class="fa fa-key"></i></a>
-            </li>
-
             <li class="dropdown">
                 <a th:href="@{/trainers}"><i class="fa fa-male" aria-hidden="true"></i> TRENERI</a>
             </li>
             <!-- /.dropdown -->
             <li class="dropdown">
                 <a th:href="@{/sports}"><i class="fa fa-futbol-o" aria-hidden="true"></i> SPORTOVI</a>
-            </li>
-
-            <!-- /.dropdown -->
-            <li sec:authorize="hasAuthority('ATTENDANT')" class="dropdown">
-                <a href="trainings.html"><i class="fa fa-tasks" aria-hidden="true"></i> TRENINZI</a>
             </li>
 
             <li sec:authorize="isAuthenticated()" class="dropdown">
@@ -105,21 +96,26 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a th:href="@{/playground}"><i class="fa fa-bicycle" aria-hidden="true"></i> Zajedničko
-                            igralište</a>
+                        <a th:href="@{/playground}"><i class="fa fa-bicycle" aria-hidden="true"></i>
+                            Zajedničko igralište</a>
                     </li>
 
                     <li sec:authorize="hasAuthority('ATTENDANT')">
-                        <a th:href="@{/attendant/profile}"><i class="fa fa-folder" aria-hidden="true"></i> Osobni
-                            pretinac</a>
+                        <a th:href="@{/attendant/profile}"><i class="fa fa-folder" aria-hidden="true"></i>
+                            Osobni pretinac</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/groupRequests}"><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                            Zahtjevi korisnika</a>
                     </li>
 
                     <li sec:authorize="hasAuthority('ATTENDANT') || hasAuthority('TRAINER')">
                         <a th:href="@{/calendar}"><i class="fa fa-table fa-fw"></i> Kalendar</a>
                     </li>
 
-                    <li>
-                        <a th:href="@{/trainers}"><i class="fa fa-male" aria-hidden="true"></i> Moji treneri</a>
+                    <li sec:authorize="hasAuthority('ATTENDANT')">
+                        <a th:href="@{/attendant/trainers}"><i class="fa fa-male" aria-hidden="true"></i> Moji treneri</a>
                     </li>
 
                     <li sec:authorize="hasAuthority('ATTENDANT')">
@@ -137,18 +133,6 @@
                     <li sec:authorize="hasAuthority('TRAINER')">
                         <a th:href="@{/trainer/trainings}"><i class="fa fa-th-list" aria-hidden="true"></i> Moji treninzi</a>
                     </li>
-
-                    <li sec:authorize="hasAuthority('TRAINER')">
-                        <a th:href="@{/trainer/groupRequests}"><i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                            Polaznici treninga</a>
-                    </li>
-
-                    <li sec:authorize="hasAuthority('TRAINER')">
-                        <a th:href="@{/trainer/groupRequests}"><i class="fa fa-check-square-o" aria-hidden="true"></i>
-                            Zahtjevi korisnika</a>
-                    </li>
-
-
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

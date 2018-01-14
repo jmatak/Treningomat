@@ -11,7 +11,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -41,6 +43,8 @@ public class AttendantController {
     private CityService cityService;
     @Autowired
     private TrainingService trainingService;
+    @Autowired
+    private TrainerService trainerService;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView viewProfile() {
@@ -252,6 +256,19 @@ public class AttendantController {
 
         modelAndView.addObject("training", new Training());
         modelAndView.addObject("trainings", trainings);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/trainers", method = RequestMethod.GET)
+    public ModelAndView getTrainers() {
+        ModelAndView modelAndView = new ModelAndView("trainers");
+
+        Attendant attendant = getLoggedAttendant();
+        List<Trainer> trainers = trainerService.findTrainersByTrainingGroupsIn(attendant.getTrainingGroups());
+
+
+        modelAndView.addObject("trainer", new Trainer());
+        modelAndView.addObject("allTrainers", trainers);
         return modelAndView;
     }
 

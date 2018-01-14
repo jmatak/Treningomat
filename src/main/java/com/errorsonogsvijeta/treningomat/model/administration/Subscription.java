@@ -14,7 +14,7 @@ public class Subscription {
     private Date subscriptionStart;
     private Date subscriptionEnd;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public int getId() {
         return id;
     }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -41,6 +42,9 @@ public class TrainerController {
     public ModelAndView showAllTrainers() {
         ModelAndView modelAndView = new ModelAndView("trainers");
 
+        modelAndView.addObject("allCities", cityService.findAll());
+        modelAndView.addObject("allSports", sportService.findAll());
+        modelAndView.addObject("trainer", new Trainer());
         modelAndView.addObject("allTrainers", trainerService.findAll());
 
         return modelAndView;
@@ -116,9 +120,7 @@ public class TrainerController {
     }
 
     @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.POST)
-    public ModelAndView createNewUser(@Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request) {
-        ModelAndView modelAndView = createTrainerModelAndView();
-
+    public String createNewUser(@Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request, RedirectAttributes attrs) {
         MultipartFile file = trainer.getFile();
         String fileName = "trainer_" + trainer.getUsername() + Util.getExtension(file.getOriginalFilename());
         String subdir = "trainers";
@@ -126,12 +128,12 @@ public class TrainerController {
 
         if (msg == null) {
             trainerService.saveTrainer(trainer, fileName);
-            modelAndView.addObject("message", "Trener je uspješno dodan.");
+            attrs.addFlashAttribute("message", "Trener je uspješno dodan.");
         } else {
-            modelAndView.addObject("message", msg);
+            attrs.addFlashAttribute("message", msg);
         }
 
-        return modelAndView;
+        return "redirect:/trainers";
     }
 
     @RequestMapping(value = "/trainer/trainings", method = RequestMethod.GET)

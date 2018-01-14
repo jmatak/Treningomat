@@ -30,12 +30,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.
 			authorizeRequests()
-				// TODO DEBUG
-				.antMatchers("/**").permitAll()
+				.antMatchers("/logo.png").permitAll()
+				.antMatchers("/images_trainers/**").permitAll()
 				.antMatchers("/login").permitAll()
-				.antMatchers("/registration").permitAll()
+				.antMatchers("/home").permitAll()
+				.antMatchers("/sports").permitAll()
+				.antMatchers("/trainers").permitAll()
 				.antMatchers("/trainer/**").hasAuthority("TRAINER")
 				.antMatchers("/attendant/**").hasAuthority("ATTENDANT")
+				.antMatchers("/calendar").hasAnyAuthority("TRAINER", "ATTENDANT")
+				.antMatchers("/playground").hasAnyAuthority("TRAINER", "ATTENDANT", "ADMIN")
 				.antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
 				.authenticated().and().csrf().disable().formLogin()
 				.loginPage("/login").failureUrl("/login?error=true")
@@ -50,9 +54,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-	    web
-	       .ignoring()
-	       .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+		web
+				.ignoring()
+				.antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
 	}
 
 }
