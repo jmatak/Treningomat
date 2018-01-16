@@ -122,7 +122,7 @@
                 <div class="thumbnail">
                     <img th:src="@{'/images_trainers/' + ${t.idPhoto}}" style="width:100%"/>
                     <div class="caption">
-                        <a th:href="@{/trainer/comments}" th:text="${t.name + ' ' + t.surname}"></a>
+                        <a th:href="@{/comments/trainer/{id}(id=${t.id})}" th:text="${t.name + ' ' + t.surname}"></a>
                         <p th:text="${t.address}"></p>
                         <p th:text="${t.phoneNumber}"></p>
                     </div>

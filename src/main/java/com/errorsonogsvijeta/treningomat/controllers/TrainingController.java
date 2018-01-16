@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Controller
 public class TrainingController {
-    private final static int TRAININGS_COUNT = 2;
+    private final static int TRAININGS_COUNT = 5;
 
     @Autowired
     private TrainerService trainerService;

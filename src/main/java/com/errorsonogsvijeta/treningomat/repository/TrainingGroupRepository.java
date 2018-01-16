@@ -17,4 +17,6 @@ public interface TrainingGroupRepository extends JpaRepository<TrainingGroup, In
     List<TrainingGroup> findAllByTrainer(Trainer trainer);
     List<TrainingGroup> findByAttendantsContains(Attendant attendant);
     List<TrainingGroup> findAllBySportOrderByName(Sport sport);
+    TrainingGroup findTrainingGroupById(Integer id);
+
 }

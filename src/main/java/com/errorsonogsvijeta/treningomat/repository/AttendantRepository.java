@@ -9,6 +9,6 @@ import java.util.List;
 public interface AttendantRepository extends JpaRepository<Attendant, Integer> {
     Attendant findAttendantByUsername(String username);
     List<Attendant> findAllByTrainingGroups(TrainingGroup trainingGroup);
-    Attendant findAttendantsById(Integer id);
+    Attendant findAttendantById(Integer id);
 }
 

@@ -33,7 +33,6 @@
                 </thead>
                 <tbody>
 
-
                 <div th:each="a : ${attendants}">
 
                     <tr>
@@ -46,6 +45,13 @@
                         <td th:text="${a.PID}"></td>
                         <td th:text="${a.streetAndNumber} + ', ' + ${a.city}"></td>
                         <td><i class="fa" th:classappend="${a.active} ? fa-check : fa-ban" aria-hidden="true"></i></td>
+                        <td>
+                            <div class="form-group">
+                            <form th:action="@{/trainer/warning/{aid}/{tid}/send(aid=${a.id},tid=${group.id})}" method="post">
+                                <button type="submit" class="btn btn-warning" th:disabled="${a.active} ? disabled"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>Upozorenje</button>
+                            </form>
+                            </div>
+                        </td>
                         <td>
                             <div class="form-group">
                                 <button type="button" class="btn btn-danger" data-toggle="modal"

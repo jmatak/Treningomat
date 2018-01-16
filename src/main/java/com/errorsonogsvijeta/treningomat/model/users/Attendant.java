@@ -86,7 +86,7 @@ public class Attendant extends User {
         this.trainings = trainings;
     }
 
-    @Column
+    @Transient
     public Boolean getActive() {
         return active;
     }

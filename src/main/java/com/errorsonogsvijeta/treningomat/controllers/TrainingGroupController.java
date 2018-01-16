@@ -4,6 +4,7 @@ import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import com.errorsonogsvijeta.treningomat.services.AttendantService;
+import com.errorsonogsvijeta.treningomat.services.PaymentService;
 import com.errorsonogsvijeta.treningomat.services.TrainerService;
 import com.errorsonogsvijeta.treningomat.services.TrainingGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class TrainingGroupController {
     private TrainingGroupService trainingGroupService;
     @Autowired
     private AttendantService attendantService;
+    @Autowired
+    private PaymentService paymentService;
 
 
     @RequestMapping(value = "/trainer/groups", method = RequestMethod.GET)
@@ -111,7 +114,11 @@ public class TrainingGroupController {
 
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(id);
         List<Attendant> attendants = attendantService.getAllAttendantsOfAGroup(trainingGroup);
-        attendants.sort((o1, o2) -> Boolean.compare(o1.getActive(), o2.getActive()));
+
+        for (Attendant attendant : attendants) {
+            attendant.setActive(!paymentService.hasUnpaid(attendant, trainingGroup));
+        }
+        attendants.sort((o1, o2) -> -Boolean.compare(o1.getActive(), o2.getActive()));
 
         modelAndView.addObject("attendants", attendants);
         modelAndView.addObject("group", trainingGroup);

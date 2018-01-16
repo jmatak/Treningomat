@@ -51,6 +51,10 @@ public class TrainingGroupService {
         return trainingGroups;
     }
 
+    public TrainingGroup findTrainingGroupById(Integer id) {
+        return trainingGroupRepository.findTrainingGroupById(id);
+    }
+
     public List<TrainingGroup> getTrainingGroupsBySport(Sport sport) {
         return trainingGroupRepository.findAllBySportOrderByName(sport);
     }

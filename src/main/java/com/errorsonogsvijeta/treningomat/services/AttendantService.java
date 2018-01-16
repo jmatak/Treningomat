@@ -21,13 +21,16 @@ public class AttendantService {
     }
 
     public Attendant getAttendantById(Integer id){
-        return attendantRepository.findAttendantsById(id);
+        return attendantRepository.findAttendantById(id);
     }
 
     public Attendant findAttendantByUsername(String username) {
         return attendantRepository.findAttendantByUsername(username);
     }
 
+    public Attendant findAttendantById(Integer id) {
+        return attendantRepository.findAttendantById(id);
+    }
     public void save(Attendant attendant) {
         attendantRepository.save(attendant);
     }

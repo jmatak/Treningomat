@@ -45,6 +45,8 @@ public class AttendantController {
     private TrainingService trainingService;
     @Autowired
     private TrainerService trainerService;
+    @Autowired
+    private SubscriptionWarningService subscriptionWarningService;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView viewProfile() {
@@ -57,6 +59,9 @@ public class AttendantController {
         List<TrainerCommentRequest> trainerCommentRequests = trainerCommentRequestService.findTrainerCommentRequestsByAttendant(
                 attendant);
 
+        List<SubscriptionWarning> warnings = subscriptionWarningService.findSubscriptionWarningsByAttendant(attendant);
+
+        modelAndView.addObject("warnings", warnings);
         modelAndView.addObject("commentSubscription", attendant.getCommentSubscription());
         modelAndView.addObject("allTrainingCommentRequests", trainingCommentRequests);
         modelAndView.addObject("allTrainerCommentRequests", trainerCommentRequests);
@@ -77,6 +82,15 @@ public class AttendantController {
         modelAndView.addObject("trainer", new Trainer());
 
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/warning/{id}/delete", method = RequestMethod.POST)
+    public ModelAndView removeWarning(@PathVariable Integer id) {
+        SubscriptionWarning warning = subscriptionWarningService.findSubscriptionWarningById(id);
+
+        subscriptionWarningService.delete(warning);
+
+        return new ModelAndView("redirect:/attendant/profile");
     }
 
     @RequestMapping(value = "/group/{id}/leave", method = RequestMethod.POST)

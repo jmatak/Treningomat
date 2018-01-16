@@ -1,6 +1,8 @@
 package com.errorsonogsvijeta.treningomat.controllers;
 
 import com.errorsonogsvijeta.treningomat.model.administration.GroupRequest;
+import com.errorsonogsvijeta.treningomat.model.administration.SubscriptionWarning;
+import com.errorsonogsvijeta.treningomat.model.administration.TrainerComment;
 import com.errorsonogsvijeta.treningomat.model.training.Training;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
@@ -14,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -38,7 +41,13 @@ public class TrainerController {
     @Autowired
     private TrainingService trainingService;
     @Autowired
+    private TrainerCommentService trainerCommentService;
+    @Autowired
     private SubscriptionService subscriptionService;
+    @Autowired
+    private AttendantService attendantService;
+    @Autowired
+    private SubscriptionWarningService subscriptionWarningService;
 
     @RequestMapping(value = "/trainers", method = RequestMethod.GET)
     public ModelAndView showAllTrainers() {
@@ -150,6 +159,34 @@ public class TrainerController {
         modelAndView.addObject("training", new Training());
         modelAndView.addObject("trainings", trainings);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/comments/trainer/{id}", method = RequestMethod.GET)
+    public ModelAndView getTrainerComments(@PathVariable Integer id) {
+        ModelAndView modelAndView = new ModelAndView("trainer/comments");
+
+        Trainer trainer = trainerService.findTrainerById(id);
+        if (trainer == null) {
+            return new ModelAndView("redirect:/error");
+        }
+        List<TrainerComment> trainerComments = trainerCommentService.findTrainerCommentsByTrainer(trainer);
+
+        modelAndView.addObject("trainer", trainer);
+        modelAndView.addObject("trainerComments", trainerComments);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/trainer/warning/{aid}/{tid}/send", method = RequestMethod.POST)
+    public String sendWarning(@PathVariable Integer aid,@PathVariable Integer tid) {
+        ModelAndView modelAndView = new ModelAndView("trainer/group_attendants");
+
+        Attendant attendant = attendantService.findAttendantById(aid);
+        TrainingGroup group = trainingGroupService.findTrainingGroupById(tid);
+
+        SubscriptionWarning warning = new SubscriptionWarning(attendant, group);
+        subscriptionWarningService.save(warning);
+
+        return "redirect:/trainer/group/" + tid + "/attendants";
     }
 
     private ModelAndView createTrainerModelAndView() {
