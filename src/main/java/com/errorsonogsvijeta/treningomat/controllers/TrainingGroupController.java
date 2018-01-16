@@ -3,27 +3,18 @@ package com.errorsonogsvijeta.treningomat.controllers;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
-import com.errorsonogsvijeta.treningomat.services.AttendantService;
-import com.errorsonogsvijeta.treningomat.services.PaymentService;
-import com.errorsonogsvijeta.treningomat.services.TrainerService;
-import com.errorsonogsvijeta.treningomat.services.TrainingGroupService;
+import com.errorsonogsvijeta.treningomat.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class TrainingGroupController {
@@ -33,6 +24,8 @@ public class TrainingGroupController {
     private TrainingGroupService trainingGroupService;
     @Autowired
     private AttendantService attendantService;
+    @Autowired
+    private SubscriptionService subscriptionService;
     @Autowired
     private PaymentService paymentService;
 
@@ -130,6 +123,7 @@ public class TrainingGroupController {
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(groupId);
         Attendant attendant = attendantService.getAttendantById(attendantId);
 
+        subscriptionService.unsuscribe(attendant, trainingGroup);
         trainingGroup.getAttendants().remove(attendant);
 
         trainingGroupService.saveTrainingGroup(trainingGroup);

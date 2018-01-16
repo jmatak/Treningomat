@@ -2,9 +2,8 @@ package com.errorsonogsvijeta.treningomat.services;
 
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Role;
-import com.errorsonogsvijeta.treningomat.repository.*;
+import com.errorsonogsvijeta.treningomat.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;

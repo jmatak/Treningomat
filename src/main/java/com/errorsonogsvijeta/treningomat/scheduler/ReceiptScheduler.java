@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.HOURS;
 import static java.time.temporal.ChronoUnit.MONTHS;
 
 @Component
@@ -34,7 +35,7 @@ public class ReceiptScheduler {
     private static final Logger log = LoggerFactory.getLogger(ReceiptScheduler.class);
 
     // https://stackoverflow.com/questions/26147044/spring-cron-expression-for-every-day-101am
-    @Scheduled(cron = "0 2 20 * * ?")
+    @Scheduled(cron = "0 1 0 * * ?")
     private void updateReceipts() {
         Date lastRun = new Date(eventRepository.findByName(LAST_GENERATED).getDate().getTime());
         if (DAYS.between(convertDate(lastRun), getYesterday()) == 0) {
@@ -61,7 +62,8 @@ public class ReceiptScheduler {
     public int generateReceiptsFor(LocalDate localDate) {
         int n = 0;
 
-        List<Subscription> subscriptions = subscriptionRepository.findAllBySubscriptionEndNull();
+        List<Subscription> subscriptions =
+                subscriptionRepository.findAllBySubscriptionEndNullOrSubscriptionEnd(convertDate(localDate));
         for (Subscription subscription : subscriptions) {
             n += generateIfNeeded(subscription, localDate) ? 1 : 0;
         }
@@ -69,14 +71,18 @@ public class ReceiptScheduler {
         return n;
     }
 
-    // ako je taj dan u mjesecu, onda generirati
     private boolean generateIfNeeded(Subscription subscription, LocalDate localDate) {
         Date date = new Date(subscription.getSubscriptionStart().getTime());
         LocalDate generationDate = getGenerationDate(date, localDate);
 
         if (generationDate.until(localDate, ChronoUnit.DAYS) == 0) {
-            generateReceipt(subscription, convertDate(generationDate));
-            return true;
+            // ako pretplata jos traje ili je pocela danas(i zavrsila) onda generiraj
+            if (subscription.getSubscriptionEnd() == null ||
+                    DAYS.between(convertDate(subscription.getSubscriptionStart()), LocalDate.now().minusDays(1)) == 0
+            ) {
+                generateReceipt(subscription, convertDate(generationDate));
+                return true;
+            }
         }
         return false;
     }

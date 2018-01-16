@@ -47,6 +47,8 @@ public class AttendantController {
     private TrainerService trainerService;
     @Autowired
     private SubscriptionWarningService subscriptionWarningService;
+    @Autowired
+    private SubscriptionService subscriptionService;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView viewProfile() {
@@ -98,6 +100,7 @@ public class AttendantController {
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(id);
         Attendant attendant = getLoggedAttendant();
 
+        subscriptionService.unsuscribe(attendant, trainingGroup);
         trainingGroup.getAttendants().remove(attendant);
         trainingGroupService.saveTrainingGroup(trainingGroup);
 

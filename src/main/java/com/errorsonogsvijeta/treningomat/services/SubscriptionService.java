@@ -8,6 +8,8 @@ import com.errorsonogsvijeta.treningomat.repository.SubscriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Service
@@ -24,13 +26,25 @@ public class SubscriptionService {
         subscriptionRepository.save(subscription);
     }
 
-    // todo izvrsiti na odgovarajucim mjestima
-    void unsuscribe(Attendant attendant, TrainingGroup group) {
+    // todo postoji li jos neki nacin napustanja grupe?
+    public void unsuscribe(Attendant attendant, TrainingGroup group) {
         Subscription subscription =
         subscriptionRepository.findAllByAttendantAndGroupAndSubscriptionEndNull(attendant, group);
 
-        // todo visekratnik datuma pocetka pretplate
-        subscription.setSubscriptionEnd(new Date());
+        subscription.setSubscriptionEnd(plusMonths(subscription.getSubscriptionStart(), 1));
         subscriptionRepository.save(subscription);
+    }
+
+    private Date plusMonths(Date date, int months) {
+        return convertDate(convertDate(date).plusMonths(months));
+    }
+
+    // todo kopirano iz ReceiptSchedulera, izdvojiti negdje
+    private LocalDate convertDate(Date date) {
+        return new Date(date.getTime()).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    private Date convertDate(LocalDate date) {
+        return Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }
