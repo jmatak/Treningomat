@@ -51,7 +51,7 @@ public class TrainingGroupService {
         return trainingGroups;
     }
 
-    public List<TrainingGroup> getTrainersBySport(Sport sport) {
-        return trainingGroupRepository.findAllBySport(sport);
+    public List<TrainingGroup> getTrainingGroupsBySport(Sport sport) {
+        return trainingGroupRepository.findAllBySportOrderByName(sport);
     }
 }

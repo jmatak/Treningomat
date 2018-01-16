@@ -82,8 +82,11 @@ public class PaymentService {
         saveReceipt(receipt);
     }
 
+    public boolean hasUnpaid(Attendant attendant, TrainingGroup group) {
+        return !receiptRepository.findAllByAttendantAndTrainingGroupAndConfirmedIsFalse(attendant, group).isEmpty();
+    }
+
     private List<TrainingGroup> getGroups(Trainer trainer) {
         return trainingGroupService.getTrainersTrainingGroups(trainer);
     }
-
 }

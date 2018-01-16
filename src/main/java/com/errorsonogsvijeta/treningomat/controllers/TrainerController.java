@@ -37,6 +37,8 @@ public class TrainerController {
     private TrainingGroupService trainingGroupService;
     @Autowired
     private TrainingService trainingService;
+    @Autowired
+    private SubscriptionService subscriptionService;
 
     @RequestMapping(value = "/trainers", method = RequestMethod.GET)
     public ModelAndView showAllTrainers() {
@@ -71,6 +73,7 @@ public class TrainerController {
         attendants.add(attendant);
 
         trainingGroupService.saveTrainingGroup(toTrainingGroup);
+        subscriptionService.subscribe(groupRequest);
         groupRequestService.deleteGroupRequest(id);
 
         return "redirect:/trainer/groupRequests";

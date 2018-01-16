@@ -8,7 +8,6 @@ import com.errorsonogsvijeta.treningomat.services.AttendantService;
 import com.errorsonogsvijeta.treningomat.services.GroupRequestService;
 import com.errorsonogsvijeta.treningomat.services.SportService;
 import com.errorsonogsvijeta.treningomat.services.TrainingGroupService;
-import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -83,10 +82,10 @@ public class SportController {
         ModelAndView modelAndView = new ModelAndView("sport_groups");
 
         Sport sport = sportService.getSport(id);
-        List<TrainingGroup> trainingGroups = trainingGroupService.getTrainersBySport(sport);
+        List<TrainingGroup> trainingGroups = trainingGroupService.getTrainingGroupsBySport(sport);
 
         Attendant attendant;
-        List<GroupRequest> groupRequests = new ArrayList<>();
+        List<GroupRequest> groupRequests;
         List<TrainingGroup> attendantGroupsSend = new ArrayList<>();
 
 
@@ -105,7 +104,7 @@ public class SportController {
         modelAndView.addObject("groupsAlreadySend", attendantGroupsSend);
         modelAndView.addObject("allTrainingGroups", trainingGroups);
         modelAndView.addObject("sportName", sport.getName());
-        //TODO: trebo bi nekak dodat dali je za neki sport vec poslana prijava, pa ako je onemoguciti klik na gumb za slanje prijave
+
         return modelAndView;
     }
 

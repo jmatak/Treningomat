@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -30,7 +31,7 @@ public class GroupRequestController {
     private AttendantService attendantService;
 
     @RequestMapping(value = "/{id}/request", method = RequestMethod.POST)
-    public ModelAndView saveGroupRequest(@PathVariable("id") Integer groupId) {
+    public String saveGroupRequest(@PathVariable("id") Integer groupId) {
         Attendant attendant = getLoggedAttendant();
 
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(groupId);
@@ -41,8 +42,19 @@ public class GroupRequestController {
         if (!groupRequests.contains(groupRequest) && !trainingGroup.getAttendants().contains(attendant)) {
             groupRequestService.save(groupRequest);
         }
-        //TODO: Redirect opet na listu grupa ili negdje drugdje ?
-        return new ModelAndView("redirect:" + "/sport/" + trainingGroup.getSport().getId() + "/groups");
+
+        return "redirect:" + "/sport/" + trainingGroup.getSport().getId() + "/groups";
+    }
+
+    @RequestMapping(value = "/{id}/cancel", method = RequestMethod.POST)
+    public String cancelRequest(@PathVariable("id") Integer groupId) {
+        Attendant attendant = getLoggedAttendant();
+
+        TrainingGroup group = trainingGroupService.getTrainingGroup(groupId);
+        GroupRequest request = groupRequestService.getGroupRequestsByAttendantAndToTrainingGroupIn(attendant, Collections.singletonList(group)).get(0);
+        groupRequestService.deleteGroupRequest(request.getId());
+
+        return "redirect:/sport/" + group.getSport().getId() + "/groups";
     }
 
 

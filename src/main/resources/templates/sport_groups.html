@@ -43,15 +43,20 @@
                         <td th:text="${g.attendants.size()}"></td>
 
                         <td>
-                        <span sec:authorize="hasAuthority('ATTENDANT')"
-                              class="pull-right button-group">
-                            <form th:action="@{/group/{id}/request(id=${g.id})}" method="post">
-                                <button type="submit" class="btn btn-success"
-                                        th:disabled="${groupsAlreadySend.contains(g)} ? disabled : (${g.attendants.contains(attendant)} ? disabled)"
-
-                                        aria-hidden="true"><span
-                                        class="glyphicon glyphicon-envelope"></span> Pošalji prijavu</button>
-                            </form>
+                        <span sec:authorize="hasAuthority('ATTENDANT')" class="pull-right button-group">
+                            <div th:unless="${groupsAlreadySend.contains(g)}">
+                                <form th:action="@{/group/{id}/request(id=${g.id})}" method="post">
+                                      <button type="submit" class="btn btn-success"
+                                         th:disabled="${g.attendants.contains(attendant)} ? disabled" aria-hidden="true">
+                                      <span class="fa fa-envelope"></span> Pošalji prijavu</button>
+                                </form>
+                            </div>
+                            <div th:if="${groupsAlreadySend.contains(g)}">
+                                <form th:action="@{/group/{id}/cancel(id=${g.id})}" method="post">
+                                      <button type="submit" class="btn btn-danger" aria-hidden="true">
+                                      <span class="fa fa-envelope"></span> Poništi prijavu</button>
+                                </form>
+                            </div>
                         </span>
                         </td>
                     </tr>
