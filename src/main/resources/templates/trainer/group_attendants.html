@@ -28,6 +28,7 @@
                     <th>Korisničko ime</th>
                     <th>OIB</th>
                     <th>Adresa</th>
+                    <th>Platio pretplatu</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,6 +45,7 @@
                         <td th:text="${a.username}"></td>
                         <td th:text="${a.PID}"></td>
                         <td th:text="${a.streetAndNumber} + ', ' + ${a.city}"></td>
+                        <td><i class="fa" th:classappend="${a.active} ? fa-check : fa-ban" aria-hidden="true"></i></td>
                         <td>
                             <div class="form-group">
                                 <button type="button" class="btn btn-danger" data-toggle="modal"

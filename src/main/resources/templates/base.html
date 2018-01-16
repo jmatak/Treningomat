@@ -110,8 +110,12 @@
                             Zahtjevi korisnika</a>
                     </li>
 
-                    <li sec:authorize="hasAuthority('ATTENDANT') || hasAuthority('TRAINER')">
-                        <a th:href="@{/calendar}"><i class="fa fa-table fa-fw"></i> Kalendar</a>
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/calendar}"><i class="fa fa-table fa-fw"></i> Kalendar</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('ATTENDANT')">
+                        <a th:href="@{/attendant/calendar}"><i class="fa fa-table fa-fw"></i> Kalendar</a>
                     </li>
 
                     <li sec:authorize="hasAuthority('ATTENDANT')">

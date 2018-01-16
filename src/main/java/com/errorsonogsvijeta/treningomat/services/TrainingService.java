@@ -24,8 +24,8 @@ public class TrainingService {
         return trainingRepository.countTrainingsWhereAttendantAndTrainerAre(attendant.getId(), trainer.getId());
     }
 
-    public List<Training> findTrainingsByTrainingGroupInAndEndsAtAfter(List<TrainingGroup> groups, Date date) {
-        return trainingRepository.findTrainingsByTrainingGroupInAndEndsAtAfter(groups, date);
+    public List<Training> findTrainingsByTrainingGroupIn(List<TrainingGroup> groups) {
+        return trainingRepository.findTrainingsByTrainingGroupIn(groups);
     }
 
     public List<Training> findTrainingsByTrainingGroupInAndStartsAtBefore(List<TrainingGroup> groups, Date date) {

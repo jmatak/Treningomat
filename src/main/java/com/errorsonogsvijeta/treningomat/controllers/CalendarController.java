@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/calendar")
 public class CalendarController {
     @Autowired
     private TrainingService trainingService;
@@ -28,19 +27,23 @@ public class CalendarController {
     @Autowired
     private TrainerService trainerService;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public ModelAndView getCalendar() {
+    @RequestMapping(value = "attendant/calendar", method = RequestMethod.GET)
+    public ModelAndView getAttendantCalendar() {
         ModelAndView modelAndView = new ModelAndView("calendar");
 
-        List<Term> terms = null;
-        List<TrainingGroup> groups = null;
-        if (getLoggedAttendant() != null) {
-            groups = getLoggedAttendant().getTrainingGroups();
-            terms = Term.toTerms(trainingService.findTrainingsByTrainingGroupInAndEndsAtAfter(groups, new Date()));
-        } else {
-            groups = getLoggedTrainer().getTrainingGroups();
-            terms = Term.toTerms(trainingService.findTrainingsByTrainingGroupInAndEndsAtAfter(groups, new Date()));
-        }
+        List<TrainingGroup> groups = getLoggedAttendant().getTrainingGroups();
+        List<Term> terms = Term.toTerms(trainingService.findTrainingsByTrainingGroupIn(groups));
+
+        modelAndView.addObject("events", terms);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "trainer/calendar", method = RequestMethod.GET)
+    public ModelAndView getTrainerCalendar() {
+        ModelAndView modelAndView = new ModelAndView("calendar");
+
+        List<TrainingGroup> groups = groups = getLoggedTrainer().getTrainingGroups();
+        List<Term> terms = Term.toTerms(trainingService.findTrainingsByTrainingGroupIn(groups));
 
         modelAndView.addObject("allGroups", groups);
         modelAndView.addObject("training", new Training());

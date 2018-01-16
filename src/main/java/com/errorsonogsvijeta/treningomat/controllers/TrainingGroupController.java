@@ -19,7 +19,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class TrainingGroupController {
@@ -104,10 +107,11 @@ public class TrainingGroupController {
 
     @RequestMapping(value = "/trainer/group/{id}/attendants", method = RequestMethod.GET)
     public ModelAndView getListOfAttendants(@PathVariable("id") Integer id) {
-        ModelAndView modelAndView = new ModelAndView("/trainer/group_attendants");
+        ModelAndView modelAndView = new ModelAndView("trainer/group_attendants");
 
         TrainingGroup trainingGroup = trainingGroupService.getTrainingGroup(id);
         List<Attendant> attendants = attendantService.getAllAttendantsOfAGroup(trainingGroup);
+        attendants.sort((o1, o2) -> Boolean.compare(o1.getActive(), o2.getActive()));
 
         modelAndView.addObject("attendants", attendants);
         modelAndView.addObject("group", trainingGroup);

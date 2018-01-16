@@ -21,7 +21,7 @@
         </button>
 
         <!-- The Modal -->
-        <div class="modal fade" id="myModal">
+        <div sec:authorize="hasAuthority('TRAINER')" class="modal fade" id="myModal">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
 

@@ -19,7 +19,7 @@ public interface TrainingRepository extends JpaRepository<Training, Integer> {
             "AND attendants_id = :attendantId", nativeQuery = true)
     Integer countTrainingsWhereAttendantAndTrainerAre(@Param("attendantId")Integer attendantId,@Param("trainerId")Integer trainerId);
 
-    List<Training> findTrainingsByTrainingGroupInAndEndsAtAfter(List<TrainingGroup> groups, Date date);
+    List<Training> findTrainingsByTrainingGroupIn(List<TrainingGroup> groups);
 
     List<Training> findTrainingsByTrainingGroupInAndStartAtBefore(List<TrainingGroup> groups, Date date);
 
