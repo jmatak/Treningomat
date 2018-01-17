@@ -37,8 +37,8 @@
 
                     <tr>
                         <td>
-                            <div class="box"><img th:src="@{'/images_attendants/' + ${a.idPhoto}}" class="img-circle"
-                                                  width="70" height="70"/></div>
+                            <div class="box"><img th:src="@{'/images_attendants/' + ${a.idPhoto}}" class="img-rounded"
+                                                  width="108" height="70"/></div>
                         </td>
                         <td th:text="${a.name} + ' ' + ${a.surname}"></td>
                         <td th:text="${a.username}"></td>

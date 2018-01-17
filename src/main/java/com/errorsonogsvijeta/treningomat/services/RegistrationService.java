@@ -18,6 +18,7 @@ public class RegistrationService {
     public void saveAttendant(Attendant attendant, String idPhoto) {
         attendantService.editPassword(attendant);
         attendant.setIdPhoto(idPhoto);
+        attendant.setIdProfilePhoto("default-profile.png");
         attendant.setActive(false);
         attendant.setCommentSubscription(true);
         Role role = roleRepository.findByRole("ATTENDANT");

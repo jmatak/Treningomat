@@ -145,13 +145,13 @@ public class AttendantController {
         trainingCommentService.save(comment);
         trainingCommentRequestService.delete(id);
 
-        return  "redirect:/attendant/profile";
+        return "redirect:/attendant/profile";
     }
 
     @RequestMapping(value = "/trainingComments/delete/{id}", method = RequestMethod.POST)
     public String deleteTrainingCommentRequest(@PathVariable Integer id) {
         trainingCommentRequestService.delete(id);
-        return  "redirect:/attendant/profile";
+        return "redirect:/attendant/profile";
     }
 
     @Deprecated
@@ -177,7 +177,7 @@ public class AttendantController {
 //        modelAndView.addObject("request", request);
 //        modelAndView.addObject("comment", new TrainingComment());
 
-        return  new ModelAndView("redirect:/attendant/profile");
+        return new ModelAndView("redirect:/attendant/profile");
     }
 
     @RequestMapping(value = "/trainerComments/comment/{id}", method = RequestMethod.POST)
@@ -191,14 +191,14 @@ public class AttendantController {
         trainerCommentService.save(comment);
         trainerCommentRequestService.delete(id);
 
-        return  "redirect:/attendant/profile";
+        return "redirect:/attendant/profile";
     }
 
     @RequestMapping(value = "/trainerComments/delete/{id}", method = RequestMethod.POST)
     public String deleteTrainerCommentRequest(@PathVariable Integer id) {
         trainerCommentRequestService.delete(id);
 
-        return  "redirect:/attendant/profile";
+        return "redirect:/attendant/profile";
     }
 
 
@@ -229,17 +229,15 @@ public class AttendantController {
         }
 
         MultipartFile file = attendant.getFile();
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
-            thisAttendant.setFile(file);
-            String fileName = "attendant_" + thisAttendant.getUsername() + Util.getExtension(
-                    file.getOriginalFilename());
-            String subdir = "attendants";
-            String msg = Util.writeToFile(file, subdir, fileName, request);
+        String msg = addFile(file, thisAttendant, attendant, request, "");
+        if (!msg.isEmpty()) {
+            return error(msg);
+        }
 
-            if (msg != null) return error(msg);
-
-            thisAttendant.setFile(attendant.getFile());
-            thisAttendant.setIdPhoto(fileName);
+        MultipartFile file2 = attendant.getFileProfile();
+        msg = addFile(file2, thisAttendant, attendant, request, "_profile");
+        if (!msg.isEmpty()) {
+            return error(msg);
         }
 
         thisAttendant.setCity(attendant.getCity());
@@ -248,6 +246,28 @@ public class AttendantController {
         attendantService.save(thisAttendant);
 
         return new ModelAndView("redirect:/attendant/info");
+    }
+
+    private String addFile(MultipartFile file, Attendant thisAttendant, Attendant attendant, HttpServletRequest request, String profilePhoto) {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            String fileName = "attendant_" + thisAttendant.getUsername() + profilePhoto + Util.getExtension(
+                    file.getOriginalFilename());
+            String subdir = "attendants";
+            String msg = Util.writeToFile(file, subdir, fileName, request);
+
+            if (msg != null) {
+                return msg;
+            }
+
+            if(profilePhoto.isEmpty()) {
+                thisAttendant.setFile(file);
+                thisAttendant.setIdPhoto(fileName);
+            } else {
+                thisAttendant.setFileProfile(file);
+                thisAttendant.setIdProfilePhoto(fileName);
+            }
+        }
+        return "";
     }
 
     private ModelAndView error(String message) {

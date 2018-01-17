@@ -15,11 +15,13 @@ public class Attendant extends User {
     private String surname;
     private Long PID;
     private String idPhoto;
+    private String idProfilePhoto;
     private City city;
     private List<TrainingGroup> trainingGroups;
     private List<Training> trainings;
     private Boolean active;
     private MultipartFile file;
+    private MultipartFile fileProfile;
     private String streetAndNumber;
     private Boolean commentSubscription;
 
@@ -57,6 +59,15 @@ public class Attendant extends User {
 
     public void setIdPhoto(String idPhoto) {
         this.idPhoto = idPhoto;
+    }
+
+    @Column
+    public String getIdProfilePhoto() {
+        return idProfilePhoto;
+    }
+
+    public void setIdProfilePhoto(String idProfilePhoto) {
+        this.idProfilePhoto = idProfilePhoto;
     }
 
     @ManyToOne
@@ -102,6 +113,15 @@ public class Attendant extends User {
 
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+
+    @Transient
+    public MultipartFile getFileProfile() {
+        return fileProfile;
+    }
+
+    public void setFileProfile(MultipartFile fileProfile) {
+        this.fileProfile = fileProfile;
     }
 
     @Column

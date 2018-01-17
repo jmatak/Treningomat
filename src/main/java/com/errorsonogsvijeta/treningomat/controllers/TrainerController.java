@@ -16,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,7 +23,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TrainerController {
@@ -154,7 +155,6 @@ public class TrainerController {
 
         Trainer trainer = getLoggedTrainer();
         List<Training> trainings = trainingService.findTrainingsByTrainingGroupInAndStartsAtBefore(trainer.getTrainingGroups(), new Date());
-
 
         modelAndView.addObject("training", new Training());
         modelAndView.addObject("trainings", trainings);
