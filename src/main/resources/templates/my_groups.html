@@ -171,16 +171,13 @@
 
                                                     <div class="form-trainingGroup">
                                                         <div class="col-sm-9">
-                                                            <input id="modalPrice" type="text" th:field="*{amount}"
-                                                                   class="form-control"/>
+                                                            <input id="modalPrice" type="number" step="0.01" min="0" th:field="*{amount}" class="form-control"/>
                                                         </div>
                                                     </div>
 
                                                     <div class="form-trainingGroup">
                                                         <div class="col-sm-9">
-                                                            <input id="modalCapacity" type="number"
-                                                                   th:field="*{capacity}"
-                                                                   class="form-control"/>
+                                                            <input id="modalCapacity" type="number" min="0" th:field="*{capacity}" class="form-control"/>
                                                         </div>
                                                     </div>
                                                 </div>
