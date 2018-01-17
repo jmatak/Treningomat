@@ -135,10 +135,8 @@ public class TrainingGroupController {
     @RequestMapping(value = "/trainer/addTrainingGroup", method = RequestMethod.POST)
     public ModelAndView createNewGroup(@Valid TrainingGroup trainingGroup, BindingResult groupResult, HttpServletRequest request) {
         Trainer trainer = getLoggedTrainer();
-
         trainingGroup.setTrainer(trainer);
 
-        String message;
         try {
             trainingGroupService.saveTrainingGroup(trainingGroup);
         } catch (Exception ignored) {

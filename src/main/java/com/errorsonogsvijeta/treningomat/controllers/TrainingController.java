@@ -27,24 +27,16 @@ import java.util.stream.Collectors;
 @Controller
 public class TrainingController {
     private final static int TRAININGS_COUNT = 5;
-
     @Autowired
     private TrainerService trainerService;
-
     @Autowired
     private TrainingService trainingService;
-
     @Autowired
     private TrainingCommentRequestService trainingCommentRequestService;
-
     @Autowired
     private TrainingCommentService trainingCommentService;
-
     @Autowired
     private TrainerCommentRequestService trainerCommentRequestService;
-
-    @Autowired
-    private TrainerCommentService trainerCommentService;
 
     @RequestMapping(value = "/training/newTraining", method = RequestMethod.GET)
     public ModelAndView newTraining() {
@@ -61,7 +53,7 @@ public class TrainingController {
     public String newTraining(@Valid Training training, BindingResult result) {
         trainingService.save(training);
 
-        return "redirect:/calendar";
+        return "redirect:/trainer/calendar";
     }
 
     @RequestMapping(value = "/training/{id}", method = RequestMethod.GET)
@@ -78,7 +70,7 @@ public class TrainingController {
     }
 
     // https://stackoverflow.com/questions/17692941/values-for-thfield-attributes-in-checkbox Ovo ne radi
-    //https://stackoverflow.com/questions/39424715/thymeleaf-checkbox-bind-list-of-object
+    // https://stackoverflow.com/questions/39424715/thymeleaf-checkbox-bind-list-of-object
     @RequestMapping(value = "/training/{id}", method = RequestMethod.POST)
     public String addAttendants(@PathVariable Integer id, @RequestParam(value = "attendants", required = false) ArrayList<Integer> trainingAttendants) {
         Training training = trainingService.findTrainingById(id);
@@ -94,11 +86,8 @@ public class TrainingController {
         }
 
         training.setAttendants(attendants);
-
         addCommentRequests(training);
-
         trainingService.save(training);
-
         return "redirect:/trainer/trainings";
     }
 

@@ -39,17 +39,6 @@ public class PlaygroundController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/newEntry", method = RequestMethod.GET)
-    public ModelAndView newEntry() {
-        ModelAndView modelAndView = new ModelAndView("playground/new_entry");
-
-        User user = getLoggedUser();
-
-        modelAndView.addObject("entry", new PlaygroundEntry());
-        modelAndView.addObject("user", user);
-        return modelAndView;
-    }
-
     @RequestMapping(value = "/newEntry", method = RequestMethod.POST)
     public String saveEntry(@Valid PlaygroundEntry entry) {
         User loggedUser = getLoggedUser();
@@ -58,20 +47,6 @@ public class PlaygroundController {
 
         playgroundEntryService.saveEntry(entry);
         return "redirect:/playground";
-    }
-
-    @RequestMapping(value = "/entry/{id}", method = RequestMethod.GET)
-    public ModelAndView viewEntry(@PathVariable("id") Integer id) {
-        ModelAndView modelAndView = new ModelAndView("playground/entry");
-
-        PlaygroundEntry entry = playgroundEntryService.findPlaygroundEntryById(id);
-        if (entry == null) {
-            //TODO obradi pogrešku
-        }
-
-        modelAndView.addObject("entry", entry);
-        modelAndView.addObject("comment", new PlaygroundComment());
-        return modelAndView;
     }
 
     @RequestMapping(value = "/entry/{id}", method = RequestMethod.POST)

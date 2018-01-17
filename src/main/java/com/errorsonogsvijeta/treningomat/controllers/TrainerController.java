@@ -127,11 +127,6 @@ public class TrainerController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.GET)
-    public ModelAndView addTrainer() {
-        return createTrainerModelAndView();
-    }
-
     @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.POST)
     public String createNewUser(@Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request, RedirectAttributes attrs) {
         MultipartFile file = trainer.getFile();
@@ -187,16 +182,6 @@ public class TrainerController {
         subscriptionWarningService.save(warning);
 
         return "redirect:/trainer/group/" + tid + "/attendants";
-    }
-
-    private ModelAndView createTrainerModelAndView() {
-        ModelAndView modelAndView = new ModelAndView("admin/add_trainer");
-
-        modelAndView.addObject("allCities", cityService.findAll());
-        modelAndView.addObject("allSports", sportService.findAll());
-        modelAndView.addObject("trainer", new Trainer());
-
-        return modelAndView;
     }
 
     private Trainer getLoggedTrainer() {

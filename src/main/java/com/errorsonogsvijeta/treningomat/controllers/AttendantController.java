@@ -107,33 +107,7 @@ public class AttendantController {
         return new ModelAndView("redirect:/attendant/groups");
     }
 
-    @Deprecated // komentari se pisu na /attendant/profile
-    @RequestMapping(value = "/trainingComments", method = RequestMethod.GET)
-    public ModelAndView getTrainingCommentRequests() {
-        ModelAndView modelAndView = new ModelAndView("attendant/training_comment_requests");
 
-        Attendant attendant = getLoggedAttendant();
-        List<TrainingCommentRequest> requests = trainingCommentRequestService.findTrainingCommentRequestsByAttendant(
-                attendant);
-
-        modelAndView.addObject("allTrainingCommentRequests", requests);
-        return modelAndView;
-    }
-
-    @Deprecated
-    @RequestMapping(value = "/trainingComments/comment/{id}", method = RequestMethod.GET)
-    public ModelAndView writeTrainingComment(@PathVariable Integer id) {
-//        ModelAndView modelAndView = new ModelAndView("attendant/training_comment");
-//
-//        TrainingCommentRequest request = trainingCommentRequestService.findTrainingCommentRequestById(id);
-//
-//        modelAndView.addObject("request", request);
-//        modelAndView.addObject("comment", new TrainingComment());
-
-        return new ModelAndView("redirect:/attendant/profile");
-    }
-
-    @Deprecated
     @RequestMapping(value = "/trainingComments/comment/{id}", method = RequestMethod.POST)
     public String commentTraining(
             @PathVariable Integer id, @Valid TrainingComment comment, BindingResult trainerResult
@@ -152,32 +126,6 @@ public class AttendantController {
     public String deleteTrainingCommentRequest(@PathVariable Integer id) {
         trainingCommentRequestService.delete(id);
         return "redirect:/attendant/profile";
-    }
-
-    @Deprecated
-    @RequestMapping(value = "/trainerComments", method = RequestMethod.GET)
-    public ModelAndView getTrainerCommentRequests() {
-        ModelAndView modelAndView = new ModelAndView("attendant/trainer_comment_requests");
-
-        Attendant attendant = getLoggedAttendant();
-        List<TrainerCommentRequest> requests = trainerCommentRequestService.findTrainerCommentRequestsByAttendant(
-                attendant);
-
-        modelAndView.addObject("allTrainerCommentRequests", requests);
-        return modelAndView;
-    }
-
-    @Deprecated
-    @RequestMapping(value = "/trainerComments/comment/{id}", method = RequestMethod.GET)
-    public ModelAndView writeTrainerComment(@PathVariable Integer id) {
-//        ModelAndView modelAndView = new ModelAndView("attendant/trainer_comment");
-//
-//        TrainerCommentRequest request = trainerCommentRequestService.findTrainerCommentRequestById(id);
-//
-//        modelAndView.addObject("request", request);
-//        modelAndView.addObject("comment", new TrainingComment());
-
-        return new ModelAndView("redirect:/attendant/profile");
     }
 
     @RequestMapping(value = "/trainerComments/comment/{id}", method = RequestMethod.POST)
@@ -201,8 +149,6 @@ public class AttendantController {
         return "redirect:/attendant/profile";
     }
 
-
-    @Deprecated // navodno se ne koristi
     @RequestMapping(value = "/commentSubscription", method = RequestMethod.POST)
     public String changeCommentSubscription() {
         Attendant attendant = getLoggedAttendant();

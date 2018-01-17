@@ -77,17 +77,6 @@ public class PaymentController {
         return "redirect:/trainer/receipts/" + lastPath;
     }
 
-    @RequestMapping(value = {"/attendant/receipts"}, method = RequestMethod.GET)
-    public ModelAndView getReceipts() {
-        ModelAndView modelAndView = new ModelAndView("attendant/receipts");
-
-        Attendant attendant = getLoggedAttendant();
-        List<Receipt> receipts = paymentService.getAllReceiptsOfAttendant(attendant);
-
-        modelAndView.addObject("receipts", receipts);
-        return modelAndView;
-    }
-
     @RequestMapping(value = {"/attendant/receipt/"}, method = RequestMethod.POST)
     public ModelAndView getReceipt(@RequestParam("id") Integer id) {
         ModelAndView modelAndView = new ModelAndView("attendant/receipt");
@@ -149,12 +138,6 @@ public class PaymentController {
         list.add(new Pair<>("OPIS PLAĆANJA", environment.getProperty("description") + receipt.getTrainingGroup().getName()));
 
         return list;
-    }
-
-
-    private Attendant getLoggedAttendant() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return attendantService.findAttendantByUsername(user.getUsername());
     }
 
     private Trainer getLoggedTrainer() {

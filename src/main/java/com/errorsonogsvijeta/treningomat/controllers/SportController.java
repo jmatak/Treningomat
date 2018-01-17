@@ -46,23 +46,10 @@ public class SportController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/admin/addSport", method = RequestMethod.GET)
-    public ModelAndView addSport() {
-        return createAddSportModelAndView("");
-    }
-
     @RequestMapping(value = "/admin/addSport", method = RequestMethod.POST)
     public ModelAndView createNewSport(@Valid Sport sport) {
-        String message;
-
-        try {
-            sportService.saveSport(sport);
-            message = "Sport uspješno dodan.";
-        } catch (Exception e) {
-            message = "Neuspjelo dodavanje sporta!";
-        }
-
-        return createAddSportModelAndView(message);
+        sportService.saveSport(sport);
+        return new ModelAndView("redirect:/sports");
     }
 
     @RequestMapping(value = "/admin/sports/delete/{id}", method = RequestMethod.POST)
@@ -104,18 +91,6 @@ public class SportController {
         modelAndView.addObject("groupsAlreadySend", attendantGroupsSend);
         modelAndView.addObject("allTrainingGroups", trainingGroups);
         modelAndView.addObject("sportName", sport.getName());
-
-        return modelAndView;
-    }
-
-    private ModelAndView createAddSportModelAndView(String message) {
-        ModelAndView modelAndView = new ModelAndView();
-
-        if (!message.equals("")) {
-            modelAndView.addObject("message", message);
-        }
-        modelAndView.addObject("sport", new Sport());
-        modelAndView.setViewName("/admin/add_sport");
 
         return modelAndView;
     }
