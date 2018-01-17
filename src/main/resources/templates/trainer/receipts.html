@@ -7,7 +7,6 @@
 <div th:replace="base :: header"></div>
 <div id="page-wrapper">
     <div class="container-fluid">
-
         <div style="width: 270px">
             <div style="float: left; width: 120px">
                 <form th:action="@{/trainer/receipts/all}" method="get">
@@ -23,6 +22,7 @@
         <br/><br/>
 
         <h3>Računi:</h3>
+        <br/>
 
         <div class="container">
             <div th:if="${#lists.isEmpty(receipts)}">
@@ -37,6 +37,7 @@
                         <th>Prezime</th>
                         <th>Trening grupa</th>
                         <th>Placeno</th>
+                        <th></th>
                     </tr>
 
                     <tr th:each="r : ${receipts}">
@@ -55,9 +56,17 @@
                         </td>
                         <td th:unless="${r.confirmed}">
                             <form th:action="@{/trainer/receipt/pay?paid=true}" method="post">
-                                <button type="submit" class="btn btn-danger btn-block" th:name="id"
+                                <button type="submit" class="btn btn-warning btn-block" th:name="id"
                                         th:value="${r.id}">
                                     Označi plaćeno
+                                </button>
+                            </form>
+                        </td>
+
+                        <td th:unless="${r.confirmed}">
+                            <form th:action="@{/trainer/receipt/delete}" method="post">
+                                <button type="submit" class="btn btn-danger btn-block" th:name="id" th:value="${r.id}">
+                                    Pobriši račun
                                 </button>
                             </form>
                         </td>

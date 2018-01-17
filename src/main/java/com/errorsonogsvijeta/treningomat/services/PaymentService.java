@@ -22,6 +22,12 @@ public class PaymentService {
         return receiptRepository.findAllByAttendantOrderByCreatedDateDesc(attendant);
     }
 
+    public Receipt getLastReceipt(Attendant attendant, TrainingGroup group) {
+        List<Receipt> receipts = receiptRepository.findAllByAttendantAndTrainingGroupOrderByCreatedDateDesc(attendant, group);
+        if (receipts.isEmpty()) return null;
+        return receipts.get(0);
+    }
+
     public List<Receipt> getAllNonPaidReceiptsOfAttendant(Attendant attendant) {
         return receiptRepository.findByConfirmedFalseAndAttendant(attendant);
     }
@@ -84,6 +90,10 @@ public class PaymentService {
 
     public boolean hasUnpaid(Attendant attendant, TrainingGroup group) {
         return !receiptRepository.findAllByAttendantAndTrainingGroupAndConfirmedIsFalse(attendant, group).isEmpty();
+    }
+
+    public void deleteReceipt(int id) {
+        receiptRepository.delete(id);
     }
 
     private List<TrainingGroup> getGroups(Trainer trainer) {

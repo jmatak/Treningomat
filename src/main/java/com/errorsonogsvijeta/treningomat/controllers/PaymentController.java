@@ -69,8 +69,13 @@ public class PaymentController {
     @RequestMapping(value = "/trainer/receipt/pay", method = RequestMethod.POST)
     public String markAsPaid(@RequestParam("id") Integer id, @RequestParam("paid") Boolean paid) {
         paymentService.markAsPaid(id, paid);
-
         return "redirect:/trainer/receipts/" + lastPath;
+    }
+
+    @RequestMapping(value = "/trainer/receipt/delete", method = RequestMethod.POST)
+    public String deleteReceipt(@RequestParam("id") Integer id) {
+        paymentService.deleteReceipt(id);
+        return "redirect:/trainer/receipts/nonConfirmed";
     }
 
     @RequestMapping(value = {"/attendant/receipts"}, method = RequestMethod.GET)

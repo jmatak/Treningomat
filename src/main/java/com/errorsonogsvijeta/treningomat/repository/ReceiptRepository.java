@@ -6,8 +6,7 @@ import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
     Receipt findById(Integer id);
@@ -18,4 +17,5 @@ public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
     List<Receipt> findAllByTrainingGroupIn(Collection<TrainingGroup> groups);
     List<Receipt> findAllByConfirmedIsFalseAndTrainingGroupIn(Collection<TrainingGroup> groups);
     List<Receipt> findAllByAttendantAndTrainingGroupAndConfirmedIsFalse(Attendant attendant, TrainingGroup group);
+    List<Receipt> findAllByAttendantAndTrainingGroupOrderByCreatedDateDesc(Attendant attendant, TrainingGroup group);
 }

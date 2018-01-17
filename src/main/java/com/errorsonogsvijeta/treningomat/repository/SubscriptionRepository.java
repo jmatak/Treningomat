@@ -9,9 +9,9 @@ import java.util.Date;
 import java.util.List;
 
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
-    List<Subscription> findAllBySubscriptionStartAndSubscriptionEndNull(Date date);
-//    List<Subscription> findAllBySubscriptionEndNull();
-    List<Subscription> findAllBySubscriptionEndNullOrSubscriptionEnd(Date date);
-    List<Subscription> findAll();
-    Subscription findAllByAttendantAndGroupAndSubscriptionEndNull(Attendant attendant, TrainingGroup group);
+    Subscription findByAttendantAndGroupAndSubscriptionEndNull(Attendant attendant, TrainingGroup group);
+    List<Subscription> findAllBySubscriptionEndNullOrSubscriptionEndAfter(Date date);
+    List<Subscription> findAllByAttendantAndGroupOrderByIdDesc(Attendant attendant, TrainingGroup group);
+    List<Subscription> findAllBySubscriptionEndNull();
+
 }
