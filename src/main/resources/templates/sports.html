@@ -17,10 +17,13 @@
     </div>
     <!-- /.container-fluid -->
     <div class="container">
-        <!-- Button to Open the Modal -->
-        <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-            Novi sport
-        </button>
+        <div class="btn-group pull-right" style="margin-top: -60px">
+            <!-- Button to Open the Modal -->
+            <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-primary" data-toggle="modal"
+                    data-target="#myModal">
+                <i class="fa fa-plus" aria-hidden="true"></i> Novi sport
+            </button>
+        </div>
 
         <!-- The Modal -->
         <div class="modal fade" id="myModal">
@@ -71,7 +74,7 @@
                     <th>Naziv sporta</th>
                     <th>Opis sporta</th>
                     <th sec:authorize="hasAuthority('ADMIN')">Obriši sport</th>
-                    <th >Grupe sportova</th>
+                    <th>Grupe sportova</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -79,42 +82,43 @@
                     <td th:text="${s.name}"></td>
                     <td><p th:text="${s.description}"></p></td>
                     <td sec:authorize="hasAuthority('ADMIN')">
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal1"><i
+                        <button type="button" class="btn btn-danger" data-toggle="modal" th:href="${'#deleteModal'+s.id}"><i
                                 class="fa fa-trash" aria-hidden="true"></i> Obriši
                         </button>
-                        <div class="modal fade" id="myModal1">
-                            <div class="modal-dialog modal-lg">
+
+                        <div class="modal fade" th:id="${'deleteModal'+s.id}">
+                            <div class="modal-dialog">
                                 <div class="modal-content">
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <form class="form-horizontal">
+                                            <div class="form-group">
+                                                <label class="col-sm-8 control-label">Želite li obrisati sport?</label>
+                                            </div>
+                                        </form>
+                                    </div>
 
-                                    <form th:action="@{/admin/sports/delete/{id}(id=${s.id})}" method="post">
-                                        <!-- Modal body -->
-                                        <div class="modal-body">
-                                            <form class="form-horizontal">
-                                                <div class="form-group">
-                                                    <label class="col-sm-8 control-label">Jeste li sigurni?</label>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                        <!-- Modal footer -->
-                                        <div class="modal-footer">
+                                    <!-- Modal footer -->
+                                    <div class="modal-footer">
+                                        <form th:action="@{/admin/sports/delete/{id}(id=${s.id})}" method="POST">
                                             <div class="row">
                                                 <div class="col-lg-6 col-lg-offset-3 text-center">
                                                     <button type="submit" class="btn btn-danger">Obriši</button>
                                                     <button type="button" class="btn btn-dark"
-                                                            data-dismiss="modal">Odustani
+                                                            data-dismiss="modal">
+                                                        Odustani
                                                     </button>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </td>
                     <td>
                         <form th:action="@{/sport/{id}/groups(id=${s.id})}" method="get">
-                            <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal1"><i
+                            <button type="submit" class="btn btn-primary" data-toggle="modal" ><i
                                     class="fa fa-users" aria-hidden="true"></i> Grupe
                             </button>
                         </form>
@@ -122,6 +126,7 @@
                 </tr>
                 </tbody>
             </table>
+            <span th:text="${message}"></span>
         </div>
     </div>
 </div>

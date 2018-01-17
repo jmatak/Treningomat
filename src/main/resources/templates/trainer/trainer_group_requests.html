@@ -12,22 +12,31 @@
             <ul class="list-group">
                 <div th:each="gr : ${allGroupRequests}">
                     <li class="list-group-item clearfix">
-                        <div class="caption">
-                            <p th:text="'Naziv grupe: ' + ${gr.getToTrainingGroup().getName()}"></p>
-                            <p th:text="'Pošiljatelj zahtjeva: ' + ${gr.getAttendant().getUsername()}"></p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <p>Naziv grupe: <strong th:text="${gr.getToTrainingGroup().getName()}"></strong></p>
+                                <p>Pošiljatelj zahtjeva: <strong th:text="${gr.getAttendant().fullName()}"></strong></p>
+                            </div>
+                            <div class="col-md-4">
+                                <img th:src="@{'/images_attendants/' + ${gr.attendant.idPhoto}}"
+                                     class="img-responsive img-responsive margin"
+                                     style="display:inline" width="250" height="250"/>
+                            </div>
                         </div>
                         <span class="pull-right">
-                        <form th:action="@{/trainer/groupRequest/decline/{id}(id=${gr.getId()})}" method="post">
-                            <button type="submit" class="btn btn-danger btn-block">
-                                <i class="fa fa-times" aria-hidden="true"></i> Odbij</button>
-                        </form>
-                    </span>
+                                    <form th:action="@{/trainer/groupRequest/decline/{id}(id=${gr.getId()})}" method="post">
+                                        <button type="submit" class="btn btn-danger btn-block">
+                                        <i class="fa fa-times" aria-hidden="true"></i> Odbij</button>
+                                    </form>
+                                </span>
+                        <span>   </span>
                         <span class="pull-right">
-                        <form th:action="@{/trainer/groupRequest/accept/{id}(id=${gr.getId()})}" method="post">
-                            <button type="submit" class="btn btn-primary btn-block">
-                                <i class="fa fa-check" aria-hidden="true"></i> Prihvati</button>
-                        </form>
-                    </span>
+                                    <form th:action="@{/trainer/groupRequest/accept/{id}(id=${gr.getId()})}" method="post">
+                                        <button type="submit" class="btn btn-primary btn-block">
+                                            <i class="fa fa-check" aria-hidden="true"></i> Prihvati</button>
+                                    </form>
+                        </span>
+
                     </li>
                 </div>
             </ul>

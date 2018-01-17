@@ -21,10 +21,12 @@
     <div class="container">
         <!-- Button to Open the Modal -->
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
-                sec:authorize="hasAuthority('TRAINER')">
-            Nova grupa
-        </button>
+        <div class="btn-group pull-right" style="margin-top: -60px">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal"
+                    sec:authorize="hasAuthority('TRAINER')">
+                <i class="fa fa-plus" aria-hidden="true"></i> Nova grupa
+            </button>
+        </div>
 
         <!-- The Modal -->
         <div class="modal fade" id="myModal">

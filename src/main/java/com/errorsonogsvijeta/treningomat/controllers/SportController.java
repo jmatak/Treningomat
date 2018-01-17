@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -53,11 +54,12 @@ public class SportController {
     }
 
     @RequestMapping(value = "/admin/sports/delete/{id}", method = RequestMethod.POST)
-    public String deleteSportWithId(@PathVariable("id") Integer id) {
+    public String deleteSportWithId(@PathVariable("id") Integer id, RedirectAttributes attributes) {
 
         try {
             sportService.deleteSport(id);
         } catch (Exception e) {
+            attributes.addFlashAttribute("message", "Ovaj sport treniraju određene grupe i brisanje nije moguće !");
             //TODO: smisli još što činiti u ovoj situaciji
             //do ovoga ce doci ako se pokusa obrisat sport koji je foreign key nekom drugom entitetu
         }

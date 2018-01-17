@@ -15,16 +15,18 @@
     </div>
 
     <div class="container-fluid">
-        <!-- Button to Open the Modal -->
-        <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-primary" data-toggle="modal"
-                data-target="#myModal">
-            Novi trener
-        </button>
+        <div class="btn-group pull-right" style="margin-top: -60px">
+            <!-- Button to Open the Modal -->
+            <button sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-primary" data-toggle="modal"
+                    data-target="#myModal">
+                <i class="fa fa-plus" aria-hidden="true"></i> Novi trener
+            </button>
+        </div>
 
         <span th:text="${message}"></span>
 
         <!-- The Modal -->
-        <div sec:authorize="hasAuthority('ADMIN')" class="modal fade" id="myModal" >
+        <div sec:authorize="hasAuthority('ADMIN')" class="modal fade" id="myModal">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
 
