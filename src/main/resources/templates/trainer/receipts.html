@@ -63,13 +63,39 @@
                             </form>
                         </td>
 
+
                         <td th:unless="${r.confirmed}">
-                            <form th:action="@{/trainer/receipt/delete}" method="post">
-                                <button type="submit" class="btn btn-danger btn-block" th:name="id" th:value="${r.id}">
-                                    Pobriši račun
-                                </button>
-                            </form>
+                            <button type="button" class="close" data-toggle="modal" data-target="#myModal">&times;</button>
                         </td>
+
+                        <!-- The Modal -->
+                        <div class="modal fade" id="myModal">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Brisanje računa</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <h2>
+                                            <span th:text="${'Želite li pobrisati račun korisnika:' + r.attendant.name + ' ' + r.attendant.surname}"></span>
+                                        </h2>
+
+                                        <form class="form-horizontal" th:action="@{/trainer/receipt/delete}" method="post" role="form">
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-success" th:name="id" th:value="${r.id}">DA</button>
+                                                <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </tr>
                 </table>
             </div>
