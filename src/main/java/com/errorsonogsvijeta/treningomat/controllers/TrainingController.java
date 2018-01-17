@@ -80,13 +80,19 @@ public class TrainingController {
     // https://stackoverflow.com/questions/17692941/values-for-thfield-attributes-in-checkbox Ovo ne radi
     //https://stackoverflow.com/questions/39424715/thymeleaf-checkbox-bind-list-of-object
     @RequestMapping(value = "/training/{id}", method = RequestMethod.POST)
-    public String addAttendants(@PathVariable Integer id, @RequestParam(value = "attendants" , required = true) ArrayList<Integer> trainingAttendants) {
-
+    public String addAttendants(@PathVariable Integer id, @RequestParam(value = "attendants", required = false) ArrayList<Integer> trainingAttendants) {
         Training training = trainingService.findTrainingById(id);
-        List<Attendant> attendants = training.getTrainingGroup().getAttendants()
-                .stream()
-                .filter(a -> trainingAttendants.contains(a.getId()))
-                .collect(Collectors.toList());
+
+        List<Attendant> attendants;
+        if (trainingAttendants == null) {
+            attendants = new ArrayList<>();
+        } else {
+            attendants = training.getTrainingGroup().getAttendants()
+                    .stream()
+                    .filter(a -> trainingAttendants.contains(a.getId()))
+                    .collect(Collectors.toList());
+        }
+
         training.setAttendants(attendants);
 
         addCommentRequests(training);
