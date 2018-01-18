@@ -186,6 +186,9 @@ public class AttendantController {
             return error(msg);
         }
 
+        thisAttendant.setPID(attendant.getPID());
+        thisAttendant.setName(attendant.getName());
+        thisAttendant.setSurname(attendant.getSurname());
         thisAttendant.setCity(attendant.getCity());
         thisAttendant.setCommentSubscription(attendant.getCommentSubscription());
         thisAttendant.setStreetAndNumber(attendant.getStreetAndNumber());

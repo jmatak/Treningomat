@@ -24,7 +24,7 @@
 
             <div class="col-md-3">
                 <div class="text-center">
-                    <img th:src="@{'/images_attendants/' + ${attendant.idPhoto}}" alt="Avatar" width="200"/>
+                    <img th:src="@{'/images_attendants/' + ${attendant.idPhoto}}" alt="Avatar" height="200"/>
                     <input type="file" th:field="*{file}" class="form-control" id="File"
                            disabled="true"/>
                     <label class="col-lg-10 control-label">Identifikacijska slika</label>
@@ -33,8 +33,7 @@
             <div class="col-md-3">
                 <div class="text-center">
 
-                    <img th:src="@{'/images_attendants/' + ${attendant.idProfilePhoto}}" alt="Avatar" width="200"
-                         height="200"/>
+                    <img th:src="@{'/images_attendants/' + ${attendant.idProfilePhoto}}" alt="Avatar" height="200"/>
                     <input type="file" th:field="*{fileProfile}" class="form-control" id="File2"
                            disabled="true"/>
                     <label class="col-lg-6 control-label">Slika profila</label>
@@ -48,7 +47,7 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Ime:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" type="text" th:value="${attendant.name}"
+                        <input class="form-control" type="text" th:field="*{name}"
                                id="FirstName" disabled="true"
                                data-validation="required" data-validation-error-msg="Upiši ime"/>
                     </div>
@@ -56,7 +55,7 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Prezime:</label>
                     <div class="col-lg-8">
-                        <input class="form-control" type="text" th:value="${attendant.surname}"
+                        <input class="form-control" type="text" th:field="*{surname}"
                                id="LastName" disabled="true"
                                data-validation="required" data-validation-error-msg="Upiši prezime"/>
                     </div>
