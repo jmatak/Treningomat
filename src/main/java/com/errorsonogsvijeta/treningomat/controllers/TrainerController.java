@@ -127,7 +127,7 @@ public class TrainerController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/admin/addTrainer/", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.POST)
     public String createNewUser(
             @Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request, RedirectAttributes attrs
     ) {
