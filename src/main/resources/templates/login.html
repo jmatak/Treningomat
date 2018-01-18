@@ -202,7 +202,9 @@
     };
     $.validate({
         modules: 'security, file',
-        language: myLanguage
+        language: myLanguage,
+        validateOnBlur: false,
+        errorMessagePosition: 'top'
     });
 </script>
 </html>

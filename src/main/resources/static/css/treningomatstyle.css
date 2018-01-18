@@ -18,6 +18,7 @@ h1 {
   color: black;
 }
 
+
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
