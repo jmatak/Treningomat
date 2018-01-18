@@ -13,7 +13,7 @@ public class PlaygroundComment {
     private String text;
     private Date creationTime;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer getId() {
         return id;
     }

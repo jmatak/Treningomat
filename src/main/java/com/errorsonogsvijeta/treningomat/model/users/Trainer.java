@@ -7,14 +7,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Trainer extends User {
     private String name;
     private String surname;
-    private Sport sport;
+    private List<Sport> sports;
     private Long PID;
-    private Long phoneNumber;
+    private String phoneNumber;
     private String idPhoto;
     private City city;
     private String address;
@@ -39,13 +40,13 @@ public class Trainer extends User {
         this.surname = surname;
     }
 
-    @ManyToOne
-    public Sport getSport() {
-        return sport;
+    @ManyToMany
+    public List<Sport> getSports() {
+        return sports;
     }
 
-    public void setSport(Sport sport) {
-        this.sport = sport;
+    public void setSports(List<Sport> sports) {
+        this.sports = sports;
     }
 
     @Column(nullable = false)
@@ -58,11 +59,11 @@ public class Trainer extends User {
     }
 
     @Column
-    public Long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(Long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -109,6 +110,19 @@ public class Trainer extends User {
 
     public void setFile(MultipartFile file) {
         this.file = file;
-        this.setIdPhoto(file.getOriginalFilename());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname, PID);
+    }
+
+    public String fullName() {
+        return String.format("%s %s", name, surname);
+    }
+
+    @Override
+    public String toString() {
+        return fullName();
     }
 }

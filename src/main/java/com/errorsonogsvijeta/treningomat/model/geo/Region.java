@@ -10,7 +10,7 @@ public class Region {
     private String name;
     private List<City> cities;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer getId() {
         return id;
     }

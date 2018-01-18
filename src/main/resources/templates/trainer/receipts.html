@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="base::head"></head>
+
+<body>
+<div th:replace="base :: header"></div>
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Računi</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div style="width: 270px">
+            <div style="float: left; width: 120px">
+                <form th:action="@{/trainer/receipts/all}" method="get">
+                    <button type="submit" class="btn btn-primary active">Svi računi</button>
+                </form>
+            </div>
+            <div style="float: right; width: 150px">
+                <form th:action="@{/trainer/receipts/nonConfirmed}" method="get">
+                    <button type="submit" class="btn btn-primary active">Neplaćeni računi</button>
+                </form>
+            </div>
+        </div>
+        <br/><br/>
+        <div class="container">
+            <div th:if="${#lists.isEmpty(receipts)}">
+                <h2><p>Nema racuna</p></h2>
+            </div>
+
+            <div th:unless="${#lists.isEmpty(receipts)}">
+                <table class="table">
+                    <tr>
+                        <th>Racun stvoren</th>
+                        <th>Ime</th>
+                        <th>Prezime</th>
+                        <th>Trening grupa</th>
+                        <th>Placeno</th>
+                        <th></th>
+                    </tr>
+
+                    <tr th:each="r : ${receipts}">
+                        <td><p th:text="${r.createdDate}"></p></td>
+                        <td><p th:text="${r.attendant.name}"></p></td>
+                        <td><p th:text="${r.attendant.surname}"></p></td>
+                        <td><p th:text="${r.trainingGroup.name}"></p></td>
+
+                        <td th:if="${r.confirmed}">
+                            <form th:action="@{/trainer/receipt/pay?paid=false}" method="post">
+                                <button type="submit" class="btn btn-success btn-block" th:name="id"
+                                        th:value="${r.id}">
+                                    <i class="fa fa-credit-card-alt" aria-hidden="true"></i> Označi neplaćeno
+                                </button>
+                            </form>
+                        </td>
+                        <td th:unless="${r.confirmed}">
+                            <form th:action="@{/trainer/receipt/pay?paid=true}" method="post">
+                                <button type="submit" class="btn btn-warning btn-block" th:name="id"
+                                        th:value="${r.id}">
+                                    <i class="fa fa-credit-card-alt" aria-hidden="true"></i> Označi plaćeno
+                                </button>
+                            </form>
+                        </td>
+
+
+                        <td>
+                            <button type="button" class="close" data-toggle="modal" data-target="#myModal">&times;</button>
+                        </td>
+
+                        <!-- The Modal -->
+                        <div class="modal fade" id="myModal">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Brisanje računa</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <h2>
+                                            <span th:text="${'Želite li pobrisati račun korisnika:' + r.attendant.name + ' ' + r.attendant.surname}"></span>
+                                        </h2>
+
+                                        <form class="form-horizontal" th:action="@{/trainer/receipt/delete}" method="post" role="form">
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-success" th:name="id" th:value="${r.id}">DA</button>
+                                                <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

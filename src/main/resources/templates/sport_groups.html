@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+
+<head th:include="base::head"></head>
+
+<body>
+<div th:replace="base :: header"></div>
+<div id="page-wrapper">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header" th:text="${'Grupe sporta: ' + sportName}"></h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+
+
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Naziv grupe</th>
+                    <th>Mjesto održavanja</th>
+                    <th>Članarina</th>
+                    <th>Max. broj članova</th>
+                    <th>Trenutni broj članova</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <div th:each="g : ${allTrainingGroups}">
+                    <tr>
+                        <td th:id="${'groupName' + g.id}" th:text="${g.name}"></td>
+                        <td th:id="${'groupPlace' + g.id}" th:text="${g.place}"></td>
+                        <td th:id="${'groupPrice' + g.id}" th:value="${g.amount}"
+                            th:text="${g.amount + ' kn'}"></td>
+                        <td th:id="${'groupCapacity' + g.id}" th:text="${g.capacity}"></td>
+                        <td th:text="${g.attendants.size()}"></td>
+
+                        <td>
+                        <span sec:authorize="hasAuthority('ATTENDANT')" class="pull-right button-group">
+                            <div th:if="${!groupsAlreadySend.contains(g) and g.attendants.size() &lt; g.capacity}">
+                                <form th:action="@{/group/{id}/request(id=${g.id})}" method="post">
+                                      <button type="submit" class="btn btn-success"
+                                         th:disabled="${g.attendants.contains(attendant)} ? disabled" aria-hidden="true">
+                                      <span class="fa fa-envelope"></span> Pošalji prijavu</button>
+                                </form>
+                            </div>
+                            <div th:if="${groupsAlreadySend.contains(g)}">
+                                <form th:action="@{/group/{id}/cancel(id=${g.id})}" method="post">
+                                      <button type="submit" class="btn btn-danger" aria-hidden="true">
+                                      <span class="fa fa-envelope"></span> Poništi prijavu</button>
+                                </form>
+                            </div>
+                        </span>
+                        </td>
+                    </tr>
+                </div>
+                </tbody>
+
+
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

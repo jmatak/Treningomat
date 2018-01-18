@@ -1,6 +1,61 @@
-INSERT INTO administrator VALUES
-  (1, '$2a$04$eALQTd29tHawhmLI23eUVeqnHfRcbL8ulpb4R6dHTiMfZ85bPugPS', 'admin');
-INSERT INTO role VALUES
-  (1, 'ADMIN'), (2, 'TRAINER'), (3, 'ATTENDANT');
-INSERT INTO user_roles VALUES
-  (1, 1);
+INSERT INTO public.region (id, name) VALUES (0, 'Nepoznata županija');
+INSERT INTO public.region (id, name) VALUES (1, 'Zagrebačka');
+INSERT INTO public.region (id, name) VALUES (10, 'Virovitičko-podravska');
+INSERT INTO public.region (id, name) VALUES (11, 'Požeško-slavonska');
+INSERT INTO public.region (id, name) VALUES (12, 'Brodsko-posavska');
+INSERT INTO public.region (id, name) VALUES (13, 'Zadarska');
+INSERT INTO public.region (id, name) VALUES (14, 'Osječko-baranjska');
+INSERT INTO public.region (id, name) VALUES (15, 'Šibensko-kninska');
+INSERT INTO public.region (id, name) VALUES (16, 'Vukovarsko-srijemska');
+INSERT INTO public.region (id, name) VALUES (17, 'Splitsko-dalmatinska');
+INSERT INTO public.region (id, name) VALUES (18, 'Istarska');
+INSERT INTO public.region (id, name) VALUES (19, 'Dubrovačko-neretvanska');
+INSERT INTO public.region (id, name) VALUES (2, 'Krapinsko-zagorska');
+INSERT INTO public.region (id, name) VALUES (20, 'Međimurska');
+INSERT INTO public.region (id, name) VALUES (21, 'Grad Zagreb');
+INSERT INTO public.region (id, name) VALUES (3, 'Sisačko-moslavačka');
+INSERT INTO public.region (id, name) VALUES (4, 'Karlovačka');
+INSERT INTO public.region (id, name) VALUES (5, 'Varaždinska');
+INSERT INTO public.region (id, name) VALUES (6, 'Koprivničko-križevačka');
+INSERT INTO public.region (id, name) VALUES (7, 'Bjelovarsko-bilogorska');
+INSERT INTO public.region (id, name) VALUES (8, 'Primorsko-goranska');
+INSERT INTO public.region (id, name) VALUES (9, 'Ličko-senjska');
+
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (1, 'Zagreb', 10000, 21);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (2, 'Pag', 23250, 13);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (3, 'Zaprešić', 10290, 1);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (4, 'Ivanić-Grad', 10310, 1);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (5, 'Velika Gorica', 10410, 1);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (6, 'Ploče', 20340, 19);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (7, 'Metković', 20350, 19);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (8, 'Split', 21000, 17);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (9, 'Trogir', 21220, 17);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (10, 'Šibenik', 22000, 15);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (11, 'Drniš', 22320, 15);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (12, 'Zadar', 23000, 13);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (13, 'Benkovac', 23420, 13);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (14, 'Podvršje', 23248, 13);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (15, 'Đakovo', 31400, 14);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (16, 'Vukovar', 32000, 16);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (17, 'Slatina', 33520, 10);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (18, 'Požega', 34000, 11);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (19, 'Slavonski Brod', 35000, 12);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (20, 'Čakovec', 40000, 20);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (21, 'Varaždin', 42000, 5);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (22, 'Čazma', 43240, 7);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (23, 'Sisak', 44000, 3);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (24, 'Petrinja', 44250, 3);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (25, 'Karlovac', 47000, 4);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (26, 'Koprivnica', 48000, 6);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (27, 'Krapina', 49000, 2);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (28, 'Rijeka', 51000, 8);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (29, 'Pazin', 52000, 18);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (30, 'Gospić', 53000, 9);
+
+INSERT INTO public.role (id, role) VALUES (0, 'ADMIN');
+INSERT INTO public.role (id, role) VALUES (1, 'TRAINER');
+INSERT INTO public.role (id, role) VALUES (2, 'ATTENDANT');
+
+INSERT INTO public.administrator (id, password, username) VALUES (0, '$2a$04$eALQTd29tHawhmLI23eUVeqnHfRcbL8ulpb4R6dHTiMfZ85bPugPS', 'admin');
+
+INSERT INTO public.user_roles (user_id, roles_id) VALUES (0, 0);

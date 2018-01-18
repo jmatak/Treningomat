@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+
+<head th:include="base::head"></head>
+
+<body>
+<div th:replace="base :: header"></div>
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Moji treninzi</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+    <div class="col-md-12">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Naziv grupe</th>
+                    <th>Datum treninga</th>
+                    <th>Početak treninga</th>
+                    <th>Kraj treninga</th>
+                    <th>Sport koji se trenira</th>
+                    <th>Voditelj treninga</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="t : ${trainings}">
+                    <td th:text="${t.trainingGroup.name}"></td>
+                    <td th:text="${#dates.format(t.startAt, 'dd.MM.yyyy')}"></td>
+                    <td th:text="${#dates.format(t.startAt, 'HH:mm')}"></td>
+                    <td th:text="${#dates.format(t.endsAt, 'HH:mm')}"></td>
+                    <td th:text="${t.trainingGroup.sport.name}"></td>
+                    <td th:text="${t.trainingGroup.trainer.fullName()}"></td>
+                    <td>
+                        <form th:action="@{/training/{id}(id=${t.id})}" method="GET">
+                            <button type="submit" class="btn btn-primary"><i
+                                    class="fa fa-comments" aria-hidden="true"></i> Komentari
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <button sec:authorize="hasAuthority('TRAINER')"  type="button" class="btn btn-success" data-toggle="modal"
+                                th:href="${'#attendantsModal'+t.id}"><i
+                                class="fa fa-check-square" aria-hidden="true"></i> Zabilježi prisutne
+                        </button>
+                        <div class="modal fade" th:id="${'attendantsModal'+t.id}">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Zabilježi prisutne na treningu</h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <form th:action="@{/training/{id}(id=${t.id})}" th:object="${training}"
+                                              method="POST">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>Ime</th>
+                                                                    <th>Prezime</th>
+                                                                    <th>Zabilježi</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr th:each="a : ${t.trainingGroup.attendants}">
+                                                                    <td th:text="${a.name}"></td>
+                                                                    <td th:text="${a.surname}"></td>
+                                                                    <td>
+                                                                        <input type="checkbox"
+                                                                               name="attendants"
+                                                                               th:checked="${t.attendants.contains(a)}"
+                                                                               th:value="${a.id}"/>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-success">Spremi</button>
+                                                <button type="button" class="btn btn-dark" data-dismiss="modal">
+                                                    Odustani
+                                                </button>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

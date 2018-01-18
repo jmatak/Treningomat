@@ -14,7 +14,7 @@ public class TrainerComment {
     private Integer grade;
     private String description;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer getId() {
         return id;
     }
@@ -42,7 +42,7 @@ public class TrainerComment {
     }
 
     @Column
-    @Range(min = 1, max = 5)
+    @Range(min = 1, max = 10)
     public Integer getGrade() {
         return grade;
     }

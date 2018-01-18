@@ -15,7 +15,7 @@ public class PlaygroundEntry {
     private Date creationTime;
     private List<PlaygroundComment> comments;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer getId() {
         return id;
     }

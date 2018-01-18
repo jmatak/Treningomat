@@ -1,0 +1,228 @@
+$body-bg: #c1bdba;
+$form-bg: #13232f;
+
+$white: #ffffff;
+$black: #000000;
+$blue: #0099ff; 
+$orange: #ff6600; 
+$gray: #5c5c3d;
+
+$blue-light: lighten($blue, 5%);
+$blue-dark: darken($blue, 5%);
+$orange-light: lighten($orange, 5%);
+$orange-dark: darken($orange, 5%);
+$gray-light: lighten($gray, 5%);
+$gray-dark: darken($gray, 5%);
+
+$gris-light: #a0b3b0;
+$gris: #ddd;
+
+$thin: 300;
+$normal: 400;
+$bold: 600;
+$br: 4px;
+
+$letter-first: "Ubuntu", helvetica;
+$letter-second: "Raleway", arial;
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url(bike.jpg); 
+    font-family: $letter-first;
+}
+
+a {
+    text-decoration: none;
+    color: $gray;
+    transition: 0.5s ease;
+    
+    &:hover {
+        color: $gray-dark; 
+    }
+}
+
+.container-form {
+    background: rgba($white, 0.7);
+    padding: 25px;
+    max-width: 600px;
+    margin: 40px auto;
+    border-radius: $br;
+    box-shadow: 0 4px 10px 4px rgba($form-bg, 0.3);
+}
+
+.container-tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+    
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    li a {
+        display: block;
+        text-decoration: none;
+        padding: 10px; 
+        background: rgba($gray-light,.25);
+        color: $gray-dark;
+        font-size: 20px;
+        float: left;
+        width: 50%;
+        text-align: center;
+        cursor: pointer;
+        transition: .5s ease;
+        
+        &:hover {
+            background: $blue-dark;
+            color: $white;
+        }
+
+        .active a {
+        	background: $blue;
+        	color: $gray-dark;
+        }
+	}
+}
+
+.content-tab > div:last-child {
+    display: none;
+}
+
+h1 {
+    text-align: center;
+    color: $gray-dark;
+    font-weight: $thin;
+    margin: 0 0 20px; 
+}
+
+label {
+    position: absolute;
+    transform: translateY(10px);
+    left: 13px;
+    color: rgba($gray-dark, 0.5);
+    transition: all 0.5s ease;
+    -webkit-backface-visibility: hidden;
+    pointer-events: none;
+    font-size: 15px;
+    
+    .req {
+        margin: 0.1px; 
+        color: $gray-dark;
+    }
+}
+
+label.active {
+    transform: translateY(40px);
+    left: 2px;
+    font-size: 14px;
+    
+    .req {
+        opacity: 0;
+    }
+}
+
+label.highlight {
+    color: $gray-dark;
+}
+
+input {
+    font-size: 20px;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 5px 10px;
+    background: none;
+    background-image: none;
+    border: 1.5px solid $blue-dark;
+    color: $gray-dark;
+    border-radius: 3px;
+    transition: all 0.5s ease;
+    box-shadow: 0 4px 10px 4px rgba($form-bg, 0.3);
+    
+    &:focus {
+        outline: none;
+        border-color: $blue;
+    }
+}
+
+.container-input {
+    position: relative;
+    margin-bottom: 25px; 
+}
+
+.row-up {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    div {
+        float: left;
+        width: 48%;
+        margin-right: 4%;
+        
+        &:last-child { 
+            margin: 0;
+        }
+    }
+}
+
+.button {
+    border: 0;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 2px 0; 
+    font-size: 1.5em;
+    background: $orange;
+    color: $white;
+    transition: all .5s ease;
+    -webkit-appearance: none;
+    
+    &:hover, &:focus {
+        background: $orange-dark;
+    }
+}
+
+.button-block {
+    display: block;
+    width: 100%;
+}
+
+.forgot {
+    margin-top: -20px;
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+// Mediaqueries
+@media screen and (max-width: 500px) {
+    .row-up {
+        div {
+            width: 100%;
+
+            &:last-child {
+                margin-bottom: 40px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .container-tabs {
+        li a {
+            width: 100%;
+        }
+    }
+}

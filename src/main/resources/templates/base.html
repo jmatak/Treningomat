@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+
+<head th:fragment="head">
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <title>Treningomat</title>
+
+
+    <!-- Bootstrap Core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    <!-- MetisMenu CSS -->
+    <link th:href="@{/css/metisMenu.min.css}" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link th:href="@{/css/treningomatstyle.css}" rel="stylesheet"/>
+    <!-- Custom Fonts -->
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+
+    <!-- jQuery -->
+    <script th:src="@{/js/jquery.min.js}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script th:src="@{/js/metisMenu.min.js}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script th:src="@{/js/treningomatjs.js}"></script>
+
+</head>
+<body>
+
+<div id="wrapper" th:fragment="header">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a th:href="@{/}" ><img th:src="@{/logo.png}" class="media-object" style="width:100px; margin-left: 60px; margin-top: 2px;"/></a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a th:href="@{/trainers}"><i class="fa fa-male" aria-hidden="true"></i> TRENERI</a>
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a th:href="@{/sports}"><i class="fa fa-futbol-o" aria-hidden="true"></i> SPORTOVI</a>
+            </li>
+
+            <li sec:authorize="isAuthenticated()" class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i>
+                    <label style="font-weight: normal;" th:text="${#authentication.getName() + '  '}"></label>
+                    <i class="fa fa-caret-down"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-user">
+                    <li sec:authorize="hasAuthority('ATTENDANT')">
+                        <a th:href="@{/attendant/info}"><i class="fa fa-address-card" aria-hidden="true"></i>
+                            Moji podaci</a>
+                    </li>
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/info}"><i class="fa fa-address-card" aria-hidden="true"></i>
+                            Moji podaci</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/logout}"><i class="fa fa-sign-out fa-fw"></i> Odjava</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+
+            <li sec:authorize="isAnonymous()" class="dropdown">
+                <a th:href="@{/login}"><i class="fa fa-sign-in fa-fw"></i> PRIJAVA</a>
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div sec:authorize="isAuthenticated()" class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a th:href="@{/playground}"><i class="fa fa-bicycle" aria-hidden="true"></i>
+                            Zajedničko igralište</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('ATTENDANT')">
+                        <a th:href="@{/attendant/profile}"><i class="fa fa-folder" aria-hidden="true"></i>
+                            Osobni pretinac</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/groupRequests}"><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                            Zahtjevi korisnika</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/calendar}"><i class="fa fa-table fa-fw"></i> Kalendar</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('ATTENDANT')">
+                        <a th:href="@{/attendant/calendar}"><i class="fa fa-table fa-fw"></i> Kalendar</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('ATTENDANT')">
+                        <a th:href="@{/attendant/trainers}"><i class="fa fa-male" aria-hidden="true"></i> Moji treneri</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('ATTENDANT')">
+                        <a th:href="@{/attendant/groups}"><i class="fa fa-users" aria-hidden="true"></i> Moje grupe</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/groups}"><i class="fa fa-users" aria-hidden="true"></i> Moje grupe</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('ATTENDANT')">
+                        <a th:href="@{/attendant/trainings}"><i class="fa fa-th-list" aria-hidden="true"></i> Moji treninzi</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/trainings}"><i class="fa fa-th-list" aria-hidden="true"></i> Moji treninzi</a>
+                    </li>
+
+                    <li sec:authorize="hasAuthority('TRAINER')">
+                        <a th:href="@{/trainer/receipts/all}"><i class="fa fa-barcode" aria-hidden="true"></i> Racuni korisnika</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+</div>
+<!-- /#wrapper -->
+
+</body>
+
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+    <head th:include="attendant/comment_base::head"></head>
+    <body>
+        <div th:include="base::header"></div>
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <h2>Profil korisnika</h2>
+
+                <div class="container">
+                    <ul class="list-group-item clearfix">
+                        <form th:action="@{/attendant/groups}" method="get">
+                            <button class="btn btn-md btn-primary btn-block" type="Submit">Vidi grupe</button>
+                        </form>
+
+                        <div th:unless="${#lists.isEmpty(warnings)}" class="col-md-12">
+                            <h2>UPOZORENJE</h2>
+                            <table class="table">
+                                <tr th:each="w : ${warnings}" bgcolor="#ffcc00">
+                                    <td><p th:text="${w.message()}"></p></td>
+
+                                    <td>
+                                        <form th:action="@{/attendant/warning/{id}/delete(id=${w.id})}" method="post">
+                                            <button type="submit" class="btn btn-warning btn-block">
+                                                <i class="fa fa-bell-slash-o" aria-hidden="true"></i>
+                                                Odbaci
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div th:unless="${#lists.isEmpty(allNonPaidReceipts)}" class="col-md-12">
+                            <h2>Neplaceni racuni:</h2>
+                            <table class="table">
+                                <tr>
+                                    <th>Racun stvoren</th>
+                                    <th>Trening grupa</th>
+                                    <th>Placeno</th>
+                                </tr>
+
+                                <tr th:each="r : ${allNonPaidReceipts}">
+                                    <td><p th:text="${r.createdDate}"></p></td>
+                                    <td><p th:text="${r.trainingGroup.name}"></p></td>
+
+                                    <td th:unless="${r.confirmed}">
+                                        <form th:action="@{/attendant/receipt/}" method="post">
+                                            <button type="submit" class="btn btn-danger btn-block" th:name="id"
+                                                    th:value="${r.id}">
+                                                <i class="fa fa-credit-card" aria-hidden="true"></i>
+                                                Plati
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div th:unless="${#lists.isEmpty(allTrainingCommentRequests)}" class="col-md-12">
+                            <h2>Neocijenjeni treninzi:</h2>
+                            <table class="table">
+                                <tr>
+                                    <th>Datum</th>
+                                    <th>Trening grupa</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+
+                                <tr th:each="r : ${allTrainingCommentRequests}">
+                                    <td><p th:text="${r.training.startAt}"></p></td>
+                                    <td><p th:text="${r.training.trainingGroup.name}"></p></td>
+
+                                    <td>
+                                        <button type="button" class="btn btn-md btn-primary btn-block"
+                                                data-toggle="modal" th:href="${'#comment'+r.id}"
+                                                sec:authorize="hasAuthority('ATTENDANT')">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            Ocijeni
+                                        </button>
+                                        <div class="modal fade" th:id="${'comment'+r.id}">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content">
+
+                                                    <form autocomplete="off"
+                                                          th:action="@{/attendant/trainingComments/comment/{id}(id=${r.id})}"
+                                                          th:object="${comment}" method="post"
+                                                          class="form-horizontal">
+                                                        <!-- Modal body -->
+                                                        <div class="modal-body">
+                                                            <div class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-8 control-label">
+                                                                        Ocijenite trening
+                                                                    </label>
+                                                                </div>
+
+                                                                <h2>Unesi komentar treninga</h2>
+                                                                <h3 th:text="${r.training.trainingGroup.name}"></h3>
+                                                                <h3 th:text="${r.training.startAt}"></h3>
+
+                                                                <select class="example-1to10" name="grade" autocomplete="off">
+                                                                    <option value="1" selected="selected">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                </select>
+
+                                                                <div class="form-group">
+                                                                    <textarea th:field="*{description}"
+                                                                              class="form-control" rows="3"
+                                                                              required="required">
+
+                                                                    </textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-info">Ocijeni</button>
+                                                        <button type="button" class="btn btn-dark" data-dismiss="modal">
+                                                            Odustani
+                                                        </button>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <form th:action="@{/attendant/trainingComments/delete/{id}(id=${r.id})}"
+                                              method="POST">
+                                            <button type="submit" class="btn btn-danger btn-block"><i class="fa fa-times" aria-hidden="true"></i> Obriši </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+
+                        <div th:unless="${#lists.isEmpty(allTrainerCommentRequests)}" class="col-md-12">
+                            <h2>Neocijenjeni treneri:</h2>
+                            <table class="table">
+                                <tr>
+                                    <th>Ime i prezime trenera</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+
+                                <tr th:each="r : ${allTrainerCommentRequests}">
+                                    <td><p th:text="${r.trainer.fullName()}"></p></td>
+
+                                    <td>
+                                        <button type="button" class="btn btn-md btn-primary btn-block"
+                                                data-toggle="modal" th:href="${'#comment'+r.id}"
+                                                sec:authorize="hasAuthority('ATTENDANT')">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            Ocijeni
+                                        </button>
+                                        <div class="modal fade" th:id="${'comment'+r.id}">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content">
+
+                                                    <form autocomplete="off"
+                                                          th:action="@{/attendant/trainerComments/comment/{id}(id=${r.id})}"
+                                                          th:object="${comment}" method="post"
+                                                          class="form-horizontal">
+                                                        <!-- Modal body -->
+                                                        <div class="modal-body">
+                                                            <div class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-8 control-label">
+                                                                        Ocijenite trenera
+                                                                    </label>
+                                                                </div>
+
+                                                                <h2>Unesi komentar na trenera</h2>
+                                                                <h3 th:text="${r.trainer.fullName()}"></h3>
+
+                                                                <select class="example-1to10" name="grade" autocomplete="off">
+                                                                    <option value="1" selected="selected">1</option>
+                                                                    <option value="2">2</option>
+                                                                    <option value="3">3</option>
+                                                                    <option value="4">4</option>
+                                                                    <option value="5">5</option>
+                                                                    <option value="6">6</option>
+                                                                    <option value="7">7</option>
+                                                                    <option value="8">8</option>
+                                                                    <option value="9">9</option>
+                                                                    <option value="10">10</option>
+                                                                </select>
+
+                                                                <div class="form-group">
+                                                                    <textarea th:field="*{description}"
+                                                                              class="form-control" rows="3"
+                                                                              required="required">
+
+                                                                    </textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Modal footer -->
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-info">Ocijeni</button>
+                                                            <button type="button" class="btn btn-dark" data-dismiss="modal">
+                                                                Odustani
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <form th:action="@{/attendant/trainerComments/delete/{id}(id=${r.id})}"
+                                              method="POST">
+                                            <button type="submit" class="btn btn-danger btn-block"><i class="fa fa-times" aria-hidden="true"></i> Obriši </button>
+
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                        <div th:if="${commentSubscription}">
+                            <form th:action="@{/attendant/commentSubscription}" method="POST">
+                                <button class="btn btn-md btn-danger btn-block" type="Submit">
+                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                    Ukloni pretplatu na trening komentare.
+                                </button>
+                            </form>
+                        </div>
+                        <div th:unless="${commentSubscription}">
+                            <form th:action="@{/attendant/commentSubscription}" method="POST">
+                                <button class="btn btn-md btn-info btn-block" type="Submit">
+                                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                                    Vrati pretplatu na trening komentare
+                                </button>
+                            </form>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="base::head"></head>
+<style>
+    table {
+        border: 1px solid black;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border-bottom: 1px solid #ddd;
+        padding: 3px 3px 3px 15px;
+    }
+</style>
+<body>
+<div th:include="base::header"></div>
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <h2>Informacije za uplatu</h2>
+        <table>
+            <tr>
+                <!--todo promijeniti u nesta prikladnije-->
+                <th>Naziv</th>
+                <th>Informacija</th>
+            </tr>
+            <tr th:each="i:${info}">
+                <td><p th:text="${i.f}"></p></td>
+                <td><p th:text="${i.s}"></p></td>
+            </tr>
+        </table>
+
+        <form th:action="@{/attendant/receipt/2d/}" method="post" target="_blank">
+            <button type="submit" class="btn btn-danger btn-block" th:name="id" th:value="${id}">
+                <i class="fa fa-barcode" aria-hidden="true"></i>
+                Dohvati 2d barcode
+            </button>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(document).ready(
+        function () {
+            getImage();
+        }
+    )
+</script>
+</html>

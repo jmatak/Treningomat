@@ -4,7 +4,10 @@ import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class TrainingGroup {
@@ -15,8 +18,10 @@ public class TrainingGroup {
     private Trainer trainer;
     private List<Attendant> attendants;
     private Integer capacity;
+    private BigDecimal amount;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer getId() {
         return id;
     }
@@ -43,7 +48,7 @@ public class TrainingGroup {
         this.sport = sport;
     }
 
-    @Column
+    @Column(nullable = false)
     public String getPlace() {
         return place;
     }
@@ -70,12 +75,40 @@ public class TrainingGroup {
         this.attendants = attendants;
     }
 
-    @Column
+    @Column(nullable = false)
+    @Min(0)
     public Integer getCapacity() {
         return capacity;
     }
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+
+    @Column(precision = 8, scale = 2)
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public int freeCapacity() {
+        return capacity - attendants.size();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TrainingGroup that = (TrainingGroup) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

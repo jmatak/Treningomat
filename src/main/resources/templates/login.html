@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Treningomat</title>
+    <!-- For Responsive Screen -->
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Ubuntu" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/jquery.form-validator.js}"></script>
+    <script th:src="@{/js/file.js}"></script>
+    <script th:src="@{/js/security.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+
+    <script>
+
+        var myLanguage = {
+            errorTitle: 'Nevaljane informacije !',
+            requiredFields: 'Nisi popunio sva polja',
+            badTime: 'You have not given a correct time',
+            badEmail: 'You have not given a correct e-mail address',
+            badTelephone: 'You have not given a correct phone number',
+            badSecurityAnswer: 'You have not given a correct answer to the security question',
+            badDate: 'You have not given a correct date',
+            lengthBadStart: 'The input value must be between ',
+            lengthBadEnd: ' characters',
+            lengthTooLongStart: 'The input value is longer than ',
+            lengthTooShortStart: 'The input value is shorter than ',
+            notConfirmed: 'Lozinke ne odgovaraju jedna drugoj.',
+            badDomain: 'Incorrect domain value',
+            badUrl: 'The input value is not a correct URL',
+            badCustomVal: 'The input value is incorrect',
+            andSpaces: ' and spaces ',
+            badInt: 'The input value was not a correct number',
+            badSecurityNumber: 'Your social security number was incorrect',
+            badUKVatAnswer: 'Incorrect UK VAT Number',
+            badStrength: 'Lozinka nije dovoljno jaka.',
+            badNumberOfSelectedOptionsStart: 'You have to choose at least ',
+            badNumberOfSelectedOptionsEnd: ' answers',
+            badAlphaNumeric: 'The input value can only contain alphanumeric characters ',
+            badAlphaNumericExtra: ' and ',
+            wrongFileSize: 'The file you are trying to upload is too large (max %s)',
+            wrongFileType: 'Only files of type %s is allowed',
+            groupCheckedRangeStart: 'Please choose between ',
+            groupCheckedTooFewStart: 'Please choose at least ',
+            groupCheckedTooManyStart: 'Please choose a maximum of ',
+            groupCheckedEnd: ' item(s)',
+            badCreditCard: 'The credit card number is not correct',
+            badCVV: 'The CVV number was not correct',
+            wrongFileDim: 'Incorrect image dimensions,',
+            imageTooTall: 'the image can not be taller than',
+            imageTooWide: 'the image can not be wider than',
+            imageTooSmall: 'the image was too small',
+            min: 'min',
+            max: 'max',
+            imageRatioNotAccepted: 'Image ratio is not accepted'
+        };
+    </script>
+</head>
+
+<body>
+<!-- Form -->
+<div class="container-form">
+
+    <!-- Links form -->
+    <ul class="container-tabs">
+        <li class="tab tab-second active"><a href="#log-in">Prijava</a></li>
+        <li class="tab tab-first"><a href="#registration">Registracija</a></li>
+    </ul>
+
+    <!-- Content form -->
+    <div class="content-tab">
+
+        <!-- Log in -->
+        <div id="log-in">
+            <a th:href="@{/home}"><h1>TRENINGOMAT</h1></a>
+            <form th:action="@{/login}" method="post">
+                <div class="container-input">
+                    <label>
+                        Korisničko ime <span class="req"></span>
+                    </label>
+                    <input type="text" name="username"/>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        Lozinka <span class="req"></span>
+                    </label>
+                    <input type="password" name="password"/>
+                </div>
+
+                <p class="forgot"><a href="#">Zaboravljena lozinka?</a></p>
+
+                <input type="submit" class="button button-block" value="Prijavi se"/>
+            </form>
+        </div>
+
+        <!-- Registration -->
+        <div id="registration">
+            <h1>TRENINGOMAT</h1>
+            <form th:action="@{/registration}" method="post" enctype="multipart/form-data" th:object="${attendant}">
+                <br/>
+                <div class="row-up">
+                    <div class="container-input">
+                        <label>
+                            Ime <span class="req"></span>
+                        </label>
+                        <input type="text" data-validation="required" data-validation-error-msg="Nedostaje ime"
+                               th:field="*{name}"/>
+                    </div>
+
+                    <div class="container-input">
+                        <label>
+                            Prezime <span class="req"></span>
+                        </label>
+                        <input type="text" data-validation="required" data-validation-error-msg="Nedostaje prezime"
+                               th:field="*{surname}"/>
+                    </div>
+                </div>
+
+                <div class="container-input">
+                    <div id="styled-select">
+                        <span style="color: #4d4d33">Mjesto : </span>
+                        <select th:field="*{city}">
+                            <option th:each="c : ${allCities}" th:value="${c.id}" th:text="${c}">Grad</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        Ulica <span class="req"></span>
+                    </label>
+                    <input type="text" data-validation="required" data-validation-error-msg="Nedostaje ulica"
+                           th:field="*{streetAndNumber}"/>
+                </div>
+
+                <div class="container-input">
+                    <input type="file"
+                           data-validation="required"
+                           data-validation-allowing="jpg, png, gif"
+                           data-validation-max-size="300kb"
+                           data-validation-error-msg-required="Niste izabrali identifikacijsku fotografiju"
+                           th:field="*{file}"/>
+                    <span style="color: #4d4d33">Identifikacijska fotografija [.jpg, .png, .gif]</span>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        OIB <span class="req"></span>
+                    </label>
+                    <input type="text"
+                           data-validation="length number"
+                           data-validation-length="11"
+                           data-validation-error-msg="OIB mora imati 11 znamenki"
+                           th:field="*{PID}"/>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        Korisničko ime <span class="req"></span>
+                    </label>
+                    <input type="text"
+                           data-validation="length alphanumeric"
+                           data-validation-length="3-12"
+                           data-validation-error-msg="Korisničko ime mora biti alfanumerčke vrijednosti (3-12 znakova)"
+                           th:field="*{username}"/>
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        Lozinka <span class="req"></span>
+                    </label>
+                    <input type="password"
+                           name="password_confirmation"
+                           data-validation="strength"
+                           data-validation-strength="2"
+                           />
+                </div>
+
+                <div class="container-input">
+                    <label>
+                        Ponovite lozinku <span class="req"></span>
+                    </label>
+                    <input type="password"
+                           data-validation="confirmation"
+                           th:field="*{password}"/>
+                </div>
+
+                <input type="submit" class="button button-block" value="Registriraj me"/>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    $.validate({
+        modules: 'security, file',
+        language: myLanguage,
+        validateOnBlur: false,
+        errorMessagePosition: 'top'
+    });
+</script>
+</html>

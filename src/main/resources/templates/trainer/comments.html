@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+
+<head th:replace="base::head"></head>
+
+
+<body>
+<div th:replace="base::header"></div>
+
+<div id="page-wrapper">
+
+    <div class="panel-body">
+        <h2 th:text="${'Ocjene trenera : ' + trainer.fullName()}"></h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="panel panel-default" th:each="c : ${trainerComments}">
+                        <div class="panel-heading">
+                            <td>
+                                <div class="box"><img
+                                        th:src="@{'/images_attendants/' + ${c.attendant.getIdPhoto()}}"
+                                        class="img-circle"
+                                        width="70" height="70"/>
+                                    <span><b th:text="${c.attendant.fullName()}"></b></span>
+                                    <span class="pull-right"><span th:text="${c.grade} + '/10'"></span><span>
+                                        <i id="yellow-star" class="fa fa-star"
+                                           aria-hidden="true"></i></span></span></div>
+                            </td>
+                        </div>
+                        <div class="panel-body">
+                            <p th:text="${c.description}"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

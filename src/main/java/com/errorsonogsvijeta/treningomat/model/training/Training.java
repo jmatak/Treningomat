@@ -3,7 +3,6 @@ package com.errorsonogsvijeta.treningomat.model.training;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +15,8 @@ public class Training {
     private List<Attendant> attendants;
     private String description;
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     public Integer getId() {
         return id;
     }
@@ -35,7 +35,6 @@ public class Training {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Future
     public Date getStartAt() {
         return startAt;
     }
@@ -45,7 +44,6 @@ public class Training {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Future
     public Date getEndsAt() {
         return endsAt;
     }
