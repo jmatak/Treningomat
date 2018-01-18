@@ -161,8 +161,9 @@
                                     <td>
                                         <button type="button" class="btn btn-md btn-primary btn-block"
                                                 data-toggle="modal" th:href="${'#comment'+r.id}"
-                                                sec:authorize="hasAuthority('ATTENDANT')"><i
-                                                ></i> Ocijeni
+                                                sec:authorize="hasAuthority('ATTENDANT')">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            Ocijeni
                                         </button>
                                         <div class="modal fade" th:id="${'comment'+r.id}">
                                             <div class="modal-dialog modal-sm">
@@ -222,7 +223,7 @@
                                     <td>
                                         <form th:action="@{/attendant/trainerComments/delete/{id}(id=${r.id})}"
                                               method="POST">
-                                            <button type="submit" class="btn btn-danger btn-block">Obriši <i class="fa fa-ban" aria-hidden="true"></i></button>
+                                            <button type="submit" class="btn btn-danger btn-block"><i class="fa fa-times" aria-hidden="true"></i> Obriši </button>
 
                                         </form>
                                     </td>
