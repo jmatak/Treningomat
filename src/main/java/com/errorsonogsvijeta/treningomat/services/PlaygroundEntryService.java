@@ -43,4 +43,12 @@ public class PlaygroundEntryService {
         playgroundCommentRepository.save(comment);
         playgroundEntryRepository.save(entry);
     }
+
+    public PlaygroundComment findPlaygroundCommentById(Integer id){
+        return playgroundCommentRepository.findPlaygroundCommentById(id);
+    }
+
+    public void deleteComment(PlaygroundComment comment){
+        playgroundCommentRepository.delete(comment.getId());
+    }
 }

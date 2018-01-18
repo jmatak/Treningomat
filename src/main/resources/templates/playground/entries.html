@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
 
 <head th:include="base::head"></head>
 
@@ -95,12 +95,48 @@
                                             </small>
                                         </h4>
                                         <p th:text="${c.text}"></p>
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                th:href="${'#deleteModal'+c.id}" th:if="${#authentication.getName() == c.creator.username or #authentication.getName()=='admin'}"><i
+                                                class="fa fa-trash" aria-hidden="true"></i> Obriši
+                                        </button>
+                                        <div class="modal fade" th:id="${'deleteModal'+c.id}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <!-- Modal body -->
+                                                    <div class="modal-body">
+                                                        <form class="form-horizontal">
+                                                            <div class="form-group">
+                                                                <label class="col-sm-8 control-label">Jeste li sigurni da želite
+                                                                    obrisati komentar?</label>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+                                                    <!-- Modal footer -->
+                                                    <div class="modal-footer">
+                                                        <form th:action="@{/playground/comments/delete/{id}(id=${c.id})}"
+                                                              method="post">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-lg-offset-3 text-center">
+                                                                    <button type="submit" class="btn btn-danger">Obriši</button>
+                                                                    <button type="button" class="btn btn-dark"
+                                                                            data-dismiss="modal">
+                                                                        Odustani
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="panel-footer">
                                 <form th:action="@{/playground/entry/{id}(id=${e.id})}"
                                       th:object="${comment}" method="post">
+
                                     <div class="input-group">
                                         <input id="btn-input" type="text" th:field="*{text}" class="form-control input-sm"
                                                placeholder="Upiši komentar ..."/>
