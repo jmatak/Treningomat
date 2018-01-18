@@ -30,3 +30,8 @@ Potencijalni korisnici aplikacije bili bi svi oni koji su uključeni u nekakve s
 ## 3.	Ostali zahtjevi 
 
 Aplikacija bi trebala biti izvedena kao web aplikacija prilagođena (engl. responsive) mobilnom uređaju kojoj će korisnici pristupati uz pomoć korisničkog imena i lozinke. Sustav će biti realiziran preko nekog objektno orijentiranog jezika poput Jave ili PHP-a koristeći posebne frameworke kao što su Spring ili Symfony , dok bi oblikovanje stranice bilo izvedeno uporabom HTML, CSS-a i jQuery biblioteke. Prilikom ispitivanja sustava trebaju biti uneseni podaci za barem jednu vrstu treninga, jednog trenera, više polaznika treninga i više formiranih grupa.
+
+
+###  Lokacija servera
+
+http://18.216.250.7:8080/
