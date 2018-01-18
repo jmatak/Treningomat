@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -108,7 +107,7 @@ public class ReceiptScheduler {
             Date subStart = new Date(subscription.getSubscriptionStart().getTime());
 
             LocalDate generationDate = getGenerationDate(subStart, LocalDate.now());
-            if (DAYS.between(today, generationDate) == 0) {
+            if (DAYS.between(generationDate, today) >= 0) {
                 generateReceipt(subscription, convertDate(generationDate));
                 n++;
             }
@@ -119,8 +118,10 @@ public class ReceiptScheduler {
 
     private void generate(Event event) {
         LocalDate date = convertDate(new Date(event.getDate().getTime()));
-        date = date.plusDays(1);
         LocalDate today = LocalDate.now();
+        LocalDate tomorrow = today.plusDays(1);
+
+        if (!today.isAfter(date)) return; // already generated
 
         int n = 0;
         List<Subscription> subscriptions = subscriptionService.getNotEndedSubscriptions();
@@ -128,7 +129,7 @@ public class ReceiptScheduler {
             Date subscriptionDate = new Date(subscription.getSubscriptionStart().getTime());
             LocalDate generationDate = getGenerationDate(subscriptionDate, date);
 
-            if (generationDate.isAfter(date) && today.isAfter(date)) {
+            if (generationDate.isAfter(date) && generationDate.isBefore(tomorrow)) {
                 generateReceipt(subscription, convertDate(generationDate));
                 n++;
             }
