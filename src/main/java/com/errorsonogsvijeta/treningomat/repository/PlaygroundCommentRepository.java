@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlaygroundCommentRepository extends JpaRepository<PlaygroundComment, Integer> {
-
+    PlaygroundComment findPlaygroundCommentById(Integer id);
 }

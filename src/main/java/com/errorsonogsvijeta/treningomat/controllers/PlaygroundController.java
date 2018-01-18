@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -58,6 +59,14 @@ public class PlaygroundController {
         comment.setCreationTime(new Date());
         playgroundEntryService.addComment(entry, comment);
 
+        return "redirect:/playground";
+    }
+
+    @RequestMapping(value = "/comments/delete/{id}", method = RequestMethod.POST)
+    public String deleteComment(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        System.out.println("Usa san u metodu");
+        PlaygroundComment playgroundComment = playgroundEntryService.findPlaygroundCommentById(id);
+        playgroundEntryService.deleteComment(playgroundComment);
         return "redirect:/playground";
     }
 
