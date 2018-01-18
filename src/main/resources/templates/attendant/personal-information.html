@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="base::head"></head>
+<head th:include="validation_base::head"></head>
 
 <body>
 <div th:replace="base :: header"></div>
@@ -27,14 +27,17 @@
                     <img th:src="@{'/images_attendants/' + ${attendant.idPhoto}}" alt="Avatar" width="200"/>
                     <input type="file" th:field="*{file}" class="form-control" id="File"
                            disabled="true"/>
+                    <label class="col-lg-10 control-label">Identifikacijska slika</label>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="text-center">
+
                     <img th:src="@{'/images_attendants/' + ${attendant.idProfilePhoto}}" alt="Avatar" width="200"
                          height="200"/>
                     <input type="file" th:field="*{fileProfile}" class="form-control" id="File2"
                            disabled="true"/>
+                    <label class="col-lg-6 control-label">Slika profila</label>
                 </div>
             </div>
             <!-- edit form column -->
@@ -46,23 +49,40 @@
                     <label class="col-lg-3 control-label">Ime:</label>
                     <div class="col-lg-8">
                         <input class="form-control" type="text" th:value="${attendant.name}"
-                               id="FirstName" disabled="true"/>
+                               id="FirstName" disabled="true"
+                               data-validation="required" data-validation-error-msg="Upiši ime"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Prezime:</label>
                     <div class="col-lg-8">
                         <input class="form-control" type="text" th:value="${attendant.surname}"
-                               id="LastName" disabled="true"/>
+                               id="LastName" disabled="true"
+                               data-validation="required" data-validation-error-msg="Upiši prezime"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-3 control-label">Korisničko ime:</label>
                     <div class="col-md-8">
                         <input class="form-control" type="text" th:value="*{username}"
-                               id="Username" disabled="true"/>
+                               id="Username" disabled="true"
+                               data-validation="length alphanumeric"
+                               data-validation-length="3-12"
+                               data-validation-error-msg="Korisničko ime mora biti alfanumerčke vrijednosti (3-12 znakova)"/>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">OIB:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="number" th:field="*{PID}"
+                               id="PID" disabled="true"
+                               data-validation="length number"
+                               data-validation-length="11"
+                               data-validation-error-msg="OIB mora imati 11 znamenki"/>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Grad:</label>
                     <div class="col-lg-8">
@@ -77,16 +97,21 @@
                     <label class="col-lg-3 control-label">Adresa:</label>
                     <div class="col-lg-8">
                         <input class="form-control" type="text" th:field="*{streetAndNumber}"
-                               id="StreetAndNumber" disabled="true"/>
+                               id="StreetAndNumber" disabled="true"
+                               data-validation="required" data-validation-error-msg="Upiši adresu"/>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">Nova lozinka:</label>
                     <div class="col-md-8">
-                        <input class="form-control" type="password" th:field="*{password}"
+                        <input class="form-control" type="password"
                                placeholder="*******" id="Password" disabled="true"
                                onchange="change()"
+                               data-validation-optional="true"
+                               name="password_confirmation"
+                               data-validation="strength"
+                               data-validation-strength="2"
                         />
                         <p id="passMessage"></p>
                     </div>
@@ -97,6 +122,9 @@
                         <input class="form-control" type="password"
                                id="ConfirmPassword" disabled="true"
                                onchange="change()"
+                               th:field="*{password}"
+                               data-validation="confirmation"
+                               placeholder="******"
                         />
                         <p id="confPassMessage"></p>
                     </div>
@@ -116,7 +144,7 @@
                     <div class="col-md-8">
                         <input type="button" class="btn btn-primary" value="Uredi"
                                onclick="disableForm(false)"/>
-                        <input type="submit" class="btn btn-primary" value="Spremi" id="Save"/>
+                        <input type="submit" class="btn btn-primary" value="Spremi" id="Save" disabled="disabled"/>
                         <input type="reset" class="btn btn-default" value="Odustani"
                                onclick="disableForm(true)"/>
                     </div>
@@ -129,6 +157,8 @@
 
 <script>
     function disableForm(disabled) {
+        document.getElementById('FirstName').disabled = disabled;
+        document.getElementById('LastName').disabled = disabled;
         document.getElementById('File').disabled = disabled;
         document.getElementById('File2').disabled = disabled;
         document.getElementById('City').disabled = disabled;
@@ -137,7 +167,13 @@
         document.getElementById('ConfirmPassword').disabled = disabled;
         document.getElementById('Subscription').disabled = disabled;
         document.getElementById('Save').disabled = disabled;
+        document.getElementById('PID').disabled = disabled;
     }
+
+    $.validate({
+        modules: 'security, file',
+        language: myLanguage
+    });
 </script>
 </body>
 </html>

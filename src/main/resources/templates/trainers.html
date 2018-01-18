@@ -53,7 +53,7 @@
                                         <div class="col-sm-10">
                                             <input type="text" th:field="*{surname}" placeholder="Prezime"
                                                    class="form-control"
-                                                   data-validation="required" data-validation-error-msg="Upiši ime"/>
+                                                   data-validation="required" data-validation-error-msg="Upiši prezime"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -110,7 +110,6 @@
                                                    class="form-control"
                                                    data-validation="required"
                                                    data-validation-allowing="jpg, png, gif"
-                                                   data-validation-max-size="300kb"
                                                    data-validation-error-msg-required="Niste izabrali identifikacijsku fotografiju"/>
                                         </div>
                                     </div>
@@ -128,7 +127,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Lozinka </label>
                                         <div class="col-sm-10">
-                                            <input type="password" placeholder="Password" class="form-control"
+                                            <input type="password" placeholder="******" class="form-control"
                                                    name="password_confirmation"
                                                    data-validation="strength"
                                                    data-validation-strength="2"/>
@@ -137,10 +136,10 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Ponovite lozinku </label>
                                         <div class="col-sm-10">
-                                            <input type="password" th:field="*{password}" placeholder="Password"
+                                            <input type="password" th:field="*{password}"
+                                                   placeholder="******"
                                                    class="form-control"
-                                                   name="password_confirmation"
-                                                   ata-validation="confirmation"/>
+                                                   data-validation="confirmation"/>
                                         </div>
                                     </div>
                                 </div>
@@ -172,7 +171,8 @@
                                     </button>
                                     <form th:action="@{/admin/editTrainer/{id}(id=${t.id})}" method="get">
                                         <button type="submit" class="btn btn-success pull-right" th:name="id"
-                                                th:value="${t.id}">Uredi
+                                                th:value="${t.id}">
+                                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Uredi
                                         </button>
                                     </form>
                                     <br/><br/>
@@ -222,47 +222,6 @@
     </body>
 
     <script>
-        var myLanguage = {
-            errorTitle: 'Nevaljane informacije !',
-            requiredFields: 'Nisi popunio sva polja',
-            badTime: 'You have not given a correct time',
-            badEmail: 'You have not given a correct e-mail address',
-            badTelephone: 'You have not given a correct phone number',
-            badSecurityAnswer: 'You have not given a correct answer to the security question',
-            badDate: 'You have not given a correct date',
-            lengthBadStart: 'The input value must be between ',
-            lengthBadEnd: ' characters',
-            lengthTooLongStart: 'The input value is longer than ',
-            lengthTooShortStart: 'The input value is shorter than ',
-            notConfirmed: 'Lozinke ne odgovaraju jedna drugoj.',
-            badDomain: 'Incorrect domain value',
-            badUrl: 'The input value is not a correct URL',
-            badCustomVal: 'The input value is incorrect',
-            andSpaces: ' and spaces ',
-            badInt: 'The input value was not a correct number',
-            badSecurityNumber: 'Your social security number was incorrect',
-            badUKVatAnswer: 'Incorrect UK VAT Number',
-            badStrength: 'Lozinka nije dovoljno jaka.',
-            badNumberOfSelectedOptionsStart: 'You have to choose at least ',
-            badNumberOfSelectedOptionsEnd: ' answers',
-            badAlphaNumeric: 'The input value can only contain alphanumeric characters ',
-            badAlphaNumericExtra: ' and ',
-            wrongFileSize: 'The file you are trying to upload is too large (max %s)',
-            wrongFileType: 'Only files of type %s is allowed',
-            groupCheckedRangeStart: 'Please choose between ',
-            groupCheckedTooFewStart: 'Please choose at least ',
-            groupCheckedTooManyStart: 'Please choose a maximum of ',
-            groupCheckedEnd: ' item(s)',
-            badCreditCard: 'The credit card number is not correct',
-            badCVV: 'The CVV number was not correct',
-            wrongFileDim: 'Incorrect image dimensions,',
-            imageTooTall: 'the image can not be taller than',
-            imageTooWide: 'the image can not be wider than',
-            imageTooSmall: 'the image was too small',
-            min: 'min',
-            max: 'max',
-            imageRatioNotAccepted: 'Image ratio is not accepted'
-        };
         $.validate({
             modules: 'security, file',
             language: myLanguage

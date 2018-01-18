@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -24,15 +25,11 @@ public class UserController {
     @Autowired
     private AttendantRepository attendantRepository;
 
-    @RequestMapping(value = {"/registration"}, method = RequestMethod.GET)
-    public ModelAndView register() {
-        return getModelAndView();
-    }
-
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ModelAndView registerUser(@Valid Attendant attendant, BindingResult result, HttpServletRequest request) {
+    public String registerUser(@Valid Attendant attendant, BindingResult result, HttpServletRequest request, RedirectAttributes attributes) {
         if (attendantRepository.findAttendantByUsername(attendant.getUsername()) != null) {
-            return error("Username vec postoji");
+            attributes.addFlashAttribute("message", "Username vec postoji");
+            return "redirect:/home";
         }
 
         MultipartFile file = attendant.getFile();
@@ -40,25 +37,12 @@ public class UserController {
         String subdir = "attendants";
         String msg = Util.writeToFile(file, subdir, fileName, request);
         if (msg != null) {
-            return error(msg);
+            attributes.addFlashAttribute("message", msg);
+            return "redirect:/home";
         }
 
         registrationService.saveAttendant(attendant, fileName);
 
-        return new ModelAndView("home");
-    }
-
-    private ModelAndView error(String message) {
-        ModelAndView modelAndView = getModelAndView();
-        modelAndView.addObject("message", message);
-        return modelAndView;
-    }
-
-    private ModelAndView getModelAndView() {
-        ModelAndView modelAndView = new ModelAndView("registration");
-
-        modelAndView.addObject("allCities", cityService.findAll());
-        modelAndView.addObject("attendant", new Attendant());
-        return modelAndView;
+        return "redirect:/home";
     }
 }

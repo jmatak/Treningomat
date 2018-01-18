@@ -1,135 +1,150 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <head th:include="base::head"></head>
+<head th:include="validation_base::head"></head>
 
-    <body>
-        <div th:replace="base :: header"></div>
-        <div>
-            <!-- Page Content -->
-            <div>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1 class="page-header">Podaci trenera</h1>
-                        </div>
-                        <!-- /.col-lg-12 -->
-                    </div>
-                    <!-- /.row -->
-                </div>
-                <!-- /.container-fluid -->
-                <div class="container">
-                    <div class="row">
-                        <!-- left column -->
-                        <form th:action="@{/admin/editTrainer/}" method="post" class="form-horizontal" role="form"
-                              th:object="${trainer}" enctype="multipart/form-data">
-
-                            <div class="col-md-3">
-                                <div class="text-center">
-                                    <img th:src="@{'/images_trainers/' + ${trainer.idPhoto}}" alt="Avatar" width="200"/>
-                                    <input type="file" th:field="*{file}" class="form-control"/>
-                                </div>
-                            </div>
-                            <!-- edit form column -->
-                            <div class="col-md-9 personal-info">
-                                <font color="white"/>
-                                <h3>Osobne informacije</h3>
-
-                                <!--todo dodati placeholdere i restrikcije-->
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">Ime :</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" th:field="*{name}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">Prezime:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" th:field="*{surname}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Korisničko ime:</label>
-                                    <div class="col-md-8">
-                                        <input class="form-control" type="text" th:field="*{username}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">PID:</label>
-                                    <div class="col-md-8">
-                                        <input class="form-control" type="number" th:field="*{PID}" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Broj mobitela:</label>
-                                    <div class="col-md-8">
-                                        <input type="tel" th:field="*{phoneNumber}" class="form-control"/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">Grad:</label>
-                                    <div class="col-lg-8">
-                                        <select th:field="*{city}" class="form-control">
-                                            <option th:each="c : ${allCities}" th:value="${c.id}" th:text="${c}">
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">Adresa:</label>
-                                    <div class="col-lg-8">
-                                        <input class="form-control" type="text" th:field="*{address}"/>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">Sportovi </label>
-                                    <div class="col-lg-8">
-                                        <select class="form-control" th:field="*{sports}" multiple="multiple">
-                                            <option th:each="s : ${allSports}" th:value="${s.id}" th:text="${s}">
-                                                Sport
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Nova lozinka :</label>
-                                    <div class="col-md-8">
-                                        <input class="form-control" type="password" th:field="*{password}"
-                                               placeholder="******"
-                                               onchange="change()"
-                                        />
-                                        <p></p>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label">Portvrdi lozinku:</label>
-                                    <div class="col-md-8">
-                                        <input class="form-control" type="password"
-                                              
-                                        />
-                                        <p></p>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="col-md-3 control-label"></label>
-                                    <div class="col-md-8">
-                                        <button type="submit" class="btn btn-primary" th:name="id" th:value="${trainer.id}">Spremi</button>
-                                        <input type="reset" class="btn btn-default" value="Reset"/>
-                                        <input type="button" class="btn btn-default" onclick="location.href='/trainers.html'" value="Odustani" />
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <hr/>
-                </div>
+<body>
+<div th:replace="base :: header"></div>
+<div id="page-wrapper">
+    <!-- Page Content -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Podaci trenera</h1>
             </div>
+            <!-- /.col-lg-12 -->
         </div>
-    </body>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+    <div class="container">
+        <div class="row">
+            <!-- left column -->
+            <form th:action="@{/admin/editTrainer/}" method="post" class="form-horizontal" role="form"
+                  th:object="${trainer}" enctype="multipart/form-data">
+
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img th:src="@{'/images_trainers/' + ${trainer.idPhoto}}" alt="Avatar" width="200"/>
+                        <input type="file" th:field="*{file}" class="form-control"
+                               data-validation-allowing="jpg, png, gif"
+                        />
+                    </div>
+                </div>
+                <!-- edit form column -->
+                <div class="col-md-9 personal-info">
+                    <font color="white"/>
+                    <h3>Osobne informacije</h3>
+
+                    <!--todo dodati placeholdere i restrikcije-->
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Ime :</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" th:field="*{name}"
+                                   data-validation="required" data-validation-error-msg="Upiši ime"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Prezime:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" th:field="*{surname}"
+                                   data-validation="required" data-validation-error-msg="Upiši prezime"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Korisničko ime:</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="text" th:field="*{username}"
+                                   data-validation="length alphanumeric"
+                                   data-validation-length="3-12"
+                                   data-validation-error-msg="Korisničko ime mora biti alfanumerčke vrijednosti (3-12 znakova)"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">OIB:</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="number" th:field="*{PID}"
+                                   data-validation="length number"
+                                   data-validation-length="11"
+                                   data-validation-error-msg="OIB mora imati 11 znamenki"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Broj mobitela:</label>
+                        <div class="col-md-8">
+                            <input type="tel" th:field="*{phoneNumber}" class="form-control"
+                                   data-validation="number"
+                                   data-validation-error-msg="Upišite ispravan broj mobitela"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Grad:</label>
+                        <div class="col-lg-8">
+                            <select th:field="*{city}" class="form-control">
+                                <option th:each="c : ${allCities}" th:value="${c.id}" th:text="${c}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Adresa:</label>
+                        <div class="col-lg-8">
+                            <input class="form-control" type="text" th:field="*{address}"
+                                   data-validation="required" data-validation-error-msg="Upiši adresu"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Nova lozinka :</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="password"
+                                   placeholder="******"
+                                   onchange="change()"
+                                   data-validation-optional="true"
+                                   name="password_confirmation"
+                                   data-validation="strength"
+                                   data-validation-strength="2"
+                            />
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Portvrdi lozinku:</label>
+                        <div class="col-md-8">
+                            <input class="form-control" type="password" th:field="*{password}"
+                                   data-validation="confirmation"
+                                   placeholder="******"
+                            />
+                            <p></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label"></label>
+                        <div class="col-md-8">
+                            <button type="submit" class="btn btn-primary" th:name="id" th:value="${trainer.id}">
+                                Spremi
+                            </button>
+                            <input type="reset" class="btn btn-default" value="Vrati"/>
+                            <input type="button" class="btn btn-default" onclick="location.href='/trainers.html'"
+                                   value="Odustani"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <hr/>
+    </div>
+</div>
+</body>
+
+<script>
+    $.validate({
+        modules: 'security, file',
+        language: myLanguage
+    });
+</script>
 </html>
