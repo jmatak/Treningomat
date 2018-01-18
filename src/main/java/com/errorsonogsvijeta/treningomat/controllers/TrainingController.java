@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.text.DateFormat;
@@ -89,6 +90,20 @@ public class TrainingController {
         addCommentRequests(training);
         trainingService.save(training);
         return "redirect:/trainer/trainings";
+    }
+
+    @RequestMapping(value = "/trainer/training/{id}/delete", method = RequestMethod.POST)
+    public String deleteTraining(@PathVariable Integer id, RedirectAttributes attrs) {
+        Training training = trainingService.findTrainingById(id);
+
+        try {
+            trainingService.delete(training);
+        } catch (Exception ex) {
+            attrs.addFlashAttribute("message", "Nije moguće obrisati trening koji je već netko pohađao!");
+            return "redirect:/training/"+id;
+        }
+
+        return "redirect:/trainer/calendar";
     }
 
     private void addCommentRequests(Training training) {
