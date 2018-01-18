@@ -44,7 +44,7 @@
 
                         <td>
                         <span sec:authorize="hasAuthority('ATTENDANT')" class="pull-right button-group">
-                            <div th:unless="${groupsAlreadySend.contains(g)}">
+                            <div th:if="${!groupsAlreadySend.contains(g) and g.attendants.size() &lt; g.capacity}">
                                 <form th:action="@{/group/{id}/request(id=${g.id})}" method="post">
                                       <button type="submit" class="btn btn-success"
                                          th:disabled="${g.attendants.contains(attendant)} ? disabled" aria-hidden="true">
