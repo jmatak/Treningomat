@@ -52,9 +52,6 @@ public class PlaygroundController {
     @RequestMapping(value = "/entry/{id}", method = RequestMethod.POST)
     public String addComment(@PathVariable("id") Integer id, @Valid PlaygroundComment comment) {
         PlaygroundEntry entry = playgroundEntryService.findPlaygroundEntryById(id);
-        if (entry == null) {
-            //TODO obradi pogrešku
-        }
         User loggedUser = getLoggedUser();
 
         comment.setCreator(loggedUser);

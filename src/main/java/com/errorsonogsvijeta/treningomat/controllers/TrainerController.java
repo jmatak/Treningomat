@@ -13,9 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -127,8 +125,10 @@ public class TrainerController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/admin/addTrainer", method = RequestMethod.POST)
-    public String createNewUser(@Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request, RedirectAttributes attrs) {
+    @RequestMapping(value = "/admin/addTrainer/", method = RequestMethod.POST)
+    public String createNewUser(
+            @Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request, RedirectAttributes attrs
+    ) {
         MultipartFile file = trainer.getFile();
         String fileName = "trainer_" + trainer.getUsername() + Util.getExtension(file.getOriginalFilename());
         String subdir = "trainers";
@@ -156,12 +156,69 @@ public class TrainerController {
         return "redirect:/trainers";
     }
 
+    @RequestMapping(value = "/admin/editTrainer/{id}", method = RequestMethod.GET)
+    public ModelAndView editTrainer(@PathVariable Integer id) {
+        ModelAndView modelAndView = new ModelAndView("admin/editTrainer");
+        Trainer trainer = trainerService.findTrainerById(id);
+
+        modelAndView.addObject("allCities", cityService.findAll());
+        modelAndView.addObject("allSports", sportService.findAll());
+        modelAndView.addObject("trainer", trainer);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/admin/editTrainer/", method = RequestMethod.POST)
+    public ModelAndView editTrainerSave(@RequestParam("id") Integer id, @Valid Trainer trainer, HttpServletRequest request) {
+        Trainer thisTrainer = trainerService.findTrainerById(id);
+
+        if (trainer.getPassword() == null || trainer.getPassword().isEmpty() || thisTrainer.getPassword().equals(
+                trainer.getPassword())) {
+            trainer.setPassword(thisTrainer.getPassword());
+        } else {
+            trainerService.editPassword(trainer);
+        }
+
+        MultipartFile file = trainer.getFile();
+        if (!(file == null || file.getOriginalFilename().isEmpty())) {
+            String fileName = "trainer_" + trainer.getUsername() + Util.getExtension(file.getOriginalFilename());
+            String subdir = "trainers";
+            String msg = Util.writeToFile(file, subdir, fileName, request);
+
+            if (msg == null) msg = "";
+            if (!msg.isEmpty()) {
+                return error(trainer, msg);
+            }
+            thisTrainer.setIdPhoto(fileName);
+        }
+        trainer.setRoles(thisTrainer.getRoles());
+        trainer.setTrainingGroups(thisTrainer.getTrainingGroups());
+        trainer.setIdPhoto(thisTrainer.getIdPhoto());
+
+        trainerService.save(trainer);
+        return new ModelAndView("redirect:/trainers");
+    }
+
+    private ModelAndView error(Trainer trainer, String message) {
+        ModelAndView modelAndView = getProfileInfo(trainer);
+        modelAndView.addObject("message", message);
+        return modelAndView;
+    }
+
+    private ModelAndView getProfileInfo(Trainer trainer) {
+        ModelAndView modelAndView = new ModelAndView("admin/editTrainer");
+        modelAndView.addObject("allCities", cityService.findAll());
+        modelAndView.addObject("trainer", trainer);
+        return modelAndView;
+    }
+
+
     @RequestMapping(value = "/trainer/trainings", method = RequestMethod.GET)
     public ModelAndView getTrainings() {
         ModelAndView modelAndView = new ModelAndView("trainings");
 
         Trainer trainer = getLoggedTrainer();
-        List<Training> trainings = trainingService.findTrainingsByTrainingGroupInAndStartsAtBefore(trainer.getTrainingGroups(), new Date());
+        List<Training> trainings = trainingService.findTrainingsByTrainingGroupInAndStartsAtBefore(
+                trainer.getTrainingGroups(), new Date());
 
         modelAndView.addObject("training", new Training());
         modelAndView.addObject("trainings", trainings);
@@ -171,7 +228,6 @@ public class TrainerController {
     @RequestMapping(value = "/comments/trainer/{id}", method = RequestMethod.GET)
     public ModelAndView getTrainerComments(@PathVariable Integer id) {
         ModelAndView modelAndView = new ModelAndView("trainer/comments");
-
         Trainer trainer = trainerService.findTrainerById(id);
         if (trainer == null) {
             return new ModelAndView("redirect:/error");
@@ -184,7 +240,7 @@ public class TrainerController {
     }
 
     @RequestMapping(value = "/trainer/warning/{aid}/{tid}/send", method = RequestMethod.POST)
-    public String sendWarning(@PathVariable Integer aid,@PathVariable Integer tid) {
+    public String sendWarning(@PathVariable Integer aid, @PathVariable Integer tid) {
         ModelAndView modelAndView = new ModelAndView("trainer/group_attendants");
 
         Attendant attendant = attendantService.findAttendantById(aid);
