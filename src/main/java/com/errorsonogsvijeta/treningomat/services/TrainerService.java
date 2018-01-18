@@ -52,4 +52,8 @@ public class TrainerService {
     public List<Trainer> findAll() {
         return trainerRepository.findAll();
     }
+
+    public void delete(Trainer trainer) {
+        trainerRepository.delete(trainer);
+    }
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
 
-<head th:include="base::head"></head>
+<head th:include="validation_base::head"></head>
 
 <body>
 <div th:replace="base :: header"></div>
@@ -23,8 +23,6 @@
             </button>
         </div>
 
-        <span th:text="${message}"></span>
-
         <!-- The Modal -->
         <div sec:authorize="hasAuthority('ADMIN')" class="modal fade" id="myModal">
             <div class="modal-dialog modal-lg">
@@ -36,77 +34,109 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
 
-                    <form autocomplete="off" action="#" th:action="@{/admin/addTrainer}" enctype="multipart/form-data"
-                          th:object="${trainer}" method="post" class="form-horizontal"
+                    <form  th:action="@{/admin/addTrainer}" enctype="multipart/form-data"
+                          th:object="${trainer}" method="POST" class="form-horizontal"
                           role="form">
+
                         <div class="modal-body">
-                            <div class="form-trainer">
-                                <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Ime </label>
+                                <div class="col-sm-10">
                                     <input type="text" th:field="*{name}" placeholder="Ime"
-                                           class="form-control"/>
+                                           class="form-control"
+                                           data-validation="required" data-validation-error-msg="Upiši ime"/>
                                 </div>
                             </div>
-                            <div class="form-trainer">
-                                <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Prezime </label>
+                                <div class="col-sm-10">
                                     <input type="text" th:field="*{surname}" placeholder="Prezime"
-                                           class="form-control"/>
+                                           class="form-control"
+                                           data-validation="required" data-validation-error-msg="Upiši ime"/>
                                 </div>
                             </div>
-                            <div class="form-trainer">
-                                <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Adresa </label>
+                                <div class="col-sm-10">
                                     <input type="text" th:field="*{address}" placeholder="Adresa"
-                                           class="form-control"/>
+                                           class="form-control"
+                                           data-validation="required" data-validation-error-msg="Upiši adresu"/>
                                 </div>
                             </div>
-                            <div class="form-trainer">
-                                <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Grad </label>
+                                <div class="col-sm-10">
                                     <select class="form-control" th:field="*{city}">
                                         <option th:each="c : ${allCities}" th:value="${c.id}" th:text="${c}">Grad
                                         </option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-trainer">
-                                <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Sportovi </label>
+                                <div class="col-sm-10">
                                     <select class="form-control" th:field="*{sports}" multiple="multiple">
                                         <option th:each="s : ${allSports}" th:value="${s.id}" th:text="${s}">Sport
                                         </option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-trainer">
-                                <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">OIB </label>
+                                <div class="col-sm-10">
                                     <input type="number" th:field="*{PID}" placeholder="OIB"
+                                           data-validation="length number"
+                                           data-validation-length="11"
+                                           data-validation-error-msg="OIB mora imati 11 znamenki"
                                            class="form-control"/>
                                 </div>
                             </div>
-                            <div class="form-trainer">
-                                <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Broj mobitela </label>
+                                <div class="col-sm-10">
                                     <input type="tel" th:field="*{phoneNumber}" placeholder="Broj mobitela"
-                                           class="form-control"/>
+                                           class="form-control"
+                                           data-validation="number"
+                                           data-validation-error-msg="Upišite ispravan broj mobitela"/>
                                 </div>
                             </div>
-                            <div class="form-trainer">
-                                <div class="col-sm-9">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Slika </label>
+                                <div class="col-sm-10">
                                     <input type="file" th:field="*{file}" placeholder="Slika [.jpg, .gif, .png]"
-                                           class="form-control"/>
+                                           class="form-control"
+                                           data-validation="required"
+                                           data-validation-allowing="jpg, png, gif"
+                                           data-validation-max-size="300kb"
+                                           data-validation-error-msg-required="Niste izabrali identifikacijsku fotografiju"/>
                                 </div>
                             </div>
-                            <div class="form-trainer">
-                                <div class="col-sm-9">
-                                    <input type="text" th:field="*{username}" placeholder="Username"
-                                           class="form-control"/> <label
-                                        th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
-                                        class="validation-message"></label>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Korisničko ime </label>
+                                <div class="col-sm-10">
+                                    <input type="text" th:field="*{username}" placeholder="Korisničko ime"
+                                           class="form-control"
+                                           data-validation="length alphanumeric"
+                                           data-validation-length="3-12"
+                                           data-validation-error-msg="Korisničko ime mora biti alfanumerčke vrijednosti (3-12 znakova)"/>
                                 </div>
                             </div>
 
-                            <div class="form-trainer">
-                                <div class="col-sm-9">
-                                    <input type="password" th:field="*{password}"
-                                           placeholder="Password" class="form-control"/> <label
-                                        th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-                                        class="validation-message"></label>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Lozinka </label>
+                                <div class="col-sm-10">
+                                    <input type="password" placeholder="Password" class="form-control"
+                                           name="password_confirmation"
+                                           data-validation="strength"
+                                           data-validation-strength="2"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Ponovite lozinku </label>
+                                <div class="col-sm-10">
+                                    <input type="password" th:field="*{password}" placeholder="Password" class="form-control"
+                                           name="password_confirmation"
+                                           ata-validation="confirmation"/>
                                 </div>
                             </div>
                         </div>
@@ -121,17 +151,108 @@
         </div>
         <div class="row">
             <div class="col-md-4" th:each="t : ${allTrainers}">
-                <div class="thumbnail">
-                    <img th:src="@{'/images_trainers/' + ${t.idPhoto}}" style="width:100%"/>
+                <div class="thumbnail text-center">
+                    <img th:src="@{'/images_trainers/' + ${t.idPhoto}}" class="img-responsive img-responsive margin"
+                         style="display:inline" width="150" height="150"/>
                     <div class="caption">
                         <a th:href="@{/comments/trainer/{id}(id=${t.id})}" th:text="${t.name + ' ' + t.surname}"></a>
                         <p th:text="${t.address}"></p>
                         <p th:text="${t.phoneNumber}"></p>
+                        <button  sec:authorize="hasAuthority('ADMIN')"
+                                 type="button"
+                                 class="btn btn-danger btn-block"  data-toggle="modal"
+                                 th:href="${'#deleteModal'+t.id}">
+                            <i class="fa fa-times" aria-hidden="true"></i> Obriši
+                        </button>
+                    </div>
+                </div>
+                <div class="modal fade" th:id="${'deleteModal'+t.id}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <form class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-8 control-label">Želite li obrisati trenera?</label>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <form th:action="@{/admin/trainer/delete/{id}(id=${t.id})}" method="POST">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-lg-offset-3 text-center">
+                                            <button type="submit" class="btn btn-danger">Obriši</button>
+                                            <button type="button" class="btn btn-dark"
+                                                    data-dismiss="modal">
+                                                Odustani
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <br/><br/><br/>
+
+        <span th:text="${message}"></span>
     </div>
 </div>
 </body>
+
+<script>
+
+    var myLanguage = {
+        errorTitle: 'Nevaljane informacije !',
+        requiredFields: 'Nisi popunio sva polja',
+        badTime: 'You have not given a correct time',
+        badEmail: 'You have not given a correct e-mail address',
+        badTelephone: 'You have not given a correct phone number',
+        badSecurityAnswer: 'You have not given a correct answer to the security question',
+        badDate: 'You have not given a correct date',
+        lengthBadStart: 'The input value must be between ',
+        lengthBadEnd: ' characters',
+        lengthTooLongStart: 'The input value is longer than ',
+        lengthTooShortStart: 'The input value is shorter than ',
+        notConfirmed: 'Lozinke ne odgovaraju jedna drugoj.',
+        badDomain: 'Incorrect domain value',
+        badUrl: 'The input value is not a correct URL',
+        badCustomVal: 'The input value is incorrect',
+        andSpaces: ' and spaces ',
+        badInt: 'The input value was not a correct number',
+        badSecurityNumber: 'Your social security number was incorrect',
+        badUKVatAnswer: 'Incorrect UK VAT Number',
+        badStrength: 'Lozinka nije dovoljno jaka.',
+        badNumberOfSelectedOptionsStart: 'You have to choose at least ',
+        badNumberOfSelectedOptionsEnd: ' answers',
+        badAlphaNumeric: 'The input value can only contain alphanumeric characters ',
+        badAlphaNumericExtra: ' and ',
+        wrongFileSize: 'The file you are trying to upload is too large (max %s)',
+        wrongFileType: 'Only files of type %s is allowed',
+        groupCheckedRangeStart: 'Please choose between ',
+        groupCheckedTooFewStart: 'Please choose at least ',
+        groupCheckedTooManyStart: 'Please choose a maximum of ',
+        groupCheckedEnd: ' item(s)',
+        badCreditCard: 'The credit card number is not correct',
+        badCVV: 'The CVV number was not correct',
+        wrongFileDim: 'Incorrect image dimensions,',
+        imageTooTall: 'the image can not be taller than',
+        imageTooWide: 'the image can not be wider than',
+        imageTooSmall: 'the image was too small',
+        min: 'min',
+        max: 'max',
+        imageRatioNotAccepted: 'Image ratio is not accepted'
+    };
+    $.validate({
+        modules: 'security, file',
+        language: myLanguage,
+        validateOnBlur: false,
+        errorMessagePosition: 'top'
+    });
+</script>
 </html>

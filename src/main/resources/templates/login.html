@@ -159,7 +159,6 @@
 </body>
 
 <script>
-
     var myLanguage = {
         errorTitle: 'Nevaljane informacije !',
         requiredFields: 'Nisi popunio sva polja',
@@ -203,9 +202,7 @@
     };
     $.validate({
         modules: 'security, file',
-        language: myLanguage,
-        validateOnBlur: false,
-        errorMessagePosition: 'top'
+        language: myLanguage
     });
 </script>
 </html>

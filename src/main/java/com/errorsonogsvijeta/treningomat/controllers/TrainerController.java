@@ -144,6 +144,18 @@ public class TrainerController {
         return "redirect:/trainers";
     }
 
+    @RequestMapping(value = "/admin/trainer/delete/{id}", method = RequestMethod.POST)
+    public String createNewUser(@PathVariable Integer id, RedirectAttributes attributes) {
+        Trainer trainer = trainerService.findTrainerById(id);
+        try {
+            trainerService.delete(trainer);
+        } catch (Exception ex) {
+            attributes.addFlashAttribute("message", "Nije moguće brisati trenera koji upravlja grupama.");
+        }
+
+        return "redirect:/trainers";
+    }
+
     @RequestMapping(value = "/trainer/trainings", method = RequestMethod.GET)
     public ModelAndView getTrainings() {
         ModelAndView modelAndView = new ModelAndView("trainings");
