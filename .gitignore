@@ -29,4 +29,3 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
-src/main/webapp/

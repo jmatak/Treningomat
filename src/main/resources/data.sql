@@ -22,6 +22,7 @@ INSERT INTO public.region (id, name) VALUES (8, 'Primorsko-goranska');
 INSERT INTO public.region (id, name) VALUES (9, 'Ličko-senjska');
 
 INSERT INTO public.city (id, name, zip_code, region_id) VALUES (1, 'Zagreb', 10000, 21);
+INSERT INTO public.city (id, name, zip_code, region_id) VALUES (2, 'Pag', 23250, 13);
 INSERT INTO public.city (id, name, zip_code, region_id) VALUES (3, 'Zaprešić', 10290, 1);
 INSERT INTO public.city (id, name, zip_code, region_id) VALUES (4, 'Ivanić-Grad', 10310, 1);
 INSERT INTO public.city (id, name, zip_code, region_id) VALUES (5, 'Velika Gorica', 10410, 1);
@@ -55,45 +56,6 @@ INSERT INTO public.role (id, role) VALUES (0, 'ADMIN');
 INSERT INTO public.role (id, role) VALUES (1, 'TRAINER');
 INSERT INTO public.role (id, role) VALUES (2, 'ATTENDANT');
 
-INSERT INTO public.sport (id, name, description) VALUES (0, 'Funkcionalni trening','Funkcionalni trening označava koncept treninga kojim se utječe na istovremeni razvoj što većeg broja motoričkih i funkcionalnih sposobnosti i osobina te na sastav tijela.');
-INSERT INTO public.sport (id, name, description) VALUES (1, 'Nogomet', 'Nogomet je sport u kojemu se dvije momčadi od 11 igrača nadmeću na pravokutnom igralištu travnate površine.');
-INSERT INTO public.sport (id, name, description) VALUES (6, 'Politika','Politika (grč. ta politiká – poslovi vezani uz polis) je kolektivna djelatnost usmjerena ka donošenju odluke o rješenju problema i izvršenju te odluke koja je obvezna za sve članove zajednice.');
-
-
-INSERT INTO public.trainer (id, password, username, pid, address, id_photo, name, phone_number, surname, city_id) VALUES (7, '$2a$10$SvLtXUPs.r5osEUe5CxgUuJUn/xj//Djj0wVSeY3yGeW9whw.vWL6', 'caca', 52478956314, 'dr. Luje Naletilića 1', 'trainer_caca.jpg', 'Ivo', '091 5846 332', 'Sanader', 8);
-INSERT INTO public.trainer (id, password, username, pid, address, id_photo, name, phone_number, surname, city_id) VALUES (8, '$2a$10$ICJJe4A6UoJeMSV5ZKcaBujInisNvBJH4JlvubyNY/ae72CNBbmSm', 'gazda', 32148751425, 'Trg Dražena Petrovića 3', 'trainer_gazda.jpg', 'Ivica', '092 5478 621', 'Todorić', 1);
-
-INSERT INTO public.trainer_sports (trainer_id, sports_id) VALUES (7, 6);
-INSERT INTO public.trainer_sports (trainer_id, sports_id) VALUES (8, 6);
-
-INSERT INTO public.attendant (id, password, username, pid, id_photo, name, street_and_number, surname, city_id, comment_subscription, id_profile_photo) VALUES (5, '$2a$10$T8iVEwWTSmeWhokrNiGSR.MDHcLhueOMeZ4yvUZgkgFhIwrv5QDZ.', 'koMeneSlusa', 25489795634, 'attendant_koMeneSlusa.jpg', 'Miro', 'Oca Ante Gabrića 4', 'Bulj', 7, true, 'default-profile.png');
-INSERT INTO public.attendant (id, password, username, pid, id_photo, name, street_and_number, surname, city_id, comment_subscription, id_profile_photo) VALUES (4, '$2a$10$K69x73iMo5pl5EzOEK30cuQjWDAsJMyvamGeSAUts736MwVWwiy0m', 'jabbaTheHut', 455631587956, 'attendant_jabbaTheHut.jpg', 'Anka', 'Ul. kneza Mislava 8', 'Mrak-Taritaš', 1, true, 'default-profile.png');
-INSERT INTO public.attendant (id, password, username, pid, id_photo, name, street_and_number, surname, city_id, comment_subscription, id_profile_photo) VALUES (1, '$2a$10$zEvn1uNdUqyjyRRwr2Iup.wNUiVAsbojiNiC3oYiev4rMOE9a6TnG', 'plenki', 599542214894, 'attendant_plenki.jpg', 'Andrej', 'Trg svetog Marka 2', 'Plenković', 1, true, 'default-profile.png');
-INSERT INTO public.attendant (id, password, username, pid, id_photo, name, street_and_number, surname, city_id, comment_subscription, id_profile_photo) VALUES (3, '$2a$10$qDu00lEsP8FAkyyzfIuMBe4X9rcNClV4QwoJC7soTtx0gkFIMvwYS', 'gospodinDelozacija', 75862465894, 'attendant_gospodinDelozacija.jpg', 'Ivan', 'Pavlenski put 5G', 'Pernar', 1, true, 'default-profile.png');
-INSERT INTO public.attendant (id, password, username, pid, id_photo, name, street_and_number, surname, city_id, comment_subscription, id_profile_photo) VALUES (2, '$2a$10$NvCKZvl/5so8PIhTr0ZKsur4B438wcHwiuNm1hLJ2C7A6TAQ5xmF6', 'lordSDP', 49521468951, 'attendant_lordSDP.jpg', 'Davor', 'Trg Drage Iblera 9', 'Bernardić', 1, true, 'default-profile.png');
-
 INSERT INTO public.administrator (id, password, username) VALUES (0, '$2a$04$eALQTd29tHawhmLI23eUVeqnHfRcbL8ulpb4R6dHTiMfZ85bPugPS', 'admin');
 
 INSERT INTO public.user_roles (user_id, roles_id) VALUES (0, 0);
-INSERT INTO public.user_roles (user_id, roles_id) VALUES (1, 2);
-INSERT INTO public.user_roles (user_id, roles_id) VALUES (2, 2);
-INSERT INTO public.user_roles (user_id, roles_id) VALUES (3, 2);
-INSERT INTO public.user_roles (user_id, roles_id) VALUES (4, 2);
-INSERT INTO public.user_roles (user_id, roles_id) VALUES (5, 2);
-INSERT INTO public.user_roles (user_id, roles_id) VALUES (7, 1);
-INSERT INTO public.user_roles (user_id, roles_id) VALUES (8, 1);
-
-INSERT INTO public.training_group (id, amount, capacity, name, place, sport_id, trainer_id) VALUES (9, 100.00, 100, 'Desni blok', 'Markov Trg', 6, 7);
-INSERT INTO public.training_group (id, amount, capacity, name, place, sport_id, trainer_id) VALUES (10, 150.00, 30, 'Oporba', 'Nije London', 6, 8);
-
-INSERT INTO public.training_group_attendants (training_groups_id, attendants_id) VALUES (10, 5);
-INSERT INTO public.training_group_attendants (training_groups_id, attendants_id) VALUES (10, 3);
-INSERT INTO public.training_group_attendants (training_groups_id, attendants_id) VALUES (10, 4);
-
-INSERT INTO public.training (id, description, ends_at, start_at, training_group_id) VALUES (17, 'Kako napraviti buku u saboru ?', '2018-01-05 20:00:00.000000', '2018-01-05 19:00:00.000000', 10);
-INSERT INTO public.training (id, description, ends_at, start_at, training_group_id) VALUES (18, 'Kad će izbori ??', '2018-01-09 19:00:00.000000', '2018-01-09 18:00:00.000000', 10);
-
-INSERT INTO public.group_request (id, attendant_id, to_training_group_id) VALUES (13, 1, 9);
-INSERT INTO public.group_request (id, attendant_id, to_training_group_id) VALUES (16, 2, 10);
-
-INSERT INTO public.receipt (id, confirmed, created_date, attendant_id, training_group_id) VALUES (0, false, '2018-01-06', 4, 10);
