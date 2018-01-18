@@ -3,11 +3,13 @@ package com.errorsonogsvijeta.treningomat.repository;
 import com.errorsonogsvijeta.treningomat.model.administration.Receipt;
 import com.errorsonogsvijeta.treningomat.model.training.TrainingGroup;
 import com.errorsonogsvijeta.treningomat.model.users.Attendant;
-import com.errorsonogsvijeta.treningomat.model.users.Trainer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
+@Repository
 public interface ReceiptRepository extends JpaRepository<Receipt, Integer> {
     Receipt findById(Integer id);
     List<Receipt> findAllByConfirmedIsFalse();

@@ -9,21 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * @author Patrik
- */
 @Repository
 public interface GroupRequestRepository extends JpaRepository<GroupRequest, Integer> {
-
     List<GroupRequest> findAllByToTrainingGroupIn(List<TrainingGroup> trainingGroups);
-
     List<GroupRequest> findAllByToTrainingGroup(TrainingGroup trainingGroup);
-
     List<GroupRequest> findGroupRequestsByAttendantAndToTrainingGroupIn(
             Attendant attendant, List<TrainingGroup> trainingGroups
     );
-
     @Transactional
     void deleteAllByToTrainingGroup(TrainingGroup group);
-
 }

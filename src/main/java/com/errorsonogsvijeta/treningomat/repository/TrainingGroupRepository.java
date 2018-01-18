@@ -9,14 +9,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * @author Patrik
- */
 @Repository
 public interface TrainingGroupRepository extends JpaRepository<TrainingGroup, Integer> {
     List<TrainingGroup> findAllByTrainer(Trainer trainer);
     List<TrainingGroup> findByAttendantsContains(Attendant attendant);
     List<TrainingGroup> findAllBySportOrderByName(Sport sport);
     TrainingGroup findTrainingGroupById(Integer id);
-
 }

@@ -56,7 +56,6 @@ public class TrainingGroupController {
         return modelAndView;
     }
 
-    //tu bi mozda trebao dodati i izbacivanje korisnika iz grupe, da u prikazu
     @RequestMapping(value = "/trainer/groups/edit/{id}", method = RequestMethod.POST)
     public String updateGroup(@PathVariable("id") Integer id, HttpServletRequest request, TrainingGroup trainingGroup, RedirectAttributes redirectAttributes) {
         TrainingGroup oldTrainingGroup = trainingGroupService.getTrainingGroup(id);
