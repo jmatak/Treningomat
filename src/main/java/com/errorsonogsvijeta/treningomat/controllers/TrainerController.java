@@ -47,6 +47,8 @@ public class TrainerController {
     private AttendantService attendantService;
     @Autowired
     private SubscriptionWarningService subscriptionWarningService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/trainers", method = RequestMethod.GET)
     public ModelAndView showAllTrainers() {
@@ -129,6 +131,11 @@ public class TrainerController {
     public String createNewUser(
             @Valid Trainer trainer, BindingResult trainerResult, HttpServletRequest request, RedirectAttributes attrs
     ) {
+        if (userService.findUserByUsername(trainer.getUsername()) != null) {
+            attrs.addFlashAttribute("message", "Username vec postoji");
+            return "redirect:/trainers";
+        }
+
         MultipartFile file = trainer.getFile();
         String fileName = "trainer_" + trainer.getUsername() + Util.getExtension(file.getOriginalFilename());
         String subdir = "trainers";

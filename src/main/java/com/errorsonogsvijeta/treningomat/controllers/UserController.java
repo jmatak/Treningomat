@@ -4,6 +4,7 @@ import com.errorsonogsvijeta.treningomat.model.users.Attendant;
 import com.errorsonogsvijeta.treningomat.repository.AttendantRepository;
 import com.errorsonogsvijeta.treningomat.services.CityService;
 import com.errorsonogsvijeta.treningomat.services.RegistrationService;
+import com.errorsonogsvijeta.treningomat.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,13 +22,13 @@ public class UserController {
     @Autowired
     private RegistrationService registrationService;
     @Autowired
-    private CityService cityService;
-    @Autowired
     private AttendantRepository attendantRepository;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registerUser(@Valid Attendant attendant, BindingResult result, HttpServletRequest request, RedirectAttributes attributes) {
-        if (attendantRepository.findAttendantByUsername(attendant.getUsername()) != null) {
+        if (userService.findUserByUsername(attendant.getUsername()) != null) {
             attributes.addFlashAttribute("message", "Username vec postoji");
             return "redirect:/home";
         }
