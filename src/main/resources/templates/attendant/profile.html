@@ -48,7 +48,7 @@
                                         <form th:action="@{/attendant/receipt/}" method="post">
                                             <button type="submit" class="btn btn-danger btn-block" th:name="id"
                                                     th:value="${r.id}">
-                                                <i class="fa fa-barcode" aria-hidden="true"></i>
+                                                <i class="fa fa-credit-card" aria-hidden="true"></i>
                                                 Plati
                                             </button>
                                         </form>
@@ -137,7 +137,7 @@
                                     <td>
                                         <form th:action="@{/attendant/trainingComments/delete/{id}(id=${r.id})}"
                                               method="POST">
-                                            <button type="submit" class="btn btn-danger btn-block">Obriši <i class="fa fa-ban" aria-hidden="true"></i></button>
+                                            <button type="submit" class="btn btn-danger btn-block"><i class="fa fa-times" aria-hidden="true"></i> Obriši </button>
                                         </form>
                                     </td>
                                 </tr>
