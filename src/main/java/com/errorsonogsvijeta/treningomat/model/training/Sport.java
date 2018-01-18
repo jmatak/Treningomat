@@ -5,7 +5,6 @@ import java.util.Objects;
 
 @Entity
 public class Sport {
-
     private Integer id;
     private String name;
     private String description;
@@ -28,7 +27,7 @@ public class Sport {
         this.name = name;
     }
 
-    @Column
+    @Column(length = 4096)
     public String getDescription() {
         return description;
     }
